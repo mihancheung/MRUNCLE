@@ -1,0 +1,54 @@
+.post_hd {
+  position: relative;
+  padding-top: 180rpx;
+}
+
+.post_hd_main {
+  position: relative;
+  z-index: 1;
+}
+
+.post_info {
+  margin-bottom: 92rpx;
+  color: #ffffff;
+  text-shadow: 0 4rpx 10rpx rgba(0, 0, 0, .2);
+}
+
+.post_title {
+  display: block;
+  font-size: 40rpx;
+  margin-bottom: 30rpx;
+}
+
+.post_tags {
+  font-size: 28rpx;
+}
+
+.post_tags_item {
+  font-size: 24rpx;
+  margin-right: 20rpx;
+}
+
+.post_mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 430rpx;
+  overflow: hidden;
+}
+.post_mask:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(255,255,255, .5) 90%, rgba(255,255,255, 1) 100%);
+}
+
+.post_mask image {
+  width: 100%!important;
+  height: 100%!important;
+  filter: blur(25rpx);
+}

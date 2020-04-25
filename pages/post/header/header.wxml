@@ -1,0 +1,23 @@
+<template name="hd">
+  <view class="grid_0 post_hd">
+    <view class="post_hd_main">
+      <view class="post_info">
+        <text class="post_title">用一年的时候将24个故事讲给你</text>
+        <view class="post_tags">
+          <text class="post_tags_item">#前端设计</text>
+          <text class="post_tags_item">#交互知识</text>
+        </view>
+      </view>
+
+      <view class="post_hd_user">
+        <image />
+      </view>
+    </view>
+    <view class="post_mask">
+      <image
+        src="cloud://release-vp8ak.7265-release-vp8ak-1301890037/post/101percent/img/banner.png"
+        mode="aspectFill"
+      />
+    </view>
+  </view>
+</template>

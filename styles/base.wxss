@@ -1,0 +1,9 @@
+
+.grid_0 {
+  padding: 0 58rpx;
+}
+
+page {
+  min-height: 100vh;
+  background: #ffffff;
+}

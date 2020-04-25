@@ -1,0 +1,5 @@
+<import src="./header/header.wxml" />
+
+<view class="post">
+  <template is="hd" />
+</view>
