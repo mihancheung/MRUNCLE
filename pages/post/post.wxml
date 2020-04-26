@@ -2,4 +2,8 @@
 
 <view class="post">
   <template is="hd" data="{{ ...info }}" />
+
+  <view class="post_content">
+    <towxml nodes="{{md}}"/>
+  </view>
 </view>
