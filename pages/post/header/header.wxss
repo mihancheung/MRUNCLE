@@ -9,24 +9,55 @@
 }
 
 .post_info {
-  margin-bottom: 92rpx;
+  height: 164rpx;
   color: #ffffff;
   text-shadow: 0 4rpx 10rpx rgba(0, 0, 0, .2);
 }
 
 .post_title {
-  display: block;
+  min-height: 56rpx;
+  max-height: 112rpx;
   font-size: 40rpx;
-  margin-bottom: 30rpx;
+  margin-bottom: 10rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .post_tags {
+  min-height: 40rpx;
   font-size: 28rpx;
 }
 
 .post_tags_item {
   font-size: 24rpx;
   margin-right: 20rpx;
+}
+
+.post_hd_user {
+  margin: 40rpx 0 0;
+  font-size: 24rpx;
+  color: #999999;
+}
+.post_hd_user_avata {
+  display: block;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+}
+.post_hd_user_desc {
+  min-height: 34rpx;
+  display: block;
+  margin: 20rpx 0 0;
+}
+.post_hd_user_author {
+  margin-top: 30rpx;
+}
+.post_hd_user_date {
+  display: block;
+  color: #cccccc;
 }
 
 .post_mask {

@@ -1,5 +1,5 @@
 <import src="./header/header.wxml" />
 
 <view class="post">
-  <template is="hd" />
+  <template is="hd" data="{{ ...info }}" />
 </view>

@@ -5,5 +5,7 @@ App({
     })
   },
 
+  postAvata: 'cloud://release-vp8ak.7265-release-vp8ak-1301890037/me.jpeg',
+  postAuthor: 'MRUNCLE',
   towxml:require('/towxml/index')
 })
