@@ -1,6 +1,6 @@
 .post_hd {
   position: relative;
-  padding-top: 180rpx;
+  padding-top: 160rpx;
 }
 
 .post_hd_main {
@@ -9,15 +9,14 @@
 }
 
 .post_info {
-  height: 164rpx;
+  height: 170rpx;
   color: #ffffff;
   text-shadow: 0 4rpx 10rpx rgba(0, 0, 0, .2);
 }
 
 .post_title {
-  min-height: 56rpx;
-  max-height: 112rpx;
-  font-size: 40rpx;
+  /* min-height: 56rpx; */
+  font-size: 44rpx;
   margin-bottom: 10rpx;
   overflow: hidden;
   text-overflow: ellipsis;

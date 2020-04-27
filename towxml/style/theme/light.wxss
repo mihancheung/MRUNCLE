@@ -1,6 +1,6 @@
 /*正文样式*/
 .h2w-light {
-  color:#333;
+  color: #333333;
   background-color:white;
 }
 
@@ -39,6 +39,7 @@
 /**块元素**/
 .h2w-light .h2w__blockquote {
     border-left-color:#dfe2e5;
+    color: #999999;
 }
 
 /**内连元素**/
