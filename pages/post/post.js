@@ -6,15 +6,7 @@ const post = db.collection('post');
 
 Page({
   data: {
-    info: {
-      title: "",
-      tags: [],
-      avata: app.postAvata,
-      author: app.postAuthor,
-      date: '',
-      poster: '',
-      mdFileId: '',
-    },
+    info: {},
     md: '',
     isError: false,
     isLoading: true
@@ -32,6 +24,7 @@ Page({
     if (!mdFile) return;
 
     const md = app.towxml(mdFile, 'markdown',{
+      base: app.cdnEnvBase,
       theme:'light',
     });
 

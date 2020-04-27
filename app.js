@@ -1,3 +1,5 @@
+import { config } from './utils/config'
+
 App({
   onLaunch () {
     wx.cloud.init({
@@ -5,7 +7,8 @@ App({
     })
   },
 
-  postAvata: 'cloud://release-vp8ak.7265-release-vp8ak-1301890037/me.jpeg',
+  cdnEnvBase: config.cdnDevBase,
+  postAvata: `${config.cdnDevBase}/me.jpeg`,
   postAuthor: 'MRUNCLE',
   towxml:require('/towxml/index'),
 
