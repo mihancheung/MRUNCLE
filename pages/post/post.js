@@ -9,7 +9,8 @@ Page({
     info: {},
     md: '',
     isError: false,
-    isLoading: true
+    isLoading: true,
+    postImages: [],
   },
 
   onLoad () {
@@ -17,7 +18,43 @@ Page({
   },
 
   init () {
-    this.getPageInfo()
+    this.getPageInfo();
+    this.query = wx.createSelectorQuery()
+  },
+
+  getPostImages () {
+    const imgs = this.query.selectAll('.post_content >>> .h2w__img')
+    imgs.fields({
+      properties: ['src'],
+    }, (rects) => {
+      const urls = this.formatPostImages(rects);
+      this.setPostImages(urls);
+    }).exec();
+  },
+
+  formatPostImages (rects) {
+    return rects.map((item) => {
+      const { src } = item || {};
+      return src;
+    })
+  },
+
+  setPostImages (urls) {
+    this.setData({
+      postImages: urls
+    })
+  },
+
+  tapPostImage (e) {
+    const { currentTarget } = e || {};
+    const { dataset } = currentTarget || {};
+    const { data } = dataset || {}
+    const { attr } = data || {};
+    const { src: current } = attr || {}
+    wx.previewImage({
+      current,
+      urls: this.data.postImages
+    })
   },
 
   mdToWxml (mdFile) {
@@ -26,10 +63,15 @@ Page({
     const md = app.towxml(mdFile, 'markdown',{
       base: app.cdnEnvBase,
       theme:'light',
+      events: {
+        tap: this.tapPostImage
+      }
     });
 
     this.setData({
       md
+    }, () => {
+      this.getPostImages()
     });
   },
 
@@ -52,9 +94,6 @@ Page({
   async getPageInfo () {
     const postId = '2a625d2b5ea3c6f5001fa82801ea0590';
     const res = await post.doc(postId).get();
-    this.setData({
-      isLoading: false
-    });
 
     if (!res || !res.data) {
       this.setData({
@@ -79,6 +118,10 @@ Page({
     const url = res.fileList[0] && res.fileList[0].tempFileURL
     const mdFileRes = await app.wxRequire({
       url
+    });
+
+    this.setData({
+      isLoading: false
     });
 
     if (!mdFileRes || !mdFileRes.data) return

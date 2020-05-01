@@ -1,7 +1,9 @@
 <import src="./header/header.wxml" />
+<import src="/tpls/loading/loading.wxml" />
 
 <view class="post">
   <template is="hd" data="{{ ...info }}" />
+  <template is="loading" data="{{ isLoading }}" />
 
   <view class="post_content">
     <towxml nodes="{{md}}"/>

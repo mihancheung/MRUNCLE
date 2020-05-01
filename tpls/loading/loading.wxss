@@ -1,0 +1,39 @@
+.tpl_loading {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #ffffff;
+  z-index: 2046;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tpl_loading_image {
+  width: 140rpx;
+  height: 140rpx;
+  margin-bottom: 40rpx;
+  border-radius: 50%;
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, .3);
+  animation: avataSharp 1.5s ease infinite alternate both;
+}
+
+.tpl_loading_text {
+  margin-bottom: 20rpx;
+}
+
+.tpl_loading_box {
+  overflow: visible!important;
+}
+
+@keyframes avataSharp {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(120deg);
+  } 
+}

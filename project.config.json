@@ -10,14 +10,16 @@
 		]
 	},
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
+		"enhance": true,
 		"postcss": true,
 		"minified": false,
 		"newFeature": true,
 		"coverView": true,
+		"nodeModules": false,
 		"autoAudits": false,
-		"showShadowRootInWxmlPanel": true,
+		"showShadowRootInWxmlPanel": false,
 		"scopeDataCheck": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -27,8 +29,7 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		},
-		"bundle": true,
-		"enhance": true
+		"bundle": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.11.0",

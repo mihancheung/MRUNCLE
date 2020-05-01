@@ -1,0 +1,7 @@
+<template name="loading">
+  <view catchtouchmove="true" class="tpl_loading" wx:if="{{ isLoading }}">
+    <image class="tpl_loading_image" src="/image/me.jpeg" />
+    <text class="tpl_loading_text">撈緊喇</text>
+    <mp-loading type="dot-gray" ext-class="tpl_loading_box"></mp-loading>
+  </view>
+</template>

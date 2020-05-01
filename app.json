@@ -9,5 +9,8 @@
     "navigationBarTextStyle":"black"
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "usingComponents":  {
+    "mp-loading": "/miniprogram_npm/weui-miniprogram/loading/loading"
+  }
 }
