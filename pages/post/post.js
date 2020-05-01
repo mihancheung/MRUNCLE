@@ -11,19 +11,47 @@ Page({
     isError: false,
     isLoading: true,
     postImages: [],
+    errorText: '',
   },
 
   onLoad () {
     this.init()
   },
 
+  onPullDownRefresh () {
+    this.reloadPage();
+  },
+
+  errorReload: function () {
+    this.reloadPage();
+  },
+
+  reloadPage () {
+    wx.stopPullDownRefresh();
+
+    if (!app.isConnected) {
+      this.handleNoNetwork();
+      return;
+    }
+
+    this.retsetPageStatus(this.getPageInfo)
+  },
+
+  retsetPageStatus (cb) {
+    this.setData({
+      isLoading: true,
+      isError: false,
+    }, () => {
+      typeof cb === 'function' && cb();
+    });
+  },
+
   init () {
     this.getPageInfo();
-    this.query = wx.createSelectorQuery()
   },
 
   getPostImages () {
-    const imgs = this.query.selectAll('.post_content >>> .h2w__img')
+    const imgs = wx.createSelectorQuery().selectAll('.post_content >>> .h2w__img')
     imgs.fields({
       properties: ['src'],
     }, (rects) => {
@@ -71,7 +99,7 @@ Page({
     this.setData({
       md
     }, () => {
-      this.getPostImages()
+      this.getPostImages();
     });
   },
 
@@ -91,14 +119,35 @@ Page({
     });
   },
 
+  handleError (errorText) {
+    this.setData({
+      errorText,
+      isError: true,
+      isLoading: false,
+    });
+  },
+
+  handleGetDataDone () {
+    this.setData({
+      isLoading: false,
+    });
+  },
+
+  handleNoNetwork () {
+    this.handleError('網絡似乎飛走咗，重新連接後F5');
+  },
+
   async getPageInfo () {
+    if (!app.isConnected) {
+      this.handleNoNetwork();
+      return;
+    }
+
     const postId = '2a625d2b5ea3c6f5001fa82801ea0590';
-    const res = await post.doc(postId).get();
+    const res = await post.doc(postId).get().catch(() => null);
 
     if (!res || !res.data) {
-      this.setData({
-        isError: true
-      });
+      this.handleError();
       return;
     }
 
@@ -107,24 +156,32 @@ Page({
   },
 
   async getPageMdFile (mdFileId) {
+    if (!app.isConnected) {
+      this.handleNoNetwork();
+      return;
+    }
+
     const res = await wx.cloud.getTempFileURL({
       fileList: [mdFileId],
-    });
+    }).catch(() => null);
 
-    if (!res || !res.fileList) {
+    if (!app.isConnected || !res || !res.fileList) {
+      this.handleError();
       return;
     }
 
     const url = res.fileList[0] && res.fileList[0].tempFileURL
     const mdFileRes = await app.wxRequire({
       url
-    });
+    }).catch(() => null);
 
-    this.setData({
-      isLoading: false
-    });
+    this.handleGetDataDone();
 
-    if (!mdFileRes || !mdFileRes.data) return
+    if (!mdFileRes || !mdFileRes.data) {
+      this.handleError();
+      return;
+    }
+
     this.mdToWxml(mdFileRes.data);
   }
 })

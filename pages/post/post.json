@@ -3,5 +3,6 @@
     "towxml":"/towxml/towxml"
   },
   "navigationStyle": "custom",
-  "navigationBarTextStyle": "white"
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
 }

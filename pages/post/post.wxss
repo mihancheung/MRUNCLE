@@ -1,5 +1,6 @@
 @import './header/header.wxss';
 @import '../../tpls/loading/loading.wxss';
+@import '../../tpls/error/error.wxss';
 
 .post {
   padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));
