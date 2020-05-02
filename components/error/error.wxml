@@ -1,0 +1,16 @@
+<view class="gb_error" catchtouchmove="true">
+  <image
+    class="gb_error_icon"
+    src="/image/error.png"
+    mode="aspectFill"
+  />
+  <text class="gb_error_title">{{title}}</text>
+  <text class="gb_error_desc">{{networkErrorText || desc}}</text>
+  <view class="gb_error_btn" hover-class="gb_error_btn_hover" bindtap="onErrorReload">
+    <image
+      class="gb_error_btn_icon"
+      src="/image/reload.png"
+      mode="aspectFill"
+    />
+  </view>
+</view>

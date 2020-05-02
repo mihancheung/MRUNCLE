@@ -11,7 +11,6 @@ Page({
     isError: false,
     isLoading: true,
     postImages: [],
-    errorText: '',
   },
 
   onLoad () {
@@ -30,7 +29,7 @@ Page({
     wx.stopPullDownRefresh();
 
     if (!app.isConnected) {
-      this.handleNoNetwork();
+      this.handleError();
       return;
     }
 
@@ -119,9 +118,8 @@ Page({
     });
   },
 
-  handleError (errorText) {
+  handleError () {
     this.setData({
-      errorText,
       isError: true,
       isLoading: false,
     });
@@ -134,15 +132,10 @@ Page({
   },
 
   handleNoNetwork () {
-    this.handleError('網絡似乎飛走咗，重新連接後F5');
+    this.handleError();
   },
 
   async getPageInfo () {
-    if (!app.isConnected) {
-      this.handleNoNetwork();
-      return;
-    }
-
     const postId = '2a625d2b5ea3c6f5001fa82801ea0590';
     const res = await post.doc(postId).get().catch(() => null);
 
@@ -156,11 +149,6 @@ Page({
   },
 
   async getPageMdFile (mdFileId) {
-    if (!app.isConnected) {
-      this.handleNoNetwork();
-      return;
-    }
-
     const res = await wx.cloud.getTempFileURL({
       fileList: [mdFileId],
     }).catch(() => null);

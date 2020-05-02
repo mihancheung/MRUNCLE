@@ -1,13 +1,15 @@
 <import src="./header/header.wxml" />
 <import src="/tpls/loading/loading.wxml" />
-<import src="/tpls/error/error.wxml" />
 
 <view class="post">
   <template is="loading" data="{{ isLoading }}" />
-  <template is="error"  data="{{ errorReload, isError, errorText }}" />
-
   <template is="hd" data="{{ ...info }}" />
   <view class="post_content">
     <towxml nodes="{{md}}"/>
   </view>
+
+  <error
+    wx:if="{{isError}}"
+    bindtapReload="errorReload"
+  />
 </view>
