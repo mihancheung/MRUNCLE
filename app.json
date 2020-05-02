@@ -1,16 +1,46 @@
 {
   "pages":[
-    "pages/post/post"
+    "pages/index/index",
+    "pages/post/post",
+    "pages/about/about"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#202020",
     "navigationBarTitleText": "MRUNCLE",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "white"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
   "usingComponents":  {
     "mp-loading": "/miniprogram_npm/weui-miniprogram/loading/loading"
+  },
+
+  "tabBar": {
+    "color": "#cccccc",
+    "selectedColor": "#000000",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "文章",
+        "iconPath": "image/tab-bar/post.png",
+        "selectedIconPath": "image/tab-bar/post_s.png"
+      },
+
+      {
+        "pagePath": "pages/about/about",
+        "text": "MRUNCLE",
+        "iconPath": "image/tab-bar/mruncle.png",
+        "selectedIconPath": "image/tab-bar/mruncle_s.png"
+      },
+
+      {
+        "pagePath": "pages/post/post",
+        "text": "我的",
+        "iconPath": "image/tab-bar/user.png",
+        "selectedIconPath": "image/tab-bar/user_s.png"
+      }
+    ]
   }
 }

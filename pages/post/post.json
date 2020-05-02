@@ -4,6 +4,6 @@
     "error": "/components/error/error"
   },
   "navigationStyle": "custom",
-  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#ffffff",
   "enablePullDownRefresh": true
 }
