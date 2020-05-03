@@ -1,3 +1,4 @@
+const app = getApp();
 export function formatDate(date) {
   if (!date) return date
 
@@ -16,4 +17,28 @@ export function formatDate(date) {
     }
   }
   return `${o.Y}-${o.M}-${o.D} ${o.h}:${o.m}:${o.s}`
+}
+
+export function formatePostData (data = {}) {
+  const {
+    date: dataDate,
+    avata: dataAvata,
+    author: dataAuthor,
+    mdFileId: dataMdFileId,
+    poster: dataPoster
+  } = data || {};
+  const avata = dataAvata || app.postAvata;
+  const author = dataAuthor || app.postAuthor;
+  const date = formatDate(+new Date(dataDate));
+  const mdFileId = `${app.cdnBase}${dataMdFileId}`;
+  const poster = `${app.cdnBase}${dataPoster}`;
+
+  return {
+    ...data,
+    avata,
+    author,
+    date,
+    mdFileId,
+    poster
+  }
 }

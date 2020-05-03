@@ -7,7 +7,7 @@
   </view>
 
   <view class="home_post">
-    <view class="home_post_item" wx:if="{{!isInitError}}" bindtap="onTapPost" wx:for="{{postList}}" wx:key="_id" data-id="{{item._id}}">
+    <view class="home_post_item" wx:if="{{!isInitError}}" bindtap="onTapPost" wx:for="{{postList}}" wx:key="_id" data-id="{{item._id}}" data-info="{{item}}">
       <image class="home_post_image" mode="aspectFill"  src="{{item.poster}}" />
       <view class="home_post_info">
         <text class="home_post_title">{{item.title}}</text>

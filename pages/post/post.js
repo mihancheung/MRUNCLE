@@ -1,4 +1,4 @@
-import { formatDate } from '../../utils/index';
+import { formatDate, formatePostData } from '../../utils/index';
 
 const app = getApp();
 const db = wx.cloud.database();
@@ -16,7 +16,7 @@ Page({
 
   onLoad (option) {
     const { id } = option || {}
-    this.id = id
+    this.id = id;
     this.init();
   },
 
@@ -113,7 +113,7 @@ Page({
     if (!mdFile) return;
 
     const md = app.towxml(mdFile, 'markdown',{
-      base: app.cdnEnvBase,
+      base: app.cdnBase,
       theme:'light',
       events: {
         tap: this.tapPostTag
@@ -128,19 +128,14 @@ Page({
   },
 
   handleNextData (data) {
-    const { date: dataDate, avata: dataAvata, author: dataAuthor } = data;
-    const avata = dataAvata || app.postAvata;
-    const author = dataAuthor || app.postAuthor;
-    const date = formatDate(+new Date(dataDate));
+    const info = formatePostData(data);
+    const { mdFileId } = info || {}
 
     this.setData({
-      info: {
-        ...data,
-        avata,
-        author,
-        date,
-      }
+      info
     });
+
+    this.getPageMdFile(mdFileId);
   },
 
   handleError () {
@@ -170,7 +165,6 @@ Page({
     }
 
     this.handleNextData(res.data);
-    this.getPageMdFile(res.data.mdFileId);
   },
 
   async getPageMdFile (mdFileId) {

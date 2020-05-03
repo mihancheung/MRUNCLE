@@ -1,3 +1,5 @@
+import { formatePostData } from '../../utils/index';
+
 const app = getApp();
 const db = wx.cloud.database();
 const post = db.collection('post');
@@ -46,8 +48,12 @@ Page({
   },
 
   initPostListDone (data) {
+    const postList = data.map((item) => {
+      return formatePostData(item)
+    });
+
     this.setData({
-      postList: data,
+      postList,
       isInitLoading: false
     });
   },
@@ -90,7 +96,14 @@ Page({
     }
 
     const { postList } = this.data
-    const res = await post.get().catch(() => null);
+    const res = await post
+      .orderBy('date', 'desc')
+      .field({
+        date: false,
+        mdFileId: false,
+      })
+      .limit(10)
+      .get().catch(() => null);
 
     if (!res || !res.data) {
       this.setInitError();

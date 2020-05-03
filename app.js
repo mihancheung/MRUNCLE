@@ -1,4 +1,4 @@
-import { config } from './utils/config'
+import { config } from './utils/config';
 
 App({
   onLaunch () {
@@ -9,7 +9,7 @@ App({
     this.watchNetworkStatus()
   },
 
-  cdnEnvBase: config.cdnDevBase,
+  cdnBase: config.cdnBase,
   postAvata: '/image/me.jpeg',
   postAuthor: 'MRUNCLE',
   towxml:require('/towxml/index'),
