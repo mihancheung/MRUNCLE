@@ -6,6 +6,7 @@ const post = db.collection('post');
 
 Page({
   data: {
+    id: '',
     info: {},
     md: '',
     isError: false,
@@ -13,8 +14,10 @@ Page({
     postImages: [],
   },
 
-  onLoad () {
-    this.init()
+  onLoad (option) {
+    const { id } = option || {}
+    this.id = id
+    this.init();
   },
 
   onPullDownRefresh () {
@@ -153,13 +156,13 @@ Page({
     });
   },
 
-  handleNoNetwork () {
-    this.handleError();
-  },
-
   async getPageInfo () {
-    const postId = '593e51e65eae2bb7004de03369eaeac4';
-    const res = await post.doc(postId).get().catch(() => null);
+    if (!app.isConnected) {
+      this.handleError();
+      return;
+    }
+
+    const res = await post.doc(this.id).get().catch(() => null);
 
     if (!res || !res.data) {
       this.handleError();
@@ -171,11 +174,16 @@ Page({
   },
 
   async getPageMdFile (mdFileId) {
+    if (!app.isConnected) {
+      this.handleError();
+      return;
+    }
+
     const res = await wx.cloud.getTempFileURL({
       fileList: [mdFileId],
     }).catch(() => null);
 
-    if (!app.isConnected || !res || !res.fileList) {
+    if (!res || !res.fileList) {
       this.handleError();
       return;
     }

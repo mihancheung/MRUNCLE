@@ -7,19 +7,22 @@
   </view>
 
   <view class="home_post">
-    <template is="loading" data="{{ isLoading: isInitLoading }}" />
-    <view class="home_post_item">
-      <image class="home_post_image" mode="aspectFill"  src="/image/banner.jpg" />
+    <view class="home_post_item" wx:if="{{!isInitError}}" bindtap="onTapPost" wx:for="{{postList}}" wx:key="_id" data-id="{{item._id}}">
+      <image class="home_post_image" mode="aspectFill"  src="{{item.poster}}" />
       <view class="home_post_info">
-        <text class="home_post_title">标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</text>
-        <text class="home_post_author">文 / MRUNCLE</text>
+        <text class="home_post_title">{{item.title}}</text>
+        <text class="home_post_author">文 / {{item.author || 'MRUNCLE'}}</text>
         <view class="home_post_tags">
-          <text class="home_post_tags_item">#前端开发</text>
-          <text class="home_post_tags_item">#前端开发</text>
-          <text class="home_post_tags_item">#前端开发</text>
-          <text class="home_post_tags_item">#前端开发</text>
+          <text class="home_post_tags_item" wx:for="{{item.tags}}" wx:for-item="tagsItem" wx:key="*this">#{{tagsItem}}</text>
         </view>
       </view>
     </view>
+
+    <template is="loading" data="{{ isLoading: isInitLoading }}" />
+    <error
+      class="cpm_error_custom"
+      wx:if="{{isInitError}}"
+      bindtapReload="errorReload"
+    />
   </view>
 </view>

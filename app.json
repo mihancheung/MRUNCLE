@@ -1,8 +1,9 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/post/post",
-    "pages/about/about"
+    "pages/about/about",
+    "pages/user/user",
+    "pages/post/post"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -36,7 +37,7 @@
       },
 
       {
-        "pagePath": "pages/post/post",
+        "pagePath": "pages/user/user",
         "text": "ME",
         "iconPath": "image/tab-bar/user.png",
         "selectedIconPath": "image/tab-bar/user_s.png"

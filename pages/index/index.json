@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "error": "/components/error/error"
+  },
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
 }

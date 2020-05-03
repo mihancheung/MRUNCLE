@@ -16,7 +16,7 @@ page {
 
 .home_avata {
   width: 100%;
-  height: 200rpx;
+  height: 250rpx;
   margin-bottom: 0;
 }
 
@@ -45,7 +45,7 @@ page {
   width: 100%;
   height: 340rpx;
   border-radius: 30rpx;
-  box-shadow: 0 0 40rpx rgba(0, 0, 0, .3);
+  box-shadow: 0 0 40rpx rgba(0, 0, 0, .1);
 }
 
 .home_post_info {
@@ -80,4 +80,22 @@ page {
 }
 .home_post_tags_item:nth-last-child(1) {
   margin-right: 0;
+}
+
+.home_post .gb_error {
+  padding: 0;
+  height: calc(100vh - 350rpx);
+}
+
+.home_post .gb_error_icon {
+  width: 250rpx;
+  height: 250rpx;
+}
+
+.home_post .gb_error_title {
+  font-size: 38rpx;
+}
+
+.home_post .gb_error_desc {
+  font-size: 28rpx;
 }
