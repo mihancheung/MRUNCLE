@@ -23,7 +23,7 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "文章",
+        "text": "HOME",
         "iconPath": "image/tab-bar/post.png",
         "selectedIconPath": "image/tab-bar/post_s.png"
       },
@@ -37,7 +37,7 @@
 
       {
         "pagePath": "pages/post/post",
-        "text": "我的",
+        "text": "ME",
         "iconPath": "image/tab-bar/user.png",
         "selectedIconPath": "image/tab-bar/user_s.png"
       }

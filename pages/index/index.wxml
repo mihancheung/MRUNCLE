@@ -1,1 +1,25 @@
-<view></view>
+<import src="/tpls/loading/loading.wxml" />
+
+<view class="home">
+  <view class="home_banner">
+    <image class="home_avata" mode="aspectFit" src="/image/banner.png" />
+    <text class="home_title">MRUNCLE'S BLOG</text>
+  </view>
+
+  <view class="home_post">
+    <template is="loading" data="{{ isLoading: isInitLoading }}" />
+    <view class="home_post_item">
+      <image class="home_post_image" mode="aspectFill"  src="/image/banner.jpg" />
+      <view class="home_post_info">
+        <text class="home_post_title">标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</text>
+        <text class="home_post_author">文 / MRUNCLE</text>
+        <view class="home_post_tags">
+          <text class="home_post_tags_item">#前端开发</text>
+          <text class="home_post_tags_item">#前端开发</text>
+          <text class="home_post_tags_item">#前端开发</text>
+          <text class="home_post_tags_item">#前端开发</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,5 +1,7 @@
-const app = getApp()
+const app = getApp();
 
 Page({
-  data: { }
+  data: {
+    isInitLoading: false
+  }
 })

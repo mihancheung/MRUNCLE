@@ -13,8 +13,8 @@
 }
 
 .tpl_loading_image {
-  width: 160rpx;
-  height: 160rpx;
+  width: 140rpx;
+  height: 140rpx;
   margin-bottom: 50rpx;
   border-radius: 50%;
   box-shadow: 0 0 20rpx rgba(0, 0, 0, .3);
