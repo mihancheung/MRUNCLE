@@ -10,7 +10,7 @@ App({
   },
 
   cdnEnvBase: config.cdnDevBase,
-  postAvata: `${config.cdnDevBase}/me.jpeg`,
+  postAvata: '/image/me.jpeg',
   postAuthor: 'MRUNCLE',
   towxml:require('/towxml/index'),
   isConnected: true,

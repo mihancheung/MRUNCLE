@@ -72,16 +72,38 @@ Page({
     })
   },
 
-  tapPostImage (e) {
+  copyJumpLink (href) {
+    wx.setClipboardData({
+      data: href,
+      success () {
+        wx.showToast({
+          title: '链接已复制',
+          icon: 'none'
+        })
+      }
+    });
+  },
+
+  tapPostTag (e) {
     const { currentTarget } = e || {};
     const { dataset } = currentTarget || {};
     const { data } = dataset || {}
-    const { attr } = data || {};
-    const { src: current } = attr || {}
-    wx.previewImage({
-      current,
-      urls: this.data.postImages
-    })
+    const { attr, tag } = data || {};
+    const { src: current, href } = attr || {}
+    if (tag !== 'img' && tag !== 'navigator') return;
+    
+    switch (tag) {
+      case 'img':
+        wx.previewImage({
+          current,
+          urls: this.data.postImages
+        })
+        break;
+
+      case 'navigator':
+        this.copyJumpLink(href)
+        break;
+    }
   },
 
   mdToWxml (mdFile) {
@@ -91,7 +113,7 @@ Page({
       base: app.cdnEnvBase,
       theme:'light',
       events: {
-        tap: this.tapPostImage
+        tap: this.tapPostTag
       }
     });
 
@@ -136,7 +158,7 @@ Page({
   },
 
   async getPageInfo () {
-    const postId = '2a625d2b5ea3c6f5001fa82801ea0590';
+    const postId = '593e51e65eae2bb7004de03369eaeac4';
     const res = await post.doc(postId).get().catch(() => null);
 
     if (!res || !res.data) {
