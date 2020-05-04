@@ -94,6 +94,7 @@ Page({
     const { attr, tag } = data || {};
     const { src: current, href } = attr || {}
     if (tag !== 'img' && tag !== 'navigator') return;
+    if (tag === 'navigator' && !/^https?/.test(href)) return;
     
     switch (tag) {
       case 'img':
