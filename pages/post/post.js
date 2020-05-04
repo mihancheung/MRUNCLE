@@ -11,6 +11,8 @@ Page({
     md: '',
     isError: false,
     isLoading: true,
+    isMdRendered: true,
+    loadingText: '',
     postImages: [],
   },
 
@@ -43,6 +45,7 @@ Page({
     this.setData({
       isLoading: true,
       isError: false,
+      loadingText: '',
     }, () => {
       typeof cb === 'function' && cb();
     });
@@ -94,7 +97,7 @@ Page({
     const { attr, tag } = data || {};
     const { src: current, href } = attr || {}
     if (tag !== 'img' && tag !== 'navigator') return;
-    if (tag === 'navigator' && !/^https?/.test(href)) return;
+    if (tag === 'navigator' && !/^https?/i.test(href)) return;
     
     switch (tag) {
       case 'img':
@@ -112,6 +115,7 @@ Page({
 
   mdToWxml (mdFile) {
     if (!mdFile) return;
+    const { postImages } = this.data
 
     const md = app.towxml(mdFile, 'markdown',{
       base: app.cdnBase,
@@ -124,7 +128,8 @@ Page({
     this.setData({
       md
     }, () => {
-      this.getPostImages();
+      this.handleRenderPostDone();
+      postImages.length === 0 && this.getPostImages();
     });
   },
 
@@ -143,13 +148,20 @@ Page({
     this.setData({
       isError: true,
       isLoading: false,
+      loadingText: '',
     });
   },
 
-  handleGetDataDone () {
+  handleRenderPostDone () {
     this.setData({
       isLoading: false,
     });
+  },
+
+  getPostDataDone () {
+    this.setData({
+      loadingText: '文章轉緊義，畀少少耐性'
+    })
   },
 
   async getPageInfo () {
@@ -188,7 +200,7 @@ Page({
       url
     }).catch(() => null);
 
-    this.handleGetDataDone();
+    this.getPostDataDone();
 
     if (!mdFileRes || !mdFileRes.data) {
       this.handleError();

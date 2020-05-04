@@ -3,6 +3,7 @@ import { formatePostData } from '../../utils/index';
 const app = getApp();
 const db = wx.cloud.database();
 const post = db.collection('post');
+const MAX_POST = 100
 
 Page({
   data: {
@@ -102,7 +103,7 @@ Page({
         date: false,
         mdFileId: false,
       })
-      .limit(10)
+      .limit(MAX_POST)
       .get().catch(() => null);
 
     if (!res || !res.data) {

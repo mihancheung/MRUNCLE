@@ -2,7 +2,7 @@
 <import src="/tpls/loading/loading.wxml" />
 
 <view class="post">
-  <template is="loading" data="{{ isLoading }}" />
+  <template is="loading" data="{{ isLoading, loadingText }}" />
   <template is="hd" data="{{ ...info }}" />
   <view class="post_content">
     <towxml nodes="{{md}}"/>
