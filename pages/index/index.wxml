@@ -1,5 +1,19 @@
 <import src="/tpls/loading/loading.wxml" />
 
+<wxs module="modPostList">
+  var formatPostList = function (postList) {
+    var nextPostList = []
+    for (var i = 0; i < postList.length; i++) {
+      nextPostList = nextPostList.concat(postList[i]);
+    }
+    return nextPostList;
+  };
+
+  module.exports = {
+    formatPostList: formatPostList
+  }
+</wxs>
+
 <view class="home">
   <view class="home_banner">
     <image class="home_avata" mode="aspectFit" src="/image/banner.png" />
@@ -7,7 +21,7 @@
   </view>
 
   <view class="home_post">
-    <view class="home_post_item" wx:if="{{!isInitError}}" bindtap="onTapPost" wx:for="{{postList}}" wx:key="_id" data-id="{{item._id}}" data-info="{{item}}">
+    <view class="home_post_item" bindtap="onTapPost" wx:for="{{modPostList.formatPostList(postList)}}" wx:key="_id" data-id="{{item._id}}" data-info="{{item}}">
       <image class="home_post_image" mode="aspectFill"  src="{{item.poster}}" />
       <view class="home_post_info">
         <text class="home_post_title">{{item.title}}</text>
@@ -16,6 +30,16 @@
           <text class="home_post_tags_item" wx:for="{{item.tags}}" wx:for-item="tagsItem" wx:key="*this">#{{tagsItem}}</text>
         </view>
       </view>
+    </view>
+
+    <view class="home_post_pageloading" hidden="{{!isPostPageLoading && !isInitError && !isPostPageError}}">
+      <template is="loading" data="{{ isLoading: isPostPageLoading, loadingText: '勁出力撈緊💨', isNoShowImage: true }}" />
+
+      <error
+        class="cpm_error_custom"
+        wx:if="{{isPostPageError}}"
+        bindtapReload="errorPostPageReload"
+      />
     </view>
 
     <template is="loading" data="{{ isLoading: isInitLoading }}" />

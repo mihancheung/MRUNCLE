@@ -3,11 +3,13 @@ import { formatePostData } from '../../utils/index';
 const app = getApp();
 const db = wx.cloud.database();
 const post = db.collection('post');
-const MAX_POST = 100
+const MAX_POST = 5;
 
 Page({
   data: {
     isInitLoading: true,
+    isPostPageLoading: false,
+    isPostPageError: false,
     isInitError: false,
     postList: []
   },
@@ -21,11 +23,35 @@ Page({
     wx.stopPullDownRefresh();
   },
 
+  onReachBottom () {
+    const { isInitError, isPostPageError } = this.data;
+    const postListLength = this.data.postList.length * MAX_POST;
+    if (isInitError || isPostPageError || this.isGettingData || postListLength >= this.postTotal) return;
+    this.getPostList();
+  },
+
   errorReload () {
     this.reloadPage();
   },
 
+  errorPostPageReload () {
+    if (!app.isConnected) {
+      this.setError();
+      return;
+    }
+
+    this.setData({
+      isPostPageError: false,
+      isPostPageLoading: true,
+    }, () => {
+      this.getPostList();
+    });
+  },
+
   init () {
+    this.postTotal = 0;
+    this.isGettingData = false
+    this.getPostLength();
     this.getPostList();
   },
 
@@ -35,12 +61,14 @@ Page({
       return;
     }
 
-    this.retsetPageStatus(this.getPostList)
+    this.retsetPageStatus(this.init)
   },
 
   retsetPageStatus (cb) {
     this.setData({
       isInitLoading: true,
+      isPostPageLoading: false,
+      isPostPageError: false,
       isInitError: false,
       postList: []
     }, () => {
@@ -48,31 +76,64 @@ Page({
     });
   },
 
-  initPostListDone (data) {
-    const postList = data.map((item) => {
+  setIsShowPostPageLoading (isShow) {
+    this.setData({
+      isPostPageLoading: isShow,
+    });
+  },
+
+  handleIsShowPostPageLoading () {
+    const { isPostPageLoading, postList } = this.data;
+    const postListTotal = postList.length * MAX_POST;
+    if (!isPostPageLoading && postListTotal < this.postTotal) {
+      this.setIsShowPostPageLoading(true);
+    }
+
+    if (isPostPageLoading && postListTotal >= this.postTotal) {
+      this.setIsShowPostPageLoading(false);
+    }
+  },
+
+  getPostListDone (data) {
+    const { postList } = this.data
+    const postListLength = postList.length;
+    const nextPostList = data.map((item) => {
       return formatePostData(item)
     });
 
     this.setData({
-      postList,
-      isInitLoading: false
+      [`postList[${postListLength}]`]: nextPostList,
+      isInitLoading: false,
+    }, () => {
+      this.handleIsShowPostPageLoading();
+      this.isGettingData = false;
     });
   },
 
-  setPullPostListDone (data) {
+  setError () {
+    const { postList } = this.data;
+    if (postList.length === 0) {
+      this.setInitError();
+    }
+
+    this.setPostPageError();
+  },
+
+  setPostPageError () {
+    this.isGettingData = false;
     this.setData({
-      postList: [
-        ...postList,
-        ...data,
-      ],
-      isInitLoading: false
+      isInitLoading: false,
+      isPostPageError: true,
+      isPostPageLoading: false,
     });
   },
 
   setInitError () {
+    this.isGettingData = false;
     this.setData({
       isInitLoading: false,
       isInitError: true,
+      isPostPageLoading: false,
     });
   },
 
@@ -90,32 +151,37 @@ Page({
     });
   },
 
+  async getPostLength () {
+    const res = await post.count();
+    if (!res || typeof res.total !== 'number') return;
+    this.postTotal = res.total
+  },
+
   async getPostList () {
+    const { postList } = this.data
+    this.isGettingData = true;
+
     if (!app.isConnected) {
-      this.setInitError();
+      this.setError();
       return;
     }
 
-    const { postList } = this.data
     const res = await post
       .orderBy('date', 'desc')
       .field({
         date: false,
         mdFileId: false,
       })
+      .skip(postList.length * MAX_POST)
       .limit(MAX_POST)
       .get().catch(() => null);
 
     if (!res || !res.data) {
-      this.setInitError();
+      this.setError();
       return;
     }
 
-    if (postList.length === 0) {
-      this.initPostListDone(res.data);
-    } else {
-      this.setPullPostListDone(res.data);
-    }
+    this.getPostListDone(res.data);
   }
 
 })

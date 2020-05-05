@@ -8,7 +8,6 @@
     _e = child || {}
 
     var nextMd = md
-
     var mdChild = []
 
     for (var i = 0; i < child.length; i++) {

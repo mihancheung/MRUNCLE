@@ -65,16 +65,10 @@ Page({
       return;
     }
 
-    this.retsetPageStatus(this.getPageInfo)
+    this.retsetPageStatus(this.init)
   },
 
   retsetPageStatus (cb) {
-    this.postImages = [];
-    this.isPostTowxml = false;
-    this.mdPostLength = 0;
-    this.childLength = 0;
-    this.md = null;
-
     this.setData({
       info: {},
       md: {},

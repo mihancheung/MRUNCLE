@@ -99,3 +99,37 @@ page {
 .home_post .gb_error_desc {
   font-size: 28rpx;
 }
+
+.home_post_pageloading {
+  position: relative;
+  min-height: 200rpx;
+}
+.home_post_pageloading .tpl_loading {
+  background: none;
+}
+
+.home_post_pageloading .gb_error {
+  position: relative;
+  background: none;
+  height: auto;
+  padding: 80rpx 0 0;
+}
+
+.home_post_pageloading .gb_error_icon {
+  display: none;
+}
+
+.home_post_pageloading .gb_error_btn {
+  width: 80rpx;
+  height: 80rpx;
+  margin-top: 40rpx;
+}
+
+.home_post_pageloading .gb_error_title {
+  font-size: 30rpx;
+  margin-top: 0;
+}
+
+.home_post_pageloading .gb_error_desc {
+  font-size: 24rpx;
+}
