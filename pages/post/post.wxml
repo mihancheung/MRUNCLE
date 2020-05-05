@@ -26,6 +26,8 @@
 </wxs>
 
 <view class="post">
+  <custom-nav />
+
   <template is="loading" data="{{ isLoading, loadingText }}" />
   <template is="hd" data="{{ ...info }}" />
   <view class="post_content">

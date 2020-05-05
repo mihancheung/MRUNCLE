@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "towxml":"/towxml/towxml",
-    "error": "/components/error/error"
+    "error": "/components/error/error",
+    "custom-nav": "/components/custom-nav/custom-nav"
   },
   "navigationStyle": "custom",
   "navigationBarBackgroundColor": "#ffffff",
