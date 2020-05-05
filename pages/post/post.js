@@ -188,7 +188,7 @@ Page({
       });
     }
 
-    this.child = [...md.child].filter((item) => {
+    this.child = md.child.filter((item) => {
       const { type, child = [] } = item || {}
       delete item._e;
       filterChildE(child);
