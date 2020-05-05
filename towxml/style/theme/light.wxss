@@ -28,11 +28,13 @@
 .h2w-light .h2w__pre {
     background-color:#f6f8fa;
     border-color:#eaedf0;
+    -webkit-overflow-scrolling: touch;
 }
 
 .h2w-light .h2w__code {
     background-color:#f6f8fa;
     border-color:#eaedf0;
+    -webkit-overflow-scrolling: touch;
 }
 
 

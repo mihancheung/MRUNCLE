@@ -1,11 +1,40 @@
 <import src="./header/header.wxml" />
 <import src="/tpls/loading/loading.wxml" />
 
+<wxs module="modPost">
+  var formatMd = function (child, md) {
+    md = md || {};
+    child = child || [];
+    _e = child || {}
+
+    var nextMd = md
+
+    var mdChild = []
+
+    for (var i = 0; i < child.length; i++) {
+      mdChild = mdChild.concat(child[i]);
+    }
+
+    nextMd.child = mdChild
+    nextMd._e = mdChild
+
+    return nextMd;
+  }
+
+  module.exports = {
+    formatMd: formatMd
+  }
+</wxs>
+
 <view class="post">
   <template is="loading" data="{{ isLoading, loadingText }}" />
   <template is="hd" data="{{ ...info }}" />
   <view class="post_content">
-    <towxml nodes="{{md}}"/>
+    <towxml nodes="{{modPost.formatMd(child, md)}}"/>
+
+    <view class="post_content_loading" hidden="{{!isPostRendering}}">
+      <template is="loading" data="{{ isLoading: isPostRendering, loadingText: '文章撈緊喇大佬🤦🏻‍♂️', isNoShowImage: true }}" />
+    </view>
   </view>
 
   <error

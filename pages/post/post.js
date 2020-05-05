@@ -1,19 +1,18 @@
-import { formatDate, formatePostData } from '../../utils/index';
+import { formatePostData } from '../../utils/index';
 
 const app = getApp();
 const db = wx.cloud.database();
 const post = db.collection('post');
+const POST_MD_CHILD_MAX = 10;
 
 Page({
   data: {
-    id: '',
     info: {},
-    md: '',
+    md: {},
+    child: [],
     isError: false,
     isLoading: true,
-    isMdRendered: true,
-    loadingText: '',
-    postImages: [],
+    isPostRendering: false,
   },
 
   onLoad (option) {
@@ -22,8 +21,36 @@ Page({
     this.init();
   },
 
+  onReachBottom () {
+    // 防反復加載渲染
+    if (this.isPostTowxml) return;
+    const thisReach = this.data.child.length * POST_MD_CHILD_MAX
+  
+    if (thisReach % this.mdPostLength > 0) {
+      const nextReach = thisReach + POST_MD_CHILD_MAX
+      this.setMd();
+
+      // 收起文章加載中
+      if (nextReach >= this.mdPostLength) {
+        this.setData({
+          isPostRendering: false
+        });
+      }
+    }
+  },
+
   onPullDownRefresh () {
+    clearTimeout(this.timer);
     this.reloadPage();
+  },
+
+  init () {
+    this.postImages = [];
+    this.isPostTowxml = false;
+    this.mdPostLength = 0;
+    this.childLength = 0;
+    this.md = null;
+    this.getPageInfo();
   },
 
   errorReload: function () {
@@ -42,17 +69,22 @@ Page({
   },
 
   retsetPageStatus (cb) {
+    this.postImages = [];
+    this.isPostTowxml = false;
+    this.mdPostLength = 0;
+    this.childLength = 0;
+    this.md = null;
+
     this.setData({
-      isLoading: true,
+      info: {},
+      md: {},
+      child: [],
       isError: false,
-      loadingText: '',
+      isLoading: true,
+      isPostRendering: false,
     }, () => {
       typeof cb === 'function' && cb();
     });
-  },
-
-  init () {
-    this.getPageInfo();
   },
 
   getPostImages () {
@@ -73,9 +105,7 @@ Page({
   },
 
   setPostImages (urls) {
-    this.setData({
-      postImages: urls
-    })
+    this.postImages = urls;
   },
 
   copyJumpLink (href) {
@@ -103,7 +133,7 @@ Page({
       case 'img':
         wx.previewImage({
           current,
-          urls: this.data.postImages
+          urls: this.postImages
         })
         break;
 
@@ -113,9 +143,32 @@ Page({
     }
   },
 
+  setMd () {
+    const { child } = this.data;
+    const thisMdLength = child.length;
+    this.isPostTowxml = true;
+
+    const nextChild = this.child.filter((item, i) => {
+      if (thisMdLength === 0) {
+        return i < POST_MD_CHILD_MAX
+      }
+
+      return i > thisMdLength * POST_MD_CHILD_MAX - 1 && i < thisMdLength * POST_MD_CHILD_MAX + POST_MD_CHILD_MAX;
+    });
+
+    this.setData({
+      md: this.md,
+      [`child[${child.length}]`]: nextChild,
+      isPostRendering: true,
+    }, () => {
+      this.getPostImages();
+      this.handleRenderPostDone();
+      this.isPostTowxml = false;
+    });
+  },
+
   mdToWxml (mdFile) {
     if (!mdFile) return;
-    const { postImages } = this.data
 
     const md = app.towxml(mdFile, 'markdown',{
       base: app.cdnBase,
@@ -125,12 +178,29 @@ Page({
       }
     });
 
-    this.setData({
-      md
-    }, () => {
-      this.handleRenderPostDone();
-      postImages.length === 0 && this.getPostImages();
+    // 递归去掉多余child的_e属性
+    const filterChildE = (child = []) => {
+      child.forEach((childItem) => {
+        if (childItem.child && childItem.child.length > 0) {
+          filterChildE(childItem.child);
+        };
+        delete childItem._e;
+      });
+    }
+
+    this.child = [...md.child].filter((item) => {
+      const { type, child = [] } = item || {}
+      delete item._e;
+      filterChildE(child);
+      return type === 'tag'
     });
+
+    this.mdPostLength = this.child.length;
+    this.md = md;
+    this.md.child = [];
+    this.md._e = [];
+
+    this.setMd();
   },
 
   handleNextData (data) {
@@ -145,10 +215,11 @@ Page({
   },
 
   handleError () {
+    this.isPostTowxml = false
     this.setData({
       isError: true,
       isLoading: false,
-      loadingText: '',
+      isPostRendering: false,
     });
   },
 
@@ -156,12 +227,6 @@ Page({
     this.setData({
       isLoading: false,
     });
-  },
-
-  getPostDataDone () {
-    this.setData({
-      loadingText: '文章轉緊義，畀少少耐性'
-    })
   },
 
   async getPageInfo () {
@@ -199,8 +264,6 @@ Page({
     const mdFileRes = await app.wxRequire({
       url
     }).catch(() => null);
-
-    this.getPostDataDone();
 
     if (!mdFileRes || !mdFileRes.data) {
       this.handleError();

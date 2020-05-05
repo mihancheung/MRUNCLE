@@ -37,6 +37,7 @@
 .h2w__mark,
 .h2w__ins {
     display:inline;
+    -webkit-overflow-scrolling: touch;
 }
 
 .h2w__h1 {
@@ -146,6 +147,7 @@
     white-space: nowrap;
     overflow-x: auto;
     tab-size:4;
+    -webkit-overflow-scrolling: touch;
 }
 
 .h2w__pre .h2w__code {
@@ -157,6 +159,7 @@
 .h2w__pre,
 .h2w__code {
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, "STHeitiTC-Light", "Microsoft YaHei Light", -apple-system, system-ui, BlinkMacSystemFont;
+    -webkit-overflow-scrolling: touch;
 }
 
 .h2w__code {
@@ -167,6 +170,7 @@
     border-radius: 8rpx;
     font-size: 80%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .h2w__pre .h2w__span,
@@ -182,6 +186,7 @@
 .h2w__pre {
     white-space: pre;
     display: block;
+    -webkit-overflow-scrolling: touch;
 }
 
 .h2w__pre .h2w__code {
@@ -189,6 +194,7 @@
     /* width: 9999px; */
     display: block;
     font-size: 80%;
+    -webkit-overflow-scrolling: touch;
 }
 
 /**列表**/
