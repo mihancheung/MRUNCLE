@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "marklist": "./components/marklist/marklist"
+  },
+  "backgroundColor": "#f7f7f7"
 }

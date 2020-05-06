@@ -2,7 +2,21 @@
 
 <template is="loading" data="{{ isLoading }}" />
 <view wx:if="{{isLogin}}" class="page_user">
-  <image class="page_user_avata" src="{{userInfo.avatarUrl}}" />
-  <text class="page_user_nickname">nickName: {{userInfo.nickName}}</text>
-  <text class="page_user_nickname">opeinId: {{userInfo.openId}}</text>
+  <view class="page_user_hd">
+    <view class="page_user_info">
+      <image class="page_user_avata" src="{{userInfo.avatarUrl}}" />
+      <text class="page_user_nickname">{{userInfo.nickName}}</text>
+    </view>
+    <view class="page_user_tab">
+      <text class="page_user_tab_item">消息</text>
+      <view class="page_user_tab_line"></view>
+      <text class="page_user_tab_item">收藏</text>
+    </view>
+  </view>
+
+  <view class="page_user_mark">
+    <marklist openId="{{userInfo.openId}}" />
+  </view>
+
+  <view class="page_user_msg"></view>
 </view>
