@@ -1,5 +1,3 @@
-@import '/tpls/loading/loading.wxss';
-
 page {
   background: #f7f7f7;
 }

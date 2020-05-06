@@ -1,1 +1,8 @@
-<view></view>
+<import src="/tpls/loading/loading.wxml" />
+
+<template is="loading" data="{{ isLoading }}" />
+<view wx:if="{{isLogin}}" class="page_user">
+  <image class="page_user_avata" src="{{userInfo.avatarUrl}}" />
+  <text class="page_user_nickname">nickName: {{userInfo.nickName}}</text>
+  <text class="page_user_nickname">opeinId: {{userInfo.openId}}</text>
+</view>

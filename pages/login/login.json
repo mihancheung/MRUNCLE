@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/custom-nav"
+  },
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#f7f7f7",
+  "navigationStyle": "custom",
+  "navigationBarBackgroundColor": "#ffffff"
+}

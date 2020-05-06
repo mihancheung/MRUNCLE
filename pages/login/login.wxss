@@ -1,0 +1,36 @@
+page {
+  background: #f7f7f7;
+}
+
+.gb_login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.gb_login_icon {
+  height: 250rpx;
+  margin-bottom: 60rpx;
+}
+
+.gb_login_desc {
+  color: #cccccc;
+  font-size: 28rpx;
+  margin-bottom: 60rpx;
+}
+
+.gb_login_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 240rpx!important;
+  height: 90rpx;
+  border-radius: 60rpx;
+  color: #ffffff;
+  font-size: 36rpx;
+  background: #000000;
+  box-shadow: 0 8rpx 20rpx rgba(0, 0 , 0, .2);
+  font-weight: normal!important;
+}
