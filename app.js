@@ -3,7 +3,7 @@ import { config } from './utils/config';
 App({
   onLaunch () {
     wx.cloud.init({
-      env: 'dev-c8vh9'
+      env: config.cloudEnv
     });
 
     this.watchNetworkStatus()
