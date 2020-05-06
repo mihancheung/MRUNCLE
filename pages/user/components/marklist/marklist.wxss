@@ -17,7 +17,7 @@
 }
 
 .mark_item_title {
-  max-width: 360rpx;
+  max-width: 340rpx;
   color: #232323;
   font-size: 32rpx;
   line-height: 1.4;

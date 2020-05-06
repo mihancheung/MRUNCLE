@@ -5,7 +5,8 @@ Page({
     isLogin: false,
     userInfo: null,
     isError: false,
-    isLoading: false
+    isLoading: false,
+    markPage: 0
   },
 
   onLoad () {
@@ -17,6 +18,8 @@ Page({
   onShow () {
     this.checkIsLogin();
   },
+
+  onReachBottom () {},
 
   setError () {
     this.setData({

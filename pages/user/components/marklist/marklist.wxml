@@ -1,31 +1,9 @@
 <view class="mark">
-  <view class="mark_item">
-    <text class="mark_item_title">标题标题标题标题标题标题标题</text>
-    <text class="mark_item_date">2020-09-09</text>
-    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
-  </view>
-
-  <view class="mark_item">
-    <text class="mark_item_title">标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</text>
-    <text class="mark_item_date">2020-09-09</text>
-    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
-  </view>
-
-  <view class="mark_item">
-    <text class="mark_item_title">标题标题标题</text>
-    <text class="mark_item_date">2020-09-09</text>
-    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
-  </view>
-
-  <view class="mark_item">
-    <text class="mark_item_title">标题标题标题</text>
-    <text class="mark_item_date">2020-09-09</text>
-    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
-  </view>
-
-  <view class="mark_item">
-    <text class="mark_item_title">标题标题标题</text>
-    <text class="mark_item_date">2020-09-09</text>
-    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
-  </view>
+  <block class="mark_item" wx:for="{{list}}" wx:for-item="listItem" wx:key="index">
+    <view class="mark_item" wx:for="{{listItem}}" wx:key="_id" data-id="{{item._id}}" bind:tap="onTapArticle">
+      <text class="mark_item_title">{{item.title}}</text>
+      <text class="mark_item_date">{{item.date}}</text>
+      <image class="mark_item_img" mode="aspectFill" src="{{item.poster}}" />
+    </view>
+  </block>
 </view>
