@@ -2,6 +2,10 @@ page {
   background: #f7f7f7;
 }
 
+.page_user {
+  padding: 0 0 44rpx;
+}
+
 .page_user_hd {
   background: #202020;
   color: #ffffff;
@@ -45,4 +49,10 @@ page {
   width: 2rpx;
   overflow: hidden;
   background: #ffffff;
+}
+
+.page_user_content {
+  background: #ffffff;
+  margin: 44rpx 44rpx 0;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, .1);
 }

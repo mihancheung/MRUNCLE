@@ -1,0 +1,45 @@
+.mark {
+  padding: 0 40rpx;
+}
+
+.mark_item {
+  position: relative;
+  height: 230rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 40rpx 0;
+  border-top: 0.5px solid #e5e5e5;
+}
+.mark_item:nth-child(1) {
+  border-top: none;
+}
+
+.mark_item_title {
+  max-width: 360rpx;
+  color: #232323;
+  font-size: 32rpx;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.mark_item_date {
+  color: #999999;
+  font-size: 24rpx;
+}
+
+.mark_item_img {
+  position: absolute;
+  right: 0;
+  top: 40rpx;
+  width: 200rpx;
+  height: 110rpx;
+  border-radius: 15rpx;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 20rpx, .1);
+}

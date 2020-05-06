@@ -14,9 +14,11 @@
     </view>
   </view>
 
-  <view class="page_user_mark">
-    <marklist openId="{{userInfo.openId}}" />
-  </view>
+  <view class="page_user_content">
+    <view class="page_user_mark">
+      <marklist openId="{{userInfo.openId}}" />
+    </view>
 
-  <view class="page_user_msg"></view>
+    <view class="page_user_msg"></view>
+  </view>
 </view>

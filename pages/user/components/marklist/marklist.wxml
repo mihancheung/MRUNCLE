@@ -1,3 +1,31 @@
-<view class="user_mark">
-  
+<view class="mark">
+  <view class="mark_item">
+    <text class="mark_item_title">标题标题标题标题标题标题标题</text>
+    <text class="mark_item_date">2020-09-09</text>
+    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
+  </view>
+
+  <view class="mark_item">
+    <text class="mark_item_title">标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</text>
+    <text class="mark_item_date">2020-09-09</text>
+    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
+  </view>
+
+  <view class="mark_item">
+    <text class="mark_item_title">标题标题标题</text>
+    <text class="mark_item_date">2020-09-09</text>
+    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
+  </view>
+
+  <view class="mark_item">
+    <text class="mark_item_title">标题标题标题</text>
+    <text class="mark_item_date">2020-09-09</text>
+    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
+  </view>
+
+  <view class="mark_item">
+    <text class="mark_item_title">标题标题标题</text>
+    <text class="mark_item_date">2020-09-09</text>
+    <image class="mark_item_img" src="cloud://dev-c8vh9.6465-dev-c8vh9-1301890037/post/101percent/img/banner.png" />
+  </view>
 </view>

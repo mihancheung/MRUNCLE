@@ -15,7 +15,6 @@
 }
 
 .post_title {
-  /* min-height: 56rpx; */
   font-size: 44rpx;
   line-height: 1.4;
   margin-bottom: 10rpx;
