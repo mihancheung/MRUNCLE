@@ -1,6 +1,8 @@
 const app = getApp();
 const db = wx.cloud.database();
 const post = db.collection('post');
+const user = db.collection('user');
+const _ = db.command;
 
 Component({
   properties: {
@@ -20,11 +22,16 @@ Component({
   lifetimes: {
     ready: function () {
       this._init();
+    },
+    
+    detached: function () {
+      console.log('detached')
     }
   },
 
   methods: {
     onTapMark () {
+      if (this.isHandlingMark) return;
       this._updatePostMark();
     },
 
@@ -33,7 +40,40 @@ Component({
     },
 
     _init () {
+      this._checkIsMark();
       this._getPostInfo();
+    },
+
+    async _getOpenId () {
+      const reqUserOpenId = wx.cloud.callFunction({
+        name: 'getUserInfo',
+      });
+
+      const cloudRes = await reqUserOpenId.catch(() => null);
+      const { result } = cloudRes || {}
+
+      if (!result || !result.openId) {
+        return;
+      }
+
+      this.openId = result.openId;
+      return result.openId
+    },
+
+    async _checkIsMark () {
+      const openId = await this._getOpenId();
+      if (!openId) return;
+
+      const isMarkRes = await user.where({
+        openId,
+        markPosts: _.elemMatch(_.eq(this.properties.postId))
+      }).get().catch(() => null);
+
+      if (!isMarkRes || !isMarkRes.data || isMarkRes.data.length === 0) return;
+
+      this.setData({
+        isMark: true
+      });
     },
 
     async _getPostInfo () {
@@ -56,6 +96,15 @@ Component({
       });
     },
 
+    async _updateUserData (updateData = {}) {
+      const res  = await wx.cloud.callFunction({
+        name: 'updateUser', 
+        data: {
+          ...updateData,
+        }
+      });
+    },
+
     async _updatePostData (updateData) {
       const res  = await wx.cloud.callFunction({
         name: 'updatePostInfo', 
@@ -63,9 +112,10 @@ Component({
           postId: this.properties.postId,
           updateData,
         }
-      });
+      }).catch(() => null);
 
-      if (!res.result || !res.result.postInfo) {
+      if (!res || !res.result || !res.result.postInfo) {
+        this.isHandlingMark = false;
         wx.showToast({
           title: '收藏似乎出現咗問題',
           icon: 'none'
@@ -78,6 +128,7 @@ Component({
         postInfo: res.result.postInfo
       }, () => {
         const { isMark } = this.data;
+        this.isHandlingMark = false;
         wx.showToast({
           title: isMark ? '靚POST為你MARK~' : '忍痛取消咗收藏~',
           icon: 'none'
@@ -88,11 +139,21 @@ Component({
 
     _updatePostMark () {
       const { isMark, postInfo } = this.data;
-      const marks = postInfo.marks || 0;
-      const updateData = {
-        marks: isMark ? (marks - 1) : (marks + 1)
+      let { marks } = postInfo || {};
+      if (typeof marks !== 'number') {
+        marks = 0;
       }
-      this._updatePostData(updateData);
+
+      this.isHandlingMark = true;
+
+      this._updatePostData({
+        marks: isMark ? (marks - 1) : (marks + 1)
+      });
+
+      this._updateUserData({
+        isMark,
+        markPosts: [this.properties.postId]
+      });
     }
   }
 })
