@@ -2,10 +2,12 @@
   "usingComponents": {
     "towxml":"/towxml/towxml",
     "error": "/components/error/error",
-    "custom-nav": "/components/custom-nav/custom-nav"
+    "custom-nav": "/components/custom-nav/custom-nav",
+    "post-bar": "/pages/post/compoents/post-bar/post-bar"
   },
   "navigationStyle": "custom",
   "navigationBarBackgroundColor": "#ffffff",
   "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark"
+  "backgroundTextStyle": "dark",
+  "onReachBottomDistance": 90
 }

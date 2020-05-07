@@ -27,6 +27,7 @@
 
 <view class="post">
   <custom-nav />
+  <post-bar wx:if="{{!!id && !isLoading && !isError}}" postId="{{id}}" />
 
   <template is="loading" data="{{ isLoading, loadingText }}" />
   <template is="hd" data="{{ ...info }}" />

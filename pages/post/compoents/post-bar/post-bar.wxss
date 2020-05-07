@@ -1,0 +1,61 @@
+.post_bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 130rpx;
+  background: #ffffff;
+  box-shadow: 0 -8rpx 30rpx rgba(0, 0, 0, .1);
+  padding-bottom: calc(constant(safe-area-inset-bottom));
+  padding-bottom: calc(env(safe-area-inset-bottom));
+  z-index: 1001;
+  transform: translateY(130rpx);
+  transition: all .35s ease;
+}
+
+.post_bar_show {
+  transform: translateY(0);
+}
+
+.post_bar_main {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.post_bar_comment {
+  height: 80rpx;
+  background: #f7f7f7;
+  width: 240rpx;
+  font-size: 28rpx;
+  color: #666666;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10rpx;
+}
+
+.post_bar_tool {
+  position: relative;
+  margin: 0 20rpx;
+  height: 40rpx;
+}
+
+.post_bar_tool_image {
+  height: 40rpx;
+  vertical-align: top;
+}
+
+.post_bar_tool_item_txt {
+  position: absolute;
+  left: 100%;
+  top: -20rpx;
+  margin: 0 5rpx;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.post_bar_tool_on .post_bar_tool_item_txt {
+  color: #ee0d25;
+}

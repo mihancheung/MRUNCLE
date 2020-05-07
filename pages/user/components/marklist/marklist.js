@@ -3,7 +3,7 @@ import { formatePostData } from '../../../../utils/index';
 const app = getApp();
 const db = wx.cloud.database();
 const post = db.collection('post');
-const mark = db.collection('user-mark');
+const user = db.collection('user');
 const _ = db.command;
 const ARTICLE_MAX = 10;
 
@@ -47,18 +47,18 @@ Component({
     async _getData () {
       const openId = this.properties.openId
       if (!openId) return;
-      const userMarkInfoRes = await mark.where({
+      const userRes = await user.where({
         openId: openId
       })
       .get()
       .catch(() => null);
 
-      if (!userMarkInfoRes || !userMarkInfoRes.data) return;
+      if (!userRes || !userRes.data) return;
 
-      const postIds = userMarkInfoRes.data[0].postId;
+      const markPostIds = userRes.data[0].markPosts;
       const postRes = await post
         .where({
-          _id: _.in(postIds)
+          _id: _.in(markPostIds)
         })
         .field({
           tags: false,

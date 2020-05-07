@@ -7,6 +7,7 @@ const POST_MD_CHILD_MAX = 10;
 
 Page({
   data: {
+    id: '',
     info: {},
     md: {},
     child: [],
@@ -17,8 +18,11 @@ Page({
 
   onLoad (option) {
     const { id } = option || {}
-    this.id = id;
-    this.init();
+    this.setData({
+      id
+    }, () => {
+      this.init();
+    });
   },
 
   onReachBottom () {
@@ -229,7 +233,7 @@ Page({
       return;
     }
 
-    const res = await post.doc(this.id).get().catch(() => null);
+    const res = await post.doc(this.data.id).get().catch(() => null);
 
     if (!res || !res.data) {
       this.handleError();
