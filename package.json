@@ -1,6 +1,6 @@
 {
   "dependencies": {
     "weui-miniprogram": "^1.0.3",
-    "wx-server-sdk": "^2.0.1"
+    "wx-server-sdk": "^2.0.2"
   }
 }

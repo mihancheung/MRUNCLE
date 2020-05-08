@@ -1,13 +1,27 @@
 const cloud = require('wx-server-sdk');
 
-cloud.init();
+cloud.init({
+  env: cloud.DYNAMIC_CURRENT_ENV
+});
+
+const db = cloud.database();
+const loginInfo = db.collection('login-info');
 
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
-  const { OPENID: openId,  UNIONID: unionId} = wxContext;
+  const { OPENID: openId} = wxContext;
+
+  const res = await loginInfo.where({
+    openId
+  }).get().catch(() => null);
+
+  if (!res || !res.data || !res.data[0]) {
+    return {
+      userInfo: {}
+    }
+  }
 
   return {
-    openId,
-    unionId,
+    userInfo: res.data[0]
   };
 }

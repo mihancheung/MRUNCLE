@@ -34,8 +34,7 @@ Component({
 
   methods: {
     onTapArticle (e) {
-      const { currentTarget } = e || {};
-      const { dataset } = currentTarget || {}
+      const { dataset } = e.currentTarget
       const { id } = dataset || {};
 
       if (!id) return;

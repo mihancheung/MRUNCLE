@@ -50,38 +50,26 @@ Page({
     });
   },
 
-  handleCheckDoneAndLoading () {
+  handleCheckDone () {
     this.setData({
-      isLoading: true
+      isLoading: true,
     }, () => {
       this.setUserInfo();
     })
   },
 
   async setUserInfo () {
-    const reqUserInfo = wx.getUserInfo();
-    const reqUserOpenId = wx.cloud.callFunction({
+    const res = await wx.cloud.callFunction({
       name: 'getUserInfo',
     });
 
-    const userInfoRes = await reqUserInfo.catch(() => null);
-    const cloudRes = await reqUserOpenId.catch(() => null);
-
-    const { userInfo } = userInfoRes || {};
-    const { result } = cloudRes || {}
-
-    if (!userInfo || !result || !result.openId) {
-      this.setError();
-      return;
-    }
+    const { result } = res || {}
+    const { userInfo } = result || {}
 
     this.setData({
-      isLoading: false,
       isLogin: true,
-      userInfo: {
-        ...userInfo,
-        openId: result.openId,
-      }
+      isLoading: false,
+      userInfo
     });
   },
 
@@ -95,6 +83,6 @@ Page({
       return;
     }
 
-    this.handleCheckDoneAndLoading();
+    this.handleCheckDone();
   }
 });
