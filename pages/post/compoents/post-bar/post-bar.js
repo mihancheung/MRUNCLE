@@ -40,59 +40,27 @@ Component({
     },
 
     _init () {
-      this._checkIsMark();
-      this._getPostInfo();
+      this._checkPostAndUser();
     },
 
-    async _getOpenId () {
-      const reqUserOpenId = wx.cloud.callFunction({
-        name: 'getUserInfo',
-      });
+    async _checkPostAndUser () {
+      const res = await wx.cloud.callFunction({
+        name: 'checkPostAndUser',
+        data: {
+          postId: this.properties.postId
+        }
+      }).catch(() => null);
 
-      const cloudRes = await reqUserOpenId.catch(() => null);
-      const { result } = cloudRes || {}
+      if (!res || !res.result || !res.result.postInfo) return;
 
-      if (!result || !result.openId) {
-        return;
-      }
+      const { isMark, isLike, postInfo } = res.result;
 
-      this.openId = result.openId;
-      return result.openId
-    },
-
-    async _checkIsMark () {
-      const openId = await this._getOpenId();
-      if (!openId) return;
-
-      const isMarkRes = await user.where({
-        openId,
-        markPosts: _.elemMatch(_.eq(this.properties.postId))
-      }).get().catch(() => null);
-
-      if (!isMarkRes || !isMarkRes.data || isMarkRes.data.length === 0) return;
 
       this.setData({
-        isMark: true
-      });
-    },
-
-    async _getPostInfo () {
-      const res = await post.where({
-        _id: this.properties.postId
-      })
-      .field({
-        comments: true,
-        likes: true,
-        marks: true
-      })
-      .get()
-      .catch(() => null);
-
-      if (!res || !res.data) return;
-
-      this.setData({
-        postInfo: res.data[0],
-        isShow: true
+        isMark,
+        isLike,
+        postInfo,
+        isShow: true,
       });
     },
 
