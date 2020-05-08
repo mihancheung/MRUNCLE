@@ -13,22 +13,22 @@ exports.main = async (event, context) => {
   const { OPENID: openId } = wxContext;
   const { markPosts = [], likePosts = [], type = 'add', updateType } = event;
 
-  const add = (markArr) => {
+  const add = (addArr) => {
     return _.addToSet({
-      $each: markArr
+      $each: addArr
     });
   }
 
-  const cancle = (unmarkArr) => {
-    return _.pull(_.in(unmarkArr))
+  const cancel = (cancelArr) => {
+    return _.pull(_.in(cancelArr))
   }
 
   let res = await user.where({
     openId
   })[updateType || 'update']({
     data: {
-      markPosts: type === 'cancle' ? cancle(markPosts) : add(markPosts),
-      likePosts: type === 'cancle' ? cancle(likePosts) : add(likePosts),
+      markPosts: type === 'cancel' ? cancel(markPosts) : add(markPosts),
+      likePosts: type === 'cancel' ? cancel(likePosts) : add(likePosts),
     }
   }).catch(() => null);
 

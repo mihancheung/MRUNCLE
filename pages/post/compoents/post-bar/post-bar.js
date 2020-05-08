@@ -41,7 +41,6 @@ Component({
     },
 
     _markDone () {
-      console.log('done')
       const { isMark } = this.data;
 
       this._updateUserData({
