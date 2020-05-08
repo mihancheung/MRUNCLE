@@ -10,25 +10,25 @@ const _ = db.command;
 
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
-  const { OPENID: openId} = wxContext;
-  const { markPosts = [], likePosts = [], isMark } = event;
+  const { OPENID: openId } = wxContext;
+  const { markPosts = [], likePosts = [], type = 'add', updateType } = event;
 
-  const mark = (markArr) => {
+  const add = (markArr) => {
     return _.addToSet({
       $each: markArr
     });
   }
 
-  const unmark = (unmarkArr) => {
+  const cancle = (unmarkArr) => {
     return _.pull(_.in(unmarkArr))
   }
 
   let res = await user.where({
     openId
-  })[event.type || 'update']({
+  })[updateType || 'update']({
     data: {
-      markPosts: isMark ? unmark(markPosts) : mark(markPosts),
-      likePosts: isMark ? unmark(likePosts) : mark(likePosts),
+      markPosts: type === 'cancle' ? cancle(markPosts) : add(markPosts),
+      likePosts: type === 'cancle' ? cancle(likePosts) : add(likePosts),
     }
   }).catch(() => null);
 

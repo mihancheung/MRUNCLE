@@ -22,25 +22,51 @@ Component({
   lifetimes: {
     ready: function () {
       this._init();
-    },
-    
-    detached: function () {
-      console.log('detached')
     }
   },
 
   methods: {
     onTapMark () {
-      if (this.isHandlingMark) return;
-      this._updatePostMark();
+      if (this.isHandlingPost) return;
+      this._updatePostMarkOrLike('marks', 'mark');
     },
 
     onTapLike () {
-
+      if (this.isHandlingPost) return;
+      this._updatePostMarkOrLike('likes', 'like');
     },
 
     _init () {
       this._checkPostAndUser();
+    },
+
+    _markDone () {
+      console.log('done')
+      const { isMark } = this.data;
+
+      this._updateUserData({
+        type: !isMark ? 'cancel' : 'add',
+        markPosts: [this.properties.postId]
+      });
+
+      wx.showToast({
+        title: isMark ? '靚 POST 為你 MARK' : '已狠心將你揼',
+        icon: 'none'
+      });
+    },
+
+    _likeDone () {
+      const { isLike } = this.data;
+
+      this._updateUserData({
+        type: !isLike ? 'cancel' : 'add',
+        likePosts: [this.properties.postId]
+      });
+
+      wx.showToast({
+        title: isLike ? '點 Like 嘅都係好人' : '多謝你，我會繼續努力',
+        icon: 'none'
+      });
     },
 
     async _checkPostAndUser () {
@@ -73,7 +99,7 @@ Component({
       });
     },
 
-    async _updatePostData (updateData) {
+    async _updatePostMarkLikeData (updateData, actionType) {
       const res  = await wx.cloud.callFunction({
         name: 'updatePostInfo', 
         data: {
@@ -83,45 +109,53 @@ Component({
       }).catch(() => null);
 
       if (!res || !res.result || !res.result.postInfo) {
-        this.isHandlingMark = false;
+        this.isHandlingPost = false;
         wx.showToast({
-          title: '收藏似乎出現咗問題',
+          title: actionType === 'mark' ? 'Sorry，收藏失聯咗' : 'Sorry，點贊失聯咗',
           icon: 'none'
         });
         return
       }
 
+      const nextFlagKey = actionType === 'mark' ? 'isMark' : 'isLike';
+
       this.setData({
-        isMark: !this.data.isMark,
+        [nextFlagKey]: !this.data[nextFlagKey],
         postInfo: res.result.postInfo
       }, () => {
-        const { isMark } = this.data;
-        this.isHandlingMark = false;
-        wx.showToast({
-          title: isMark ? '靚 POST 為你 MARK' : '已狠心將你揼',
-          icon: 'none'
-        });
+        this.isHandlingPost = false;
+        switch (actionType) {
+          case 'mark':
+            this._markDone();
+            break;
+
+          case 'like':
+            this._likeDone();
+            break;
+        }
       });
 
     },
 
-    _updatePostMark () {
-      const { isMark, postInfo } = this.data;
-      let { marks } = postInfo || {};
-      if (typeof marks !== 'number') {
-        marks = 0;
+    _updatePostMarkOrLike (key, actionType) {
+      this.isHandlingPost = true;
+      const { isMark, isLike, postInfo } = this.data;
+      const isActionMap = {
+        mark: isMark,
+        like: isLike
       }
 
-      this.isHandlingMark = true;
+      let keyValue = postInfo[key];
 
-      this._updatePostData({
-        marks: isMark ? (marks - 1) : (marks + 1)
-      });
+      if (typeof keyValue !== 'number') {
+        keyValue = 0;
+      }
 
-      this._updateUserData({
-        isMark,
-        markPosts: [this.properties.postId]
-      });
-    }
+      const updateData = {
+        [key]: isActionMap[actionType] ? (keyValue - 1 < 0 ? 0 : keyValue - 1 ) : (keyValue + 1)
+      } 
+
+      this._updatePostMarkLikeData(updateData, actionType);
+    },
   }
 })
