@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
   const { userInfo } = event
   let isLogin = false;
 
-  const res = await loginInfo.add({
+  const res = await loginInfo.doc(openId).set({
     data: {
       ...userInfo,
       openId,

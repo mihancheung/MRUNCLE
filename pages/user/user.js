@@ -9,17 +9,37 @@ Page({
     markPage: 0
   },
 
-  onLoad () {
-    const pages = getCurrentPages();
-    const currentPage = pages[pages.length - 1];
-    this.route = `/${currentPage.route}`;
-  },
-
   onShow () {
     this.checkIsLogin();
   },
 
   onReachBottom () {},
+
+  async toLogout () {
+    const res = await wx.cloud.callFunction({
+      name: 'logout'
+    }).catch(() => null);
+
+    const { result } = res || {};
+    const { isLogout } = result || {};
+    app.isLogin = !isLogout;
+
+    if (res) {
+      wx.reLaunch({
+        url: '/pages/user/user'
+      });
+    }
+  },
+
+  onTapAvata () {
+    wx.showModal({
+      title: '是否退出登入？',
+      success: (res) => {
+        if (res.cancel) return;
+        this.toLogout();
+      }
+    });
+  },
 
   setError () {
     this.setData({
@@ -66,16 +86,9 @@ Page({
   async checkIsLogin () {
     if (this.data.userInfo) return;
 
-    const isLoginRes = await wx.cloud.callFunction({
-      name: 'isLogin'
-    }).catch(() => null);
-
-    const { result } = isLoginRes || {};
-    const { isLogin } = result || {};
-
-    if (!isLogin) {
+    if (!app.isLogin) {
       wx.navigateTo({
-        url: `/pages/login/login?path=${this.route}&tabbar=1`
+        url: `/pages/login/login`
       });
       return;
     }

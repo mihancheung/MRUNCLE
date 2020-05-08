@@ -4,7 +4,7 @@
 <view wx:if="{{isLogin}}" class="page_user">
   <view class="page_user_hd">
     <view class="page_user_info">
-      <image class="page_user_avata" src="{{userInfo.avatarUrl}}" />
+      <image class="page_user_avata" src="{{userInfo.avatarUrl}}" bind:tap="onTapAvata" />
       <text class="page_user_nickname">{{userInfo.nickName}}</text>
     </view>
     <view class="page_user_tab">

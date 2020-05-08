@@ -27,17 +27,35 @@ Component({
 
   methods: {
     onTapMark () {
+      if (!app.isLogin) {
+        this._jumpToLogin();
+        return;
+      }
+
       if (this.isHandlingPost) return;
       this._updatePostMarkOrLike('marks', 'mark');
     },
 
     onTapLike () {
+      if (!app.isLogin) {
+        this._jumpToLogin();
+        return;
+      }
+
       if (this.isHandlingPost) return;
       this._updatePostMarkOrLike('likes', 'like');
     },
 
     _init () {
       this._checkPostAndUser();
+    },
+
+    _jumpToLogin () {
+      const path = encodeURIComponent(`${this.route}?id=${this.properties.postId}`);
+      wx.navigateTo({
+        url: '/pages/login/login'
+      });
+      return;
     },
 
     _markDone () {

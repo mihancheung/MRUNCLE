@@ -5,22 +5,9 @@ Page({
     isLoging: false
   },
 
-  onLoad (option) {
-    const { path, tabbar } = option || {}
-    this.path = path;
-    this.isTabBar = tabbar;
-  },
-
   navigateTo () {
-    if (this.isTabBar) {
-      wx.switchTab({
-        url: this.path
-      });
-      return;
-    }
-
-    wx.redirectTo({
-      url: this.path
+    wx.navigateBack({
+      delta: 1
     });
   },
 
@@ -51,12 +38,20 @@ Page({
     const { result } = loginRes || {};
     const { isLogin } = result || {};
 
+    // 重新设置全局登录状态
+    app.isLogin = isLogin;
+
     if (!isLogin) {
       wx.showToast({
         title: 'Sorry，登入過程似乎出現咗問題',
         icon: 'none'
       });
       return;
+    } else {
+      wx.showToast({
+        title: '得米！成功登入',
+        icon: 'none'
+      });
     }
 
     this.navigateTo();
