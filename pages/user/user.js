@@ -15,7 +15,7 @@ Page({
 
   onReachBottom () {},
 
-  async toLogout () {
+  async _toLogout () {
     const res = await wx.cloud.callFunction({
       name: 'logout'
     }).catch(() => null);
@@ -32,11 +32,13 @@ Page({
   },
 
   onTapAvata () {
-    wx.showModal({
-      title: '是否退出登入？',
+    wx.showActionSheet({
+      itemList: ['退出登入'],
+      itemColor: '#232323',
       success: (res) => {
-        if (res.cancel) return;
-        this.toLogout();
+        if (res.tapIndex === 0) {
+          this._toLogout();
+        }
       }
     });
   },
