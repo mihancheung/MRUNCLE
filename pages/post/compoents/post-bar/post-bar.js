@@ -130,7 +130,7 @@ Component({
         const { isMark } = this.data;
         this.isHandlingMark = false;
         wx.showToast({
-          title: isMark ? '靚POST為你MARK~' : '忍痛取消咗收藏~',
+          title: isMark ? '靚 POST 為你 MARK' : '已狠心將你揼',
           icon: 'none'
         });
       });
