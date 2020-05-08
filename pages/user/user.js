@@ -98,7 +98,7 @@ Page({
 
     if (!app.isLogin) {
       wx.navigateTo({
-        url: `/pages/login/login`
+        url: `/pages/login/login?desc=查看我的主頁需要提供登入信息`
       });
       return;
     }

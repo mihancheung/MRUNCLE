@@ -2,7 +2,15 @@ const app = getApp();
 
 Page({
   data: {
-    isLoging: false
+    isLoging: false,
+    desc: ''
+  },
+
+  onLoad (option) {
+    const { desc } = option || {}
+    this.setData({
+      desc
+    });
   },
 
   navigateTo () {

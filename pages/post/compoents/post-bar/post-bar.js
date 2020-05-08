@@ -53,7 +53,7 @@ Component({
     _jumpToLogin () {
       const path = encodeURIComponent(`${this.route}?id=${this.properties.postId}`);
       wx.navigateTo({
-        url: '/pages/login/login'
+        url: '/pages/login/login?desc=你的認可或批評需要你的登入記錄'
       });
       return;
     },
