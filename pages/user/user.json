@@ -2,5 +2,7 @@
   "usingComponents": {
     "marklist": "./components/marklist/marklist"
   },
-  "backgroundColor": "#f7f7f7"
+  "backgroundColor": "#f7f7f7",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
 }

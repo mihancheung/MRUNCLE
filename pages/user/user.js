@@ -13,7 +13,27 @@ Page({
     this.checkIsLogin();
   },
 
+  onPullDownRefresh () {
+    this.reloadPage();
+  },
+
   onReachBottom () {},
+
+  reloadPage () {
+    this.resetPage(this.init);
+  },
+
+  resetPage (cb) {
+    this.setData({
+      isLogin: false,
+      userInfo: null,
+      isError: false,
+      isLoading: false,
+    }, () => {
+      wx.stopPullDownRefresh();
+      this.checkIsLogin();
+    });
+  },
 
   async _toLogout () {
     const res = await wx.cloud.callFunction({
