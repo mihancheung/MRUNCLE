@@ -66,8 +66,14 @@ Page({
   async checkIsLogin () {
     if (this.data.userInfo) return;
 
-    const res = await wx.getSetting();
-    if (!res.authSetting['scope.userInfo']) {
+    const isLoginRes = await wx.cloud.callFunction({
+      name: 'isLogin'
+    }).catch(() => null);
+
+    const { result } = isLoginRes || {};
+    const { isLogin } = result || {};
+
+    if (!isLogin) {
       wx.navigateTo({
         url: `/pages/login/login?path=${this.route}&tabbar=1`
       });

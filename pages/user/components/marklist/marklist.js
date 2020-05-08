@@ -53,7 +53,7 @@ Component({
       .get()
       .catch(() => null);
 
-      if (!userRes || !userRes.data) return;
+      if (!userRes || !userRes.data || !userRes.data[0] ) return;
 
       const markPostIds = userRes.data[0].markPosts;
       const postRes = await post

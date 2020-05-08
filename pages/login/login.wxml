@@ -2,5 +2,5 @@
   <custom-nav />
   <image class="gb_login_icon" mode="heightFix" src="/image/login.svg" />
   <text class="gb_login_desc">查看我的主頁需要提供登入信息</text>
-  <button class="gb_login_btn" open-type="getUserInfo" bindgetuserinfo="login">登入</button>
+  <button class="gb_login_btn" open-type="getUserInfo" bindgetuserinfo="login">{{isLoging ? '登入中..' : '登入'}}</button>
 </view>
