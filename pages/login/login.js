@@ -55,11 +55,6 @@ Page({
         icon: 'none'
       });
       return;
-    } else {
-      wx.showToast({
-        title: '得米！成功登入',
-        icon: 'none'
-      });
     }
 
     this.navigateTo();
