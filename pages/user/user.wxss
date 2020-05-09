@@ -57,7 +57,40 @@ page {
 }
 
 .page_user_content {
+  position: relative;
+  min-height: calc(100vh - 592rpx);
   background: #ffffff;
   margin: 44rpx 44rpx 0;
   box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, .1);
+}
+
+.page_user_msg {
+
+}
+
+.page_user_mark {
+
+}
+
+.page_user_empty {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page_user_empty_icon {
+  height: 20%;
+  opacity: .3;
+}
+
+.page_user_empty_txt {
+  margin: 40rpx 0 0;
+  color: #999999;
+  opacity: .3;
 }

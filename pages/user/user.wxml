@@ -29,6 +29,11 @@ module.exports = {
       <marklist markPage="{{markPage}}" wx:if="{{isInitMarkTab}}" openId="{{userInfo.openId}}" />
     </view>
 
-    <view class="page_user_msg" hidden="{{tab !== 'msg'}}"></view>
+    <view class="page_user_msg" hidden="{{tab !== 'msg'}}">
+      <view class="page_user_empty">
+        <image class="page_user_empty_icon" src="/image/pages/user/comment_empty.svg" mode="heightFix" />
+        <text class="page_user_empty_txt">仲未收到任何評論</text>
+      </view>
+    </view>
   </view>
 </view>

@@ -1,4 +1,4 @@
-<view class="mark">
+<view class="mark" wx:if="{{!isShowEmpty}}">
   <block class="mark_item" wx:for="{{list}}" wx:for-item="listItem" wx:key="index">
     <view class="mark_item" wx:for="{{listItem}}" wx:key="_id" data-id="{{item._id}}" bind:tap="onTapArticle">
       <text class="mark_item_title">{{item.title}}</text>
@@ -6,4 +6,9 @@
       <image class="mark_item_img" mode="aspectFill" src="{{item.poster}}" />
     </view>
   </block>
+</view>
+
+<view class="page_user_empty" wx:if="{{isShowEmpty}}">
+  <image class="page_user_empty_icon" src="/image/pages/user/mark_empty.svg" mode="heightFix" />
+  <text class="page_user_empty_txt">仲未 Mark 有文章</text>
 </view>
