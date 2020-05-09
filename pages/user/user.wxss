@@ -63,14 +63,6 @@ page {
   box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, .1);
 }
 
-.page_user_msg {
-
-}
-
-.page_user_mark {
-
-}
-
 .page_user_empty {
   min-height: calc(100vh - 592rpx);
   display: flex;

@@ -19,7 +19,9 @@ Page({
     this._resetPage(this._init);
   },
 
-  onReachBottom () {},
+  onReachBottom () {
+    this.cmtMarkList && typeof this.cmtMarkList.onReachBottom === 'function' && this.cmtMarkList.onReachBottom();
+  },
 
   onTapAvata () {
     wx.showActionSheet({
@@ -41,6 +43,10 @@ Page({
     this.setData({
       tab: e.currentTarget.dataset.tab,
       ...isInitMarkTab,
+    }, () => {
+      if (this.data.tab === 'mark') {
+        this.cmtMarkList = this.selectComponent('#marklist');
+      }
     });
   },
 

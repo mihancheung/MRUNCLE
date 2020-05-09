@@ -40,6 +40,11 @@ Component({
       });
     },
 
+    onReachBottom () {
+      if (this._isGettingData || this.data.list.length * MAX_MARK_LIST >= this.total) return;
+      this._getData();
+    },
+
     _setListEmpty () {
       this.setData({
         isShowEmpty: true,
@@ -54,6 +59,7 @@ Component({
     },
 
     async _getData () {
+      this._isGettingData = true
       const res = await wx.cloud.callFunction({
         name: 'getUserMarkList',
         data: {
@@ -62,12 +68,18 @@ Component({
         }
       }).catch(() => null);
 
+      this._isGettingData = false
+
       const { result } = res || {};
       const { userMarkList, total } = result || {}
       this.total = typeof this.total !== 'number' ? total : this.total;
 
       if (this.total === 0) {
         this._setListEmpty();
+        return;
+      }
+
+      if (!userMarkList || userMarkList.length === 0) {
         return;
       }
 
@@ -83,6 +95,12 @@ Component({
 
       this.setData({
         [`list[${this.data.list.length}]`]: nextList
+      }, () => {
+        if (this.data.list.length * MAX_MARK_LIST >= this.total) {
+          this.setData({
+            isLoading: false
+          });
+        }
       });
     }
   }
