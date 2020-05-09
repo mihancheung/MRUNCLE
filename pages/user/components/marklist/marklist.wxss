@@ -1,3 +1,5 @@
+@import '/tpls/loading/loading.wxss';
+
 .mark {
   padding: 0 40rpx;
 }
@@ -45,11 +47,7 @@
 }
 
 .page_user_empty {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  min-height: calc(100vh - 592rpx);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -57,12 +55,16 @@
 }
 
 .page_user_empty_icon {
-  height: 20%;
-  opacity: .3;
+  height: 104rpx;
 }
 
 .page_user_empty_txt {
   margin: 40rpx 0 0;
   color: #999999;
-  opacity: .3;
+}
+
+
+.mark .tpl_loading {
+  position: static;
+  height: 230rpx;
 }

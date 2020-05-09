@@ -7,6 +7,7 @@ cloud.init({
 const db = cloud.database();
 const user = db.collection('user');
 const post = db.collection('post');
+const _ = db.command;
 
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
@@ -18,16 +19,20 @@ exports.main = async (event, context) => {
       type: 'desc'
     },
     field = {
-      tags: false,
-      mdFileId: false,
+      title: true,
+      poster: true,
+      date: true,
     },
     skip = 0,
-    total,
-  } = event
+  } = event;
 
   const getMarkPostIds = async () => {
     const userRes = await user.where({
-      openId: openId
+      openId
+    })
+    .field({
+      likePosts: false,
+      openId: false
     })
     .get()
     .catch(() => null);
@@ -39,9 +44,9 @@ exports.main = async (event, context) => {
     return userRes.data[0].markPosts || [];
   }
 
-  const markPostIds = total || (await getMarkPostIds());
-
-  const userPostInfoRes = await post
+  const markPostIds = await getMarkPostIds();
+  console.log('markPostIds', markPostIds)
+  const userMarkListRes = await post
     .where({
       _id: _.in(markPostIds)
     })
@@ -52,15 +57,15 @@ exports.main = async (event, context) => {
     .get()
     .catch(() => null);
 
-  if (!userPostInfoRes || !userPostInfoRes.data || userPostInfoRes.data.length === 0) {
+  if (!userMarkListRes || !userMarkListRes.data || userMarkListRes.data.length === 0) {
     return {
-      userPostInfo: [],
-      markPostTotal: markPostIds.length,
+      userMarkList: [],
+      total: 0,
     }
   }
 
   return {
-    userPostInfo: userPostInfoRes.data,
-    markPostTotal: markPostIds.length,
+    userMarkList: userMarkListRes.data,
+    total: markPostIds.length,
   }
 }

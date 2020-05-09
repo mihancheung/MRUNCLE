@@ -57,8 +57,9 @@
   position: absolute;
   left: 100%;
   top: -10rpx;
+  margin-left: -5rpx;
   font-size: 24rpx;
-  color: #999999;
+  color: #232323;
 }
 
 .post_bar_tool_on .post_bar_tool_item_txt {

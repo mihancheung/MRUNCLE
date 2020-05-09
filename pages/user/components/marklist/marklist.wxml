@@ -1,3 +1,5 @@
+<import src="/tpls/loading/loading.wxml" />
+
 <view class="mark" wx:if="{{!isShowEmpty}}">
   <block class="mark_item" wx:for="{{list}}" wx:for-item="listItem" wx:key="index">
     <view class="mark_item" wx:for="{{listItem}}" wx:key="_id" data-id="{{item._id}}" bind:tap="onTapArticle">
@@ -6,6 +8,8 @@
       <image class="mark_item_img" mode="aspectFill" src="{{item.poster}}" />
     </view>
   </block>
+
+  <template is="loading" data="{{ isLoading, loadingText: '撈緊喇大佬🤦🏻‍♂️', isNoShowImage: true }}" />
 </view>
 
 <view class="page_user_empty" wx:if="{{isShowEmpty}}">

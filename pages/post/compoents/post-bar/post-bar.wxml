@@ -10,7 +10,7 @@
       <image class="post_bar_tool_image" src="/image/components/post-bar/{{ isMark ? 'stared' : 'star'}}.svg" mode="heightFix" />
       <text class="post_bar_tool_item_txt">{{postInfo.marks || 0}}</text>
     </view>
-    <view class="post_bar_tool{{likes ? ' post_bar_tool_on' : ''}}" bind:tap="onTapLike">
+    <view class="post_bar_tool{{isLike ? ' post_bar_tool_on' : ''}}" bind:tap="onTapLike">
       <image class="post_bar_tool_image" src="/image/components/post-bar/{{ isLike ? 'liked' : 'like'}}.svg" mode="heightFix" />
       <text class="post_bar_tool_item_txt">{{postInfo.likes || 0}}</text>
     </view>

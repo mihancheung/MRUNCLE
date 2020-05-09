@@ -26,7 +26,7 @@ module.exports = {
 
   <view class="page_user_content">
     <view class="page_user_mark" hidden="{{tab !== 'mark'}}">
-      <marklist markPage="{{markPage}}" wx:if="{{isInitMarkTab}}" openId="{{userInfo.openId}}" />
+      <marklist wx:if="{{isInitMarkTab}}" />
     </view>
 
     <view class="page_user_msg" hidden="{{tab !== 'msg'}}">

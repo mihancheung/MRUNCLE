@@ -5,15 +5,10 @@ const db = wx.cloud.database();
 const post = db.collection('post');
 const user = db.collection('user');
 const _ = db.command;
-const ARTICLE_MAX = 10;
+const MAX_MARK_LIST = 10;
 
 Component({
   properties: {
-    openId: {
-      type: String,
-      value: '',
-    },
-
     markPage: {
       type: Number,
       value: 0,
@@ -45,6 +40,13 @@ Component({
       });
     },
 
+    _setListEmpty () {
+      this.setData({
+        isShowEmpty: true,
+        isLoading: false
+      });
+    },
+
     async getPostLength () {
       const res = await post.count();
       if (!res || typeof res.total !== 'number') return;
@@ -52,42 +54,25 @@ Component({
     },
 
     async _getData () {
-      const openId = this.properties.openId
-      if (!openId) return;
-      const userRes = await user.where({
-        openId: openId
-      })
-      .get()
-      .catch(() => null);
+      const res = await wx.cloud.callFunction({
+        name: 'getUserMarkList',
+        data: {
+          maxMarksLength: MAX_MARK_LIST,
+          skip: this.data.list.length * MAX_MARK_LIST,
+        }
+      }).catch(() => null);
 
-      if (!userRes || !userRes.data || !userRes.data[0] ) return;
+      const { result } = res || {};
+      const { userMarkList, total } = result || {}
+      this.total = typeof this.total !== 'number' ? total : this.total;
 
-      const markPostIds = userRes.data[0].markPosts;
-      this.marksLength = markPostIds.length;
-      
-      if (this.marksLength === 0) {
-        this.setData({
-          isShowEmpty: true
-        });
+      if (this.total === 0) {
+        this._setListEmpty();
         return;
-      };
+      }
 
-      const postRes = await post
-        .where({
-          _id: _.in(markPostIds)
-        })
-        .field({
-          tags: false,
-          mdFileId: false,
-        })
-        .orderBy('date', 'desc')
-        .limit(10)
-        .get()
-        .catch(() => null);
 
-      if (!postRes || !postRes.data || postRes.data.length === 0) return;
-
-      const nextList = postRes.data.map((item) => {
+      const nextList = userMarkList.map((item) => {
         const formatItem = formatePostData(item);
         delete formatItem.author;
         delete formatItem.avata;
