@@ -9,7 +9,7 @@ page {
 .page_user_hd {
   background: #202020;
   color: #ffffff;
-  padding-bottom: 40rpx;
+  padding-bottom: 20rpx;
 }
 
 .page_user_info {
@@ -17,7 +17,7 @@ page {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 420rpx;
+  height: 400rpx;
 }
 
 .page_user_avata {
@@ -38,6 +38,7 @@ page {
   flex: 1;
   text-align: center;
   font-size: 28rpx;
+  padding: 20rpx 0;
 }
 
 .page_user_tab_line {
@@ -49,6 +50,10 @@ page {
   width: 2rpx;
   overflow: hidden;
   background: #ffffff;
+}
+
+.page_user_tab_item_on {
+  color: #ee0d25;
 }
 
 .page_user_content {

@@ -1,5 +1,15 @@
 <import src="/tpls/loading/loading.wxml" />
 
+<wxs module="users">
+var getTabCls = function (flag, tab) {
+  return flag === tab ? 'page_user_tab_item page_user_tab_item_on' : 'page_user_tab_item'
+}
+
+module.exports = {
+  getTabCls: getTabCls
+}
+</wxs>
+
 <template is="loading" data="{{ isLoading }}" />
 <view wx:if="{{isLogin}}" class="page_user">
   <view class="page_user_hd">
@@ -8,17 +18,17 @@
       <text class="page_user_nickname">{{userInfo.nickName}}</text>
     </view>
     <view class="page_user_tab">
-      <text class="page_user_tab_item">消息</text>
+      <text class="{{users.getTabCls('msg', tab)}}" data-tab="msg" bind:tap="onTapTab">消息</text>
       <view class="page_user_tab_line"></view>
-      <text class="page_user_tab_item">收藏</text>
+      <text class="{{users.getTabCls('mark', tab)}}" data-tab="mark" bind:tap="onTapTab">收藏</text>
     </view>
   </view>
 
   <view class="page_user_content">
-    <view class="page_user_mark">
-      <marklist markPage="{{markPage}}" openId="{{userInfo.openId}}" />
+    <view class="page_user_mark" hidden="{{tab !== 'mark'}}">
+      <marklist markPage="{{markPage}}" wx:if="{{isInitMarkTab}}" openId="{{userInfo.openId}}" />
     </view>
 
-    <view class="page_user_msg"></view>
+    <view class="page_user_msg" hidden="{{tab !== 'msg'}}"></view>
   </view>
 </view>

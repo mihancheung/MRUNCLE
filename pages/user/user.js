@@ -2,36 +2,82 @@ const app = getApp();
 
 Page({
   data: {
+    tab: 'msg',
     isLogin: false,
     userInfo: null,
     isError: false,
-    isLoading: false,
-    markPage: 0
+    isLoading: true,
+    markPage: 0,
+    isInitMarkTab: false,
   },
 
   onShow () {
-    this.checkIsLogin();
+    this._init();
   },
 
   onPullDownRefresh () {
-    this.reloadPage();
+    this._resetPage(this._init);
   },
 
   onReachBottom () {},
 
-  reloadPage () {
-    this.resetPage(this.init);
+  onTapAvata () {
+    wx.showActionSheet({
+      itemList: ['退出登入'],
+      itemColor: '#232323',
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          this._toLogout();
+        }
+      }
+    });
   },
 
-  resetPage (cb) {
+  onTapTab (e) {
+    let isInitMarkTab = {};
+    if (!this.data.isInitMarkTab) {
+      isInitMarkTab.isInitMarkTab = true;
+    }
     this.setData({
+      tab: e.currentTarget.dataset.tab,
+      ...isInitMarkTab,
+    });
+  },
+
+  async _init () {
+    if (this.data.userInfo) return;
+
+    if (app.isLogin) {
+      this._setUserInfo();
+      return;
+    }
+
+    const res = await wx.cloud.callFunction({
+      name: 'isLogin'
+    }).catch(() => null);
+
+    if (!res || !res.result.isLogin) {
+      wx.navigateTo({
+        url: `/pages/login/login?desc=查看我的主頁需要提供登入信息`
+      });
+      return;
+    }
+
+    this._setUserInfo();
+  },
+
+  _resetPage (cb) {
+    this.setData({
+      tab: 'msg',
       isLogin: false,
       userInfo: null,
       isError: false,
-      isLoading: false,
+      isLoading: true,
+      markPage: 0,
+      isInitMarkTab: false,
     }, () => {
       wx.stopPullDownRefresh();
-      this.checkIsLogin();
+      typeof cb === 'function' && cb();
     });
   },
 
@@ -51,34 +97,14 @@ Page({
     }
   },
 
-  onTapAvata () {
-    wx.showActionSheet({
-      itemList: ['退出登入'],
-      itemColor: '#232323',
-      success: (res) => {
-        if (res.tapIndex === 0) {
-          this._toLogout();
-        }
-      }
-    });
-  },
-
-  setError () {
+  _setError () {
     this.setData({
       isError: false,
       isLoading: false,
     });
   },
 
-  handleCheckDone () {
-    this.setData({
-      isLoading: true,
-    }, () => {
-      this.setUserInfo();
-    })
-  },
-
-  async setUserInfo () {
+  async _setUserInfo () {
     const res = await wx.cloud.callFunction({
       name: 'getUserInfo',
     });
@@ -91,18 +117,5 @@ Page({
       isLoading: false,
       userInfo
     });
-  },
-
-  async checkIsLogin () {
-    if (this.data.userInfo) return;
-
-    if (!app.isLogin) {
-      wx.navigateTo({
-        url: `/pages/login/login?desc=查看我的主頁需要提供登入信息`
-      });
-      return;
-    }
-
-    this.handleCheckDone();
   }
 });
