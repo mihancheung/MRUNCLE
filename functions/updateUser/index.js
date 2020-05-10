@@ -11,18 +11,12 @@ const _ = db.command;
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const { OPENID: openId } = wxContext;
-  const { markPosts = [], likePosts = [], type = 'add' } = event;
-  let marksTotal = 0;
+  const { type = 'add', postIds, key } = event;
 
   // 查詢是否存用戶記錄是否存在
   const isExistRes = await user.where({
     openId
   }).get().catch(() => null);
-
-  // 記錄當前mark總數
-  if (isExistRes) {
-    marksTotal = isExistRes.data && isExistRes.data[0] && isExistRes.data[0].markPosts.length;
-  }
 
   const add = (addArr) => {
     return _.addToSet({
@@ -40,8 +34,7 @@ exports.main = async (event, context) => {
   if (isExistRes.data.length === 0) {
     updateReq = user.add({
       data: {
-        markPosts,
-        likePosts,
+        [key]: postIds,
         openId,
       }
     });
@@ -50,8 +43,7 @@ exports.main = async (event, context) => {
       openId
     }).update({
       data: {
-        markPosts: type === 'cancel' ? cancel(markPosts) : add(markPosts),
-        likePosts: type === 'cancel' ? cancel(likePosts) : add(likePosts),
+        [key]: type === 'cancel' ? cancel(postIds) : add(postIds),
         openId,
       }
     });
@@ -73,14 +65,7 @@ exports.main = async (event, context) => {
     }
   }
 
-  if (type === 'cancel') {
-    marksTotal = marksTotal > 0 && (marksTotal - 1);
-  } else {
-    marksTotal += 1;
-  }
-
   return {
-    marksTotal,
     res,
   };
 }

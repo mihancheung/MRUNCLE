@@ -73,8 +73,20 @@ Component({
 
       this._updateUserData({
         type: !isMark ? 'cancel' : 'add',
-        markPosts: [this.properties.postId]
+        postIds: [this.properties.postId],
+        key: 'markPosts'
       });
+
+      // 每次更新收藏操作，改變全局收藏總數
+      if (typeof app.markTotal !== 'number') {
+        app.markTotal = 1
+      } else {
+        app.markTotal = isMark ? (app.markTotal + 1) : (app.markTotal - 1);
+      };
+
+      if (app.markTotal < 0) {
+        app.markTotal = 0;
+      }
 
       wx.showToast({
         title: isMark ? '靚 POST 為你 MARK' : '已狠心將你揼',
@@ -87,7 +99,8 @@ Component({
 
       this._updateUserData({
         type: !isLike ? 'cancel' : 'add',
-        likePosts: [this.properties.postId]
+        postIds: [this.properties.postId],
+        key: 'likePosts'
       });
 
       wx.showToast({
@@ -124,13 +137,6 @@ Component({
           ...updateData,
         }
       });
-
-      const { result } = res || {};
-      const { marksTotal } = result || {};
-
-      // 每次更新收藏操作，改變全局收藏總數
-      if (typeof marksTotal !== 'number') return;
-      app.markTotal = marksTotal;
     },
 
     async _updatePostMarkLikeData (updateData, actionType) {

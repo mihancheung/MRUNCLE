@@ -1,7 +1,7 @@
 import { formatePostData } from '../../../../utils/index';
 
 const app = getApp();
-const MAX_MARK_LIST = 8;
+const MAX_MARK_LIST = 10;
 
 Component({
   properties: {
@@ -120,14 +120,11 @@ Component({
         return formatItem;
       });
 
+      const nextListLengt = this.data.list.length * MAX_MARK_LIST + MAX_MARK_LIST
+
       this.setData({
-        [`list[${this.data.list.length}]`]: nextList
-      }, () => {
-        if (this.data.list.length * MAX_MARK_LIST >= this.total) {
-          this.setData({
-            isLoading: false
-          });
-        }
+        [`list[${this.data.list.length}]`]: nextList,
+        isLoading: nextListLengt < this.total
       });
     }
   }
