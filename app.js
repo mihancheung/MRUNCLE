@@ -32,6 +32,14 @@ App({
     }.bind(this));
   },
 
+  showNoNetworkToast () {
+    wx.showToast({
+      title: '大禍，你嘅網絡 off 咗',
+      icon: 'none',
+      duration: 2500
+    });
+  },
+
   wxRequire (opt) {
     return new Promise((resolve, reject) => {
       wx.request({

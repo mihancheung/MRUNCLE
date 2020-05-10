@@ -16,6 +16,12 @@ Page({
   },
 
   onPullDownRefresh () {
+    if (!app.isConnected) {
+      wx.stopPullDownRefresh();
+      this._setError();
+      return;
+    }
+
     this._resetPage(this._init);
   },
 
@@ -50,8 +56,20 @@ Page({
     });
   },
 
+  onErrorReload () {
+    if (!app.isConnected) {
+      return;
+    }
+    this._resetPage(this._init);
+  },
+
   async _init () {
     if (this.data.userInfo) return;
+
+    if (!app.isConnected) {
+      this._setError();
+      return;
+    }
 
     if (app.isLogin) {
       this._setUserInfo();
@@ -105,7 +123,7 @@ Page({
 
   _setError () {
     this.setData({
-      isError: false,
+      isError: true,
       isLoading: false,
     });
   },

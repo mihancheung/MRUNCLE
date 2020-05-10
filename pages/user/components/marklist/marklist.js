@@ -1,7 +1,7 @@
 import { formatePostData } from '../../../../utils/index';
 
 const app = getApp();
-const MAX_MARK_LIST = 10;
+const MAX_MARK_LIST = 8;
 
 Component({
   properties: {
@@ -75,6 +75,11 @@ Component({
     },
 
     async _getData () {
+      if (!app.isConnected) {
+        app.showNoNetworkToast();
+        return;
+      }
+
       this._isGettingData = true
       const res = await wx.cloud.callFunction({
         name: 'getUserMarkList',

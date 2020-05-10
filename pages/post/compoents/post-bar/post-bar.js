@@ -27,6 +27,11 @@ Component({
 
   methods: {
     onTapMark () {
+      if (!app.isConnected) {
+        app.showNoNetworkToast();
+        return;
+      }
+
       if (!app.isLogin) {
         this._jumpToLogin();
         return;
@@ -37,6 +42,11 @@ Component({
     },
 
     onTapLike () {
+      if (!app.isConnected) {
+        app.showNoNetworkToast();
+        return;
+      }
+
       if (!app.isLogin) {
         this._jumpToLogin();
         return;

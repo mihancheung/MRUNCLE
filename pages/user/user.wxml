@@ -37,3 +37,8 @@ module.exports = {
     </view>
   </view>
 </view>
+
+<error
+  wx:if="{{isError}}"
+  bindtapReload="onErrorReload"
+/>
