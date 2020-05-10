@@ -114,6 +114,13 @@ Component({
           ...updateData,
         }
       });
+
+      const { result } = res || {};
+      const { marksTotal } = result || {};
+
+      // 每次更新收藏操作，改變全局收藏總數
+      if (typeof marksTotal !== 'number') return;
+      app.markTotal = marksTotal;
     },
 
     async _updatePostMarkLikeData (updateData, actionType) {

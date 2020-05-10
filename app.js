@@ -7,7 +7,7 @@ App({
     });
 
     this.watchNetworkStatus();
-    this.setIsLogin();
+    this._setIsLogin();
   },
 
   cdnBase: config.cdnBase,
@@ -16,7 +16,7 @@ App({
   towxml:require('/towxml/index'),
   isConnected: true,
 
-  async setIsLogin () {
+  async _setIsLogin () {
     const isLoginRes = await wx.cloud.callFunction({
       name: 'isLogin'
     }).catch(() => null);

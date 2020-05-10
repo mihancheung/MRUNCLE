@@ -45,7 +45,7 @@ exports.main = async (event, context) => {
   }
 
   const markPostIds = await getMarkPostIds();
-  console.log('markPostIds', markPostIds)
+
   const userMarkListRes = await post
     .where({
       _id: _.in(markPostIds)
