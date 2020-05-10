@@ -1,3 +1,25 @@
+<wxs module="postBar">
+  var nums = function (num) {
+    if (num >= 1000 && num < 10000) {
+      num = Math.floor((num / 1000) * 100) / 100  + 'k'
+    }
+
+    if (num >= 10000 && num < 1000000) {
+      num = Math.floor((num / 10000) * 10) / 10 + '萬'
+    }
+
+    if (num >= 1000000 && num < 1000000000) {
+      num = parseInt(num / 10000000) + '千萬'
+    }
+
+    return num;
+  };
+
+  module.exports = {
+    nums: nums
+  }
+</wxs>
+
 <view class="post_bar{{isShow ? ' post_bar_show' : ''}}">
 
   <view class="post_bar_main">
@@ -8,7 +30,7 @@
     </view>
     <view class="post_bar_tool{{isMark ? ' post_bar_tool_on' : ''}}" bind:tap="onTapMark">
       <image class="post_bar_tool_image" src="/image/components/post-bar/{{ isMark ? 'stared' : 'star'}}.svg" mode="heightFix" />
-      <text class="post_bar_tool_item_txt">{{postInfo.marks || 0}}</text>
+      <text class="post_bar_tool_item_txt">{{postBar.nums(postInfo.marks) || 0}}</text>
     </view>
     <view class="post_bar_tool{{isLike ? ' post_bar_tool_on' : ''}}" bind:tap="onTapLike">
       <image class="post_bar_tool_image" src="/image/components/post-bar/{{ isLike ? 'liked' : 'like'}}.svg" mode="heightFix" />

@@ -38,7 +38,14 @@ Component({
       }
 
       if (this.isHandlingPost) return;
-      this._updatePostMarkOrLike('marks', 'mark');
+
+      this.setData({
+        isMark: !this.data.isMark
+      }, () => {
+        this._updatePostMarkOrLike('marks', 'mark');
+      });
+
+      // this._updatePostMarkOrLike('marks', 'mark');
     },
 
     onTapLike () {
@@ -53,7 +60,12 @@ Component({
       }
 
       if (this.isHandlingPost) return;
-      this._updatePostMarkOrLike('likes', 'like');
+
+      this.setData({
+        isLike: !this.data.isLike
+      }, () => {
+        this._updatePostMarkOrLike('likes', 'like');
+      });
     },
 
     _init () {
@@ -148,8 +160,17 @@ Component({
         }
       }).catch(() => null);
 
+      const nextFlagKey = actionType === 'mark' ? 'isMark' : 'isLike';
+
+      // 異常
       if (!res || !res.result || !res.result.postInfo) {
         this.isHandlingPost = false;
+
+        // 重置
+        this.setData({
+          [nextFlagKey]: !this.data[nextFlagKey],
+        });
+
         wx.showToast({
           title: actionType === 'mark' ? 'Sorry，收藏失聯咗' : 'Sorry，點贊失聯咗',
           icon: 'none'
@@ -157,10 +178,7 @@ Component({
         return
       }
 
-      const nextFlagKey = actionType === 'mark' ? 'isMark' : 'isLike';
-
       this.setData({
-        [nextFlagKey]: !this.data[nextFlagKey],
         postInfo: res.result.postInfo
       }, () => {
         this.isHandlingPost = false;
@@ -192,7 +210,7 @@ Component({
       }
 
       const updateData = {
-        [key]: isActionMap[actionType] ? (keyValue - 1 < 0 ? 0 : keyValue - 1 ) : (keyValue + 1)
+        [key]: isActionMap[actionType] ? (keyValue + 1) : (keyValue - 1 < 0 ? 0 : keyValue - 1 ) 
       } 
 
       this._updatePostMarkLikeData(updateData, actionType);

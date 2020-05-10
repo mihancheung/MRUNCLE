@@ -40,9 +40,8 @@
 
 .post_bar_tool {
   position: relative;
-  height: 60rpx;
-  width: 60rpx;
-  margin: 0 10rpx;
+  height: 80rpx;
+  width: 80rpx;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,10 +55,11 @@
 .post_bar_tool_item_txt {
   position: absolute;
   left: 100%;
-  top: -10rpx;
-  margin-left: -5rpx;
+  top: -5rpx;
+  margin-left: -15rpx;
   font-size: 24rpx;
   color: #232323;
+  white-space: nowrap;
 }
 
 .post_bar_tool_on .post_bar_tool_item_txt {
