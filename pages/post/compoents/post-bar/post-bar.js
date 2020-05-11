@@ -133,7 +133,6 @@ Component({
 
       const { isMark, isLike, postInfo } = res.result;
 
-
       this.setData({
         isMark,
         isLike,
