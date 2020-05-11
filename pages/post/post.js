@@ -48,6 +48,13 @@ Page({
     this.reloadPage();
   },
 
+  onShareAppMessage () {
+    return {
+      title: this.data.info.title,
+      imageUrl: this.data.info.poster
+    }
+  },
+
   init () {
     this.postImages = [];
     this.isPostTowxml = false;

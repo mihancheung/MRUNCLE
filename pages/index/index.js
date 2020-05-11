@@ -30,6 +30,13 @@ Page({
     this.getPostList();
   },
 
+  onShareAppMessage () {
+    return {
+      title: '一位混跡於互聯網多年噶佚名卒仔',
+      imageUrl: '/image/share/post.png'
+    }
+  },
+
   errorReload () {
     this.reloadPage();
   },

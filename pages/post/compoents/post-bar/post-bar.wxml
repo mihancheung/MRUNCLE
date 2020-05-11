@@ -45,6 +45,7 @@
       <text class="post_bar_tool_item_txt">{{postInfo.likes || 0}}</text>
     </view>
     <view class="post_bar_tool">
+      <button open-type="share" class="post_bar_tool_sharebtn"></button>
       <image class="post_bar_tool_image" src="/image/components/post-bar/share.svg" mode="heightFix" />
     </view>
   </view>
