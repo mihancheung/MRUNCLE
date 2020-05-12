@@ -12,7 +12,18 @@ Component({
   },
 
   data: {
-    statusBarHeigth: wx.getSystemInfoSync().statusBarHeight
+    statusBarHeigth: wx.getSystemInfoSync().statusBarHeight,
+    isShowBack: true,
+  },
+
+  lifetimes: {
+    attached () {
+      if (getCurrentPages().length === 1) {
+        this.setData({
+          isShowBack: false
+        });
+      }
+    }
   },
 
   methods: {

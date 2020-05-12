@@ -7,6 +7,7 @@
   padding: 0 0 0 7px;
   z-index: 3000;
   margin: 5px 0 0;
+  display: flex;
 }
 
 .btns_box {
@@ -38,4 +39,12 @@
 .back_icon, .home_icon {
   width: 17px;
   height: 17px;
+}
+
+.custom_nav_noback .btns_box {
+  width: auto;
+}
+
+.custom_nav_noback .icon_box {
+  width: 30px;
 }
