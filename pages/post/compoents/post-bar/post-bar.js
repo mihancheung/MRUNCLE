@@ -44,8 +44,6 @@ Component({
       }, () => {
         this._updatePostMarkOrLike('marks', 'mark');
       });
-
-      // this._updatePostMarkOrLike('marks', 'mark');
     },
 
     onTapLike () {
@@ -89,16 +87,8 @@ Component({
         key: 'markPosts'
       });
 
-      // 每次更新收藏操作，改變全局收藏總數
-      if (typeof app.markTotal !== 'number') {
-        app.markTotal = 1
-      } else {
-        app.markTotal = isMark ? (app.markTotal + 1) : (app.markTotal - 1);
-      };
-
-      if (app.markTotal < 0) {
-        app.markTotal = 0;
-      }
+      // 记录一次mark列表更新
+      app.isMarkUpdate = true;
 
       wx.showToast({
         title: isMark ? '靚 POST 為你 MARK' : '已狠心將你揼',

@@ -26,7 +26,8 @@ Component({
 
   pageLifetimes:  {
     show () {
-      if (app.markTotal !== this.total) {
+      // 如果mark列表在其他地方有更新，重置数据
+      if (app.isMarkUpdate) {
         this._resetData();
       }
     }
@@ -50,12 +51,14 @@ Component({
     },
 
     _init () {
-      app.markTotal = null;
+      // 重置mark列表是否更新
+      app.isMarkUpdate = false
       this._getData();
     },
 
     _resetData () {
-      app.markTotal = null;
+      // 重置mark列表是否更新
+      app.isMarkUpdate = false
       this.total = null;
       this.setData({
         isLoading: true,
@@ -95,11 +98,6 @@ Component({
       const { userMarkList, total } = result || {}
 
       this.total = typeof this.total !== 'number' ? total : this.total;
-
-      // 初始化全局mark總數
-      if (typeof app.markTotal !== 'number') {
-        app.markTotal = total
-      }
 
       if (this.total === 0) {
         this._setListEmpty();
