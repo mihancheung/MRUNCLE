@@ -17,6 +17,8 @@ Component({
     isMark: false,
     isLike: false,
     isShow: false,
+    isComment: false,
+    isFocus: false,
   },
 
   lifetimes: {
@@ -63,6 +65,16 @@ Component({
         isLike: !this.data.isLike
       }, () => {
         this._updatePostMarkOrLike('likes', 'like');
+      });
+    },
+
+    onTapComment () {
+      this.setData({
+        isComment: true,
+      }, () => {
+        this.setData({
+          isFocus: true
+        })
       });
     },
 

@@ -3,7 +3,7 @@
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: 130rpx;
+  min-height: 130rpx;
   background: #ffffff;
   box-shadow: 0 -8rpx 30rpx rgba(0, 0, 0, .1);
   padding-bottom: calc(constant(safe-area-inset-bottom));
@@ -74,4 +74,28 @@
 
 .post_bar_tool_on .post_bar_tool_item_txt {
   color: #ee0d25;
+}
+
+.post_bar_edit {
+  padding: 20rpx 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.post_bar_txtarea {
+  width: 75vw!important;
+  height: 115px!important;
+  background: #f7f7f7;
+  padding: 0!important;
+  margin: 0!important;
+}
+
+.post_bar_comment_submit {
+  width: 12.96vw!important;
+  height: 45rpx!important;
+  padding: 0!important;
+  margin: 0!important;
+  background: #666666;
+  color: #ffffff;
+  font-size: 28rpx;
 }
