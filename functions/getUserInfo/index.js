@@ -11,8 +11,9 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const { OPENID: openId} = wxContext;
 
+  // 云函数调云函数的时候拿不到当前wxContext的openId
   const res = await loginInfo.where({
-    openId
+    openId: event.openId || openId
   }).get().catch(() => null);
 
   if (!res || !res.data || !res.data[0]) {

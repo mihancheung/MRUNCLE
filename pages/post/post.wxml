@@ -48,8 +48,8 @@
   />
 
   <comment
-    wx:if="{{isShowComment}}"
     postId="{{id}}"
+    isShowComment="{{isShowComment}}"
     bind:closeComment="onCloseComment"
   />
 </view>

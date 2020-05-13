@@ -1,16 +1,20 @@
-<view class="comment" wx:if="{{isComment}}">
-  <form class="comment_form">
+<view class="comment" wx:if="{{isShowComment}}">
+  <form class="comment_form" bind:submit="onSubmit">
     <view class="comment_form_item">
-      <textarea class="comment_txtarea" fixed placeholder="说点什么吧："
+      <textarea class="comment_txtarea" name="cnt" fixed
+        placeholder="说点什么吧："
         show-confirm-bar="{{false}}"
         cursor-spacing="{{120}}"
         disable-default-padding="{{true}}"
         auto-focus="{{true}}"
-        bindblur="onBlur"
+        value="{{textValue}}"
+        bind:blur="onBlur"
+        bind:input="onInput"
       />
     </view>
     <view class="comment_form_item">
       <button form-type="submit" class="comment_btn">发表</button>
     </view>
   </form>
+  <view class="mask"></view>
 </view>
