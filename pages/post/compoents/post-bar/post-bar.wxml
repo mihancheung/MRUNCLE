@@ -28,9 +28,8 @@
   }
 </wxs>
 
-<view class="post_bar {{isComment ? 'post_bar_oncomment' : ''}} {{isShow ? 'post_bar_show' : ''}}">
-
-  <view class="post_bar_main" hidden="{{isComment}}">
+<view class="post_bar {{isShow ? 'post_bar_show' : ''}}">
+  <view class="post_bar_main">
     <view class="post_bar_comment" bind:tap="onTapComment">发表精彩评论</view>
     <view class="post_bar_tool">
       <image class="post_bar_tool_image" src="/image/components/post-bar/comment.svg" mode="heightFix" />
@@ -49,21 +48,4 @@
       <image class="post_bar_tool_image" src="/image/components/post-bar/share.svg" mode="heightFix" />
     </view>
   </view>
-
-  <form class="post_bar_edit" wx:if="{{isComment}}">
-    <view class="post_bar_edit_item_box">
-      <textarea class="post_bar_txtarea" fixed placeholder="说点什么吧："
-        show-confirm-bar="{{false}}"
-        cursor-spacing="{{120}}"
-        disable-default-padding="{{true}}"
-        auto-focus="{{true}}"
-        bindblur="onBlur"
-      />
-    </view>
-    <view class="post_bar_edit_item_box">
-      <button form-type="submit" class="post_bar_comment_submit">发表</button>
-    </view>
-  </form>
 </view>
-
-<!-- <view class="post_bar_mask"></view> -->

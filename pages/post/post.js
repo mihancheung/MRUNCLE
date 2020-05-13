@@ -14,6 +14,7 @@ Page({
     isError: false,
     isLoading: true,
     isPostRendering: false,
+    isShowComment: false,
   },
 
   onLoad (option) {
@@ -53,6 +54,18 @@ Page({
       title: this.data.info.title,
       imageUrl: this.data.info.poster
     }
+  },
+
+  onShowComment () {
+    this.setData({
+      isShowComment: true
+    });
+  },
+
+  onCloseComment () {
+    this.setData({
+      isShowComment: false
+    });
   },
 
   init () {

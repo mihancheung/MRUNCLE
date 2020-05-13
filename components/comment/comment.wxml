@@ -1,0 +1,16 @@
+<view class="comment" wx:if="{{isComment}}">
+  <form class="comment_form">
+    <view class="comment_form_item">
+      <textarea class="comment_txtarea" fixed placeholder="说点什么吧："
+        show-confirm-bar="{{false}}"
+        cursor-spacing="{{120}}"
+        disable-default-padding="{{true}}"
+        auto-focus="{{true}}"
+        bindblur="onBlur"
+      />
+    </view>
+    <view class="comment_form_item">
+      <button form-type="submit" class="comment_btn">发表</button>
+    </view>
+  </form>
+</view>

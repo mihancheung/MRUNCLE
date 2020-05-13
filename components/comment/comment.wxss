@@ -1,0 +1,50 @@
+.comment {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, .5);
+  z-index: 2046;
+}
+
+.comment_form {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background: #ffffff;
+  display: flex;
+  padding: 20rpx 0;
+  justify-content: space-evenly;
+}
+
+.comment_form_item {
+  display: flex;
+  align-items: flex-end;
+  float: left;
+  height: 200rpx;
+  margin: 0 2vw;
+}
+
+.comment_txtarea {
+  box-sizing: border-box;
+  width: 75vw!important;
+  height: 100%!important;
+  background: #f7f7f7;
+  margin: 0!important;
+  padding: 30rpx!important;
+  font-size: 28rpx;
+  border-radius: 4px;
+}
+
+.comment_btn {
+  width: 13vw!important;
+  height: 60rpx!important;
+  line-height: 60rpx;
+  padding: 0!important;
+  margin: 0!important;
+  background: #666666;
+  color: #ffffff;
+  font-size: 28rpx;
+}

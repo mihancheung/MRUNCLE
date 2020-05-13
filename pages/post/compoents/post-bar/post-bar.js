@@ -17,8 +17,6 @@ Component({
     isMark: false,
     isLike: false,
     isShow: false,
-    isComment: false,
-    isFocus: false,
   },
 
   lifetimes: {
@@ -69,17 +67,7 @@ Component({
     },
 
     onTapComment () {
-      this.setData({
-        isComment: true,
-        isFocus: true
-      });
-    },
-
-    onBlur () {
-      this.setData({
-        isComment: false,
-        isFocus: false
-      });
+      this.triggerEvent('showComment');
     },
 
     _init () {
