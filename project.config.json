@@ -6,6 +6,10 @@
 			{
 				"type": "folder",
 				"value": "source"
+			},
+			{
+				"type": "folder",
+				"value": "theme"
 			}
 		]
 	},
