@@ -53,7 +53,7 @@
   line-height: 60rpx;
   padding: 0!important;
   margin: 0!important;
-  background: #666666;
+  background: #202020;
   color: #ffffff;
   font-size: 28rpx;
 }

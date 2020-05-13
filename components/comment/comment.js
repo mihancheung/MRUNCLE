@@ -1,3 +1,5 @@
+const app = getApp();
+
 Component({
   properties: {
     postId: {
@@ -45,7 +47,7 @@ Component({
     },
 
     onSubmit (event) {
-      const cnt = event.detail.value.cnt;
+      const cnt = event.detail.value.cnt || '';
       this._submitComment(this.postId, cnt);
     },
 
@@ -66,6 +68,20 @@ Component({
     },
 
     async _submitComment (postId, cnt) {
+      if (!app.isConnected) {
+        app.showNoNetworkToast();
+        return;
+      }
+
+      if (!cnt.replace(/\s/g, '')) {
+        wx.showToast({
+          title: '评论尙未有文字',
+          icon: 'none'
+        });
+        this._resetForm();
+        return;
+      }
+
       const res = await wx.cloud.callFunction({
         name: 'toComment',
         data: {
