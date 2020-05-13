@@ -3,7 +3,7 @@
   bottom: 0;
   left: 0;
   width: 100vw;
-  min-height: 130rpx;
+  height: 130rpx;
   background: #ffffff;
   box-shadow: 0 -8rpx 30rpx rgba(0, 0, 0, .1);
   padding-bottom: calc(constant(safe-area-inset-bottom));
@@ -77,25 +77,50 @@
 }
 
 .post_bar_edit {
+  display: none;
   padding: 20rpx 0;
-  display: flex;
   justify-content: space-evenly;
 }
 
+.post_bar_edit_item_box {
+  display: flex;
+  align-items: flex-end;
+  float: left;
+  height: 200rpx;
+  margin: 0 2vw;
+}
+
 .post_bar_txtarea {
+  box-sizing: border-box;
   width: 75vw!important;
-  height: 115px!important;
+  height: 100%!important;
   background: #f7f7f7;
-  padding: 0!important;
   margin: 0!important;
+  padding: 30rpx!important;
+  font-size: 28rpx;
+  border-radius: 4px;
 }
 
 .post_bar_comment_submit {
-  width: 12.96vw!important;
-  height: 45rpx!important;
+  width: 13vw!important;
+  height: 60rpx!important;
+  line-height: 60rpx;
   padding: 0!important;
   margin: 0!important;
   background: #666666;
   color: #ffffff;
   font-size: 28rpx;
+}
+
+.post_bar_oncomment {
+  height: auto;
+  padding-bottom: 0;
+}
+
+.post_bar_oncomment .post_bar_edit {
+  display: flex;
+}
+
+.post_bar_oncomment .post_bar_main {
+  display: none;
 }

@@ -71,10 +71,14 @@ Component({
     onTapComment () {
       this.setData({
         isComment: true,
-      }, () => {
-        this.setData({
-          isFocus: true
-        })
+        isFocus: true
+      });
+    },
+
+    onBlur () {
+      this.setData({
+        isComment: false,
+        isFocus: false
       });
     },
 
