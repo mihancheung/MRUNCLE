@@ -18,7 +18,9 @@ Component({
 
   lifetimes: {
     attached () {
-      if (getCurrentPages().length === 1) {
+      const routes = getCurrentPages()
+      const isLoginScene = routes.length >= 2 && routes[routes.length - 1].route === 'pages/login/login' && routes[routes.length - 2].route === 'pages/user/user'
+      if (routes.length === 1 || isLoginScene) {
         this.setData({
           isShowBack: false
         });

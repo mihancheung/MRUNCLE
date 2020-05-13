@@ -67,6 +67,16 @@ Component({
     },
 
     onTapComment () {
+      if (!app.isConnected) {
+        app.showNoNetworkToast();
+        return;
+      }
+
+      if (!app.isLogin) {
+        this._jumpToLogin();
+        return;
+      }
+
       this.triggerEvent('showComment');
     },
 
