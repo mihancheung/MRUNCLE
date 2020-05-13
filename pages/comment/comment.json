@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "error": "/components/error/error",
+    "comment": "/components/comment/comment",
+    "custom-nav": "/components/custom-nav/custom-nav"
+  },
+  "navigationStyle": "custom",
+  "navigationBarBackgroundColor": "#ffffff",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "onReachBottomDistance": 90
+}

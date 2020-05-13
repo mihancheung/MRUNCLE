@@ -1,0 +1,19 @@
+<import src="/tpls/loading/loading.wxml" />
+
+<view class="page_comment">
+  <custom-nav />
+
+  <template is="loading" data="{{ isLoading }}" />
+
+
+  <error
+    wx:if="{{isError}}"
+    bindtapReload="onErrorReload"
+  />
+
+  <comment
+    postId="{{postId}}"
+    isShowComment="{{isShowComment}}"
+    bind:closeComment="onCloseComment"
+  />
+</view>
