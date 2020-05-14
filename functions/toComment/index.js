@@ -61,11 +61,6 @@ exports.main = async (event, context) => {
     postId,
   }
 
-  // 拿到最新的
-  const totalReq = commentDB.where({
-    postId
-  }).count();
-
   // 写入评论
   const res = await commentDB.add({
     data
@@ -80,7 +75,9 @@ exports.main = async (event, context) => {
 
   // 拿最新的评论总数
   let total = {}
-  const totalRes = await totalReq;
+  const totalRes = await commentDB.where({
+    postId
+  }).count();
 
   if (totalRes) {
     total = {

@@ -97,7 +97,7 @@ Component({
 
     onTapCommentList () {
       wx.navigateTo({
-        url: `/pages/comment/comment?id=${this.properties.postId}`
+        url: `/pages/comment/comment?id=${this.properties.postId}&total=${this.data.postInfo.comments || 0}`
       });
     },
 

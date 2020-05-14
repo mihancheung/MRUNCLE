@@ -15,7 +15,12 @@ Page({
   },
 
   onLoad (option) {
-    const { id } = option || {};
+    const { id, total } = option || {};
+
+    wx.setNavigationBarTitle({
+      title: `${total}条评论`
+    });
+
     this.setData({
       postId: id
     }, () => {
@@ -45,8 +50,38 @@ Page({
     })
   },
 
+  onGetComments (e) {
+    const { commentInfo, total } = e.detail
+    const list = this.data.list;
+    const { date } = commentInfo || {};
+    commentInfo.date = formatDate(date);
+    let nextComment = [];
+
+    if (!list[0]) {
+      nextComment = [[commentInfo]];
+    } else {
+      nextComment = [...list[0]];
+      nextComment.splice(0,0,commentInfo);
+    }
+
+    this.setData({
+      [`list[0]`]: nextComment
+    }, () => {
+      wx.setNavigationBarTitle({
+        title: `${total}条评论`
+      });
+      this.dynamicCommentTotal += 1;
+
+      typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
+        scrollTop: 0
+      });
+    });
+
+  },
+
   _init () {
     this.isFetchingList = false;
+    this.dynamicCommentTotal = 0;
     this._getList();
   },
 
@@ -65,6 +100,7 @@ Page({
 
   _resetPage (cb) {
     this.isFetchingList = false;
+    this.dynamicCommentTotal = 0;
     this.setData({
       list: [],
       isIniting: true,
@@ -78,6 +114,7 @@ Page({
 
   _setError () {
     this.isFetchingList = false;
+    this.dynamicCommentTotal = 0;
     this.setData({
       isIniting: false,
       isError: true,
@@ -103,7 +140,11 @@ Page({
       data: {
         postId: this.data.postId,
         maxCommentList: COMMENT_MAX,
-        skip: this.data.list.length * COMMENT_MAX,
+        skip: this.data.list.length * COMMENT_MAX + this.dynamicCommentTotal,
+        orderBy: {
+          key: 'date',
+          type: 'desc'
+        }
       }
     });
 

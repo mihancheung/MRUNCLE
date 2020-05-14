@@ -1,7 +1,7 @@
 <import src="/tpls/loading/loading.wxml" />
 
 <view class="page_comment">
-  <block wx:for="{{list}}" wx:key="{{index}}" wx:for-item="blockItem">
+  <block wx:for="{{list}}" wx:key="index" wx:for-item="blockItem">
     <view class="page_comment_item" wx:for="{{blockItem}}" wx:key="_id">
       <view class="page_comment_avata"><image src="{{item.avatarUrl}}" /></view>
       <view class="page_comment_main">
@@ -28,4 +28,5 @@
   postId="{{postId}}"
   isShowComment="{{isShowComment}}"
   bind:closeComment="onCloseComment"
+  bind:getComments="onGetComments"
 />

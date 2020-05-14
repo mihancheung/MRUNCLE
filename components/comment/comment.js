@@ -129,7 +129,8 @@ Component({
 
       this._updateComments(postId, total);
       this.triggerEvent('getComments', {
-        total
+        total,
+        commentInfo,
       })
       this._resetForm();
     },
