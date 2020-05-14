@@ -1,4 +1,4 @@
-import { formatDate } from '../../utils/index';
+import { postDate } from '../../utils/index';
 
 const app = getApp();
 const COMMENT_MAX = 10;
@@ -54,7 +54,7 @@ Page({
     const { commentInfo, total } = e.detail
     const list = this.data.list;
     const { date } = commentInfo || {};
-    commentInfo.date = formatDate(date);
+    commentInfo.date = postDate(date);
     let nextComment = [];
 
     if (!list[0]) {
@@ -161,7 +161,7 @@ Page({
 
     const nextList = list.map((item) => {
       const { date } = item || {};
-      item.date = formatDate(date);
+      item.date = postDate(date);
       return item;
     });
 

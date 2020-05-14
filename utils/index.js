@@ -19,6 +19,32 @@ export function formatDate(date) {
   return `${o.Y}-${o.M}-${o.D} ${o.h}:${o.m}:${o.s}`
 }
 
+export function postDate(date) {
+  if (!date) return date
+
+  const nowTime = +new Date();
+  const serviceTime = +new Date(date);
+
+  const dist = Math.abs(nowTime - serviceTime);
+  const s = 1000;
+  const m = s * 60;
+  const h = m * 60;
+  const d = h * 24;
+  let txt = ''
+
+  if (dist < m) {
+    txt = '刚刚'
+  } else if (dist >= m && dist < h) {
+    txt = `${parseInt(dist / m)}分钟前`
+  } else if (dist >= h && dist < d) {
+    txt = `${parseInt(dist / h)}小时前`
+  } else if (dist >= d && dist <= d * 3) {
+    txt = `${parseInt(dist / d)}日前`
+  }
+
+  return `${txt}`
+}
+
 export function formatePostData (data = {}) {
   const {
     date: dataDate,
