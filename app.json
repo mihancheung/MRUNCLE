@@ -1,11 +1,11 @@
 {
   "pages":[
-    "pages/comment/comment",
     "pages/index/index",
     "pages/about/about",
     "pages/user/user",
     "pages/post/post",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/comment/comment"
   ],
   "window":{
     "backgroundTextStyle":"light",

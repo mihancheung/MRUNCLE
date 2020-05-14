@@ -118,11 +118,11 @@ Component({
         return formatItem;
       });
 
-      const nextListLengt = this.data.list.length * MAX_MARK_LIST + MAX_MARK_LIST
+      const nextListLength = this.data.list.length * MAX_MARK_LIST + MAX_MARK_LIST
 
       this.setData({
         [`list[${this.data.list.length}]`]: nextList,
-        isLoading: nextListLengt < this.total
+        isLoading: nextListLength < this.total
       });
     }
   }

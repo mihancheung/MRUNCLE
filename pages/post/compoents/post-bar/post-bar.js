@@ -80,6 +80,12 @@ Component({
       this.triggerEvent('showComment');
     },
 
+    onTapCommentList () {
+      wx.navigateTo({
+        url: `/pages/comment/comment?id=${this.properties.postId}`
+      });
+    },
+
     _init () {
       this._checkPostAndUser();
     },

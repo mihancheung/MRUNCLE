@@ -1,7 +1,7 @@
-import { formatePostData } from '../../utils/index';
+import { formatDate } from '../../utils/index';
 
 const app = getApp();
-const COMMENT__MAX = 10;
+const COMMENT_MAX = 10;
 
 Page({
   data: {
@@ -17,14 +17,15 @@ Page({
   onLoad (option) {
     const { id } = option || {};
     this.setData({
-      postId: 'e2297d935eaf80f60005ca0c34a394ac'
+      postId: id
+    }, () => {
+      this._init();
     });
   },
 
   onReachBottom () {
-    // 防反復加載渲染
-    if (this.isFetchingList) return;
-
+    if (this.isFetchingList || this.data.list.length * COMMENT_MAX >= this.total) return;
+    this._getList();
   },
 
   onPullDownRefresh () {
@@ -44,8 +45,8 @@ Page({
     })
   },
 
-  init () {
-    this.isFetchingList = true;
+  _init () {
+    this.isFetchingList = false;
     this._getList();
   },
 
@@ -55,24 +56,81 @@ Page({
 
   _reloadPage () {
     if (!app.isConnected) {
-      this.handleError();
+      this._setError();
       return;
     }
+
+    this._resetPage(this._init);
   },
 
-  handleError () {
-    this.isFetchingList = false
+  _resetPage (cb) {
+    this.isFetchingList = false;
     this.setData({
-      isLoadingList: false,
+      list: [],
+      isIniting: true,
+      isLoading: false,
+      isShowComment: false,
+      isError: false,
+    }, () => {
+      typeof cb === 'function' && cb();
+    });
+  },
+
+  _setError () {
+    this.isFetchingList = false;
+    this.setData({
+      isIniting: false,
       isError: true,
-      list: []
+    });
+  },
+
+  _setInitDone () {
+    this.setData({
+      isIniting: false
     });
   },
 
   async _getList () {
     if (!app.isConnected) {
-      this.handleError();
+      app.showNoNetworkToast();
       return;
     }
+
+    this.isFetchingList = true;
+
+    const res = await wx.cloud.callFunction({
+      name: 'getCommentList',
+      data: {
+        postId: this.data.postId,
+        maxCommentList: COMMENT_MAX,
+        skip: this.data.list.length * COMMENT_MAX,
+      }
+    });
+
+    this.isFetchingList = false;
+
+    const { result } = res || {};
+    const { total, list } = result || {}
+    this.total = total;
+
+    if (!list) {
+      this._setError();
+      return;
+    };
+
+    const nextList = list.map((item) => {
+      const { date } = item || {};
+      item.date = formatDate(date);
+      return item;
+    });
+
+    const nextListLength = this.data.list.length * COMMENT_MAX + COMMENT_MAX
+
+    this.setData({
+      [`list[${this.data.list.length}]`]: nextList,
+      isLoading: nextListLength < this.total
+    }, () => {
+      this._setInitDone();
+    });
   },
 })
