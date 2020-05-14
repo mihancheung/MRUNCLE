@@ -1,12 +1,14 @@
 {
   "usingComponents": {
     "error": "/components/error/error",
-    "comment": "/components/comment/comment",
-    "custom-nav": "/components/custom-nav/custom-nav"
+    "comment": "/components/comment/comment"
   },
-  "navigationStyle": "custom",
   "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "评论",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
+  "backgroundColor": "#ffffff",
   "onReachBottomDistance": 90
+  
 }

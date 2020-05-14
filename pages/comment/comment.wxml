@@ -1,19 +1,163 @@
 <import src="/tpls/loading/loading.wxml" />
 
 <view class="page_comment">
-  <custom-nav />
+  <view class="page_comment_item">
+    <view class="page_comment_avata"><image src="/image/me.jpeg" /></view>
+    <view class="page_comment_main">
+      <text class="page_comment_nickname">中 品中右中右</text>
+      <text class="page_comment_date">3小时前</text>
+      <text class="page_comment_cnt">评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论</text>
+    </view>
+  </view>
 
-  <template is="loading" data="{{ isLoading }}" />
+  <view class="page_comment_item">
+    <view class="page_comment_avata"><image src="/image/me.jpeg" /></view>
+    <view class="page_comment_main">
+      <text class="page_comment_nickname">中 品中右中右</text>
+      <text class="page_comment_date">3小时前</text>
+      <text class="page_comment_cnt">评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论</text>
+      <view class="page_comment_replies">
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <text class="page_comment_replies_total">共22条回复</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="page_comment_item">
+    <view class="page_comment_avata"><image src="/image/me.jpeg" /></view>
+    <view class="page_comment_main">
+      <text class="page_comment_nickname">中 品中右中右</text>
+      <text class="page_comment_date">3小时前</text>
+      <text class="page_comment_cnt">评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论</text>
+      <view class="page_comment_replies">
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <text class="page_comment_replies_total">共22条回复</text>
+      </view>
+    </view>
+  </view>
 
 
-  <error
-    wx:if="{{isError}}"
-    bindtapReload="onErrorReload"
-  />
+  <view class="page_comment_item">
+    <view class="page_comment_avata"><image src="/image/me.jpeg" /></view>
+    <view class="page_comment_main">
+      <text class="page_comment_nickname">中 品中右中右</text>
+      <text class="page_comment_date">3小时前</text>
+      <text class="page_comment_cnt">评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论</text>
+      <view class="page_comment_replies">
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
 
-  <comment
-    postId="{{postId}}"
-    isShowComment="{{isShowComment}}"
-    bind:closeComment="onCloseComment"
-  />
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <text class="page_comment_replies_total">共22条回复</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="page_comment_item">
+    <view class="page_comment_avata"><image src="/image/me.jpeg" /></view>
+    <view class="page_comment_main">
+      <text class="page_comment_nickname">中 品中右中右</text>
+      <text class="page_comment_date">3小时前</text>
+      <text class="page_comment_cnt">评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论</text>
+      <view class="page_comment_replies">
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <text class="page_comment_replies_total">共22条回复</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="page_comment_item">
+    <view class="page_comment_avata"><image src="/image/me.jpeg" /></view>
+    <view class="page_comment_main">
+      <text class="page_comment_nickname">中 品中右中右</text>
+      <text class="page_comment_date">3小时前</text>
+      <text class="page_comment_cnt">评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论</text>
+      <view class="page_comment_replies">
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <view class="page_comment_replies_item">
+          <text>回复人回复人</text>
+          <text>回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人回复人</text>
+        </view>
+
+        <text class="page_comment_replies_total">共22条回复</text>
+      </view>
+    </view>
+  </view>
 </view>
+
+<view class="page_comment_post" bind:tap="onTapPost">
+  <text class="page_comment_post_txt">说点什么吧：</text>
+</view>
+
+<template is="loading" data="{{ isLoading }}" />
+<error
+  wx:if="{{isError}}"
+  bindtapReload="onErrorReload"
+/>
+<comment
+  postId="{{postId}}"
+  isShowComment="{{isShowComment}}"
+  bind:closeComment="onCloseComment"
+/>

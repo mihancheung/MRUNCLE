@@ -11,6 +11,7 @@ Page({
     isLoading: false,
     isShowComment: false,
     isError: false,
+    statusBarHeigth: wx.getSystemInfoSync().statusBarHeight,
   },
 
   onLoad (option) {
@@ -35,6 +36,12 @@ Page({
     this.setData({
       isShowComment: false
     });
+  },
+
+  onTapPost () {
+    this.setData({
+      isShowComment: true
+    })
   },
 
   init () {
