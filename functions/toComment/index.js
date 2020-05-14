@@ -61,18 +61,35 @@ exports.main = async (event, context) => {
     postId,
   }
 
+  // 拿到最新的
+  const totalReq = commentDB.where({
+    postId
+  }).count();
+
   // 写入评论
   const res = await commentDB.add({
     data
   }).catch(() => null);
 
+
   if (!res) {
     return {
-      commentInfo: null
+      commentInfo: null,
+    }
+  }
+
+  // 拿最新的评论总数
+  let total = {}
+  const totalRes = await totalReq;
+
+  if (totalRes) {
+    total = {
+      total: totalRes.total
     }
   }
 
   return {
-    commentInfo: data
+    commentInfo: data,
+    ...total
   }
 }

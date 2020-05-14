@@ -11,6 +11,7 @@ Page({
     info: {},
     md: {},
     child: [],
+    changeComments: 0,
     isError: false,
     isLoading: true,
     isPostRendering: false,
@@ -65,6 +66,12 @@ Page({
   onCloseComment () {
     this.setData({
       isShowComment: false
+    });
+  },
+
+  onGetComments (e) {
+    this.setData({
+      changeComments: e.detail.total
     });
   },
 

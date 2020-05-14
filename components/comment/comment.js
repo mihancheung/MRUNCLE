@@ -67,6 +67,19 @@ Component({
       });
     },
 
+    async _updateComments (postId, total) {
+      if (typeof total !== 'number') return;
+      wx.cloud.callFunction({
+        name: 'updatePostInfo',
+        data: {
+          postId,
+          updateData: {
+            comments: total
+          }
+        }
+      });
+    },
+
     async _submitComment (postId, cnt) {
       if (!app.isConnected) {
         app.showNoNetworkToast();
@@ -91,7 +104,7 @@ Component({
       });
 
       const { result } = res || {}
-      const { commentInfo, cntMsg } = result || {}
+      const { commentInfo, cntMsg, total } = result || {}
 
       if (cntMsg) {
         wx.showToast({
@@ -114,6 +127,10 @@ Component({
         icon: 'none'
       });
 
+      this._updateComments(postId, total);
+      this.triggerEvent('getComments', {
+        total
+      })
       this._resetForm();
     },
   }

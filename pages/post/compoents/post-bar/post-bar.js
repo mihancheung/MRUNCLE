@@ -9,6 +9,11 @@ Component({
     postId: {
       type: String,
       value: '',
+    },
+
+    changeComments: {
+      type: Number,
+      value: 0
     }
   },
 
@@ -22,6 +27,16 @@ Component({
   lifetimes: {
     ready: function () {
       this._init();
+    }
+  },
+
+  observers: {
+    'changeComments' (changeComments) {
+      if (changeComments !== this.data.postInfo.comments) {
+        this.setData({
+          'postInfo.comments': changeComments
+        });
+      }
     }
   },
 

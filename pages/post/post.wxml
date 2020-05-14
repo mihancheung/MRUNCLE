@@ -30,6 +30,7 @@
   <post-bar wx:if="{{!!id && !isLoading && !isError}}"
     postId="{{id}}"
     bind:showComment="onShowComment"
+    changeComments="{{changeComments}}"
   />
 
   <template is="loading" data="{{ isLoading, loadingText }}" />
@@ -51,5 +52,6 @@
     postId="{{id}}"
     isShowComment="{{isShowComment}}"
     bind:closeComment="onCloseComment"
+    bind:getComments="onGetComments"
   />
 </view>
