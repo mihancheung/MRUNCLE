@@ -172,7 +172,7 @@ Component({
       const nextFlagKey = actionType === 'mark' ? 'isMark' : 'isLike';
 
       // 異常
-      if (!res || !res.result || !res.result.postInfo) {
+      if (!res || !res.result) {
         this.isHandlingPost = false;
 
         // 重置
@@ -187,9 +187,13 @@ Component({
         return
       }
 
-      this.setData({
-        postInfo: res.result.postInfo
-      }, () => {
+      const nextData = actionType === 'mark' ? {
+        'postInfo.marks':updateData.marks
+      } : {
+        'postInfo.likes':updateData.likes
+      };
+
+      this.setData(nextData, () => {
         this.isHandlingPost = false;
         switch (actionType) {
           case 'mark':

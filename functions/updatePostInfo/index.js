@@ -15,34 +15,7 @@ exports.main = async (event, context) => {
     data: event.updateData
   }).catch(() => null);
 
-  if (!res) {
-    return {
-      postInfo: null
-    }
-  }
-
-  // 拿最新的文章信息
-  const postInfoRes = await post.where({
-    _id: event.postId
-  })
-  .field({
-    comments: true,
-    likes: true,
-    marks: true
-  })
-  .get()
-  .catch(() => null);
-
-  if (!postInfoRes || !postInfoRes.data) {
-    return {
-      postInfo: null
-    }
-  };
-
-  const postInfo = postInfoRes.data[0]
-
   return {
-    postInfo,
-    msg: `文章信息已更新`
+    res
   }
 }
