@@ -5,9 +5,9 @@ cloud.init({
 });
 
 const db = cloud.database();
-const user = db.collection('user');
-const post = db.collection('post');
 const _ = db.command;
+const marks = db.collection('marks');
+const post = db.collection('post');
 
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
@@ -27,25 +27,27 @@ exports.main = async (event, context) => {
   } = event;
 
   const getMarkPostIds = async () => {
-    const userRes = await user.where({
+    const res = await marks.where({
       openId
     })
     .field({
-      likePosts: false,
-      openId: false
+      postId: true
     })
     .get()
     .catch(() => null);
 
-    if (!userRes || !userRes.data || !userRes.data[0] ) {
-      return []
+    if (!res || !res.data) {
+      return [];
     };
 
-    return userRes.data[0].markPosts || [];
+    const postIds = res.data.map((item) => {
+      return item.postId;
+    });
+
+    return postIds;
   }
 
   const markPostIds = await getMarkPostIds();
-
   const userMarkListRes = await post
     .where({
       _id: _.in(markPostIds)

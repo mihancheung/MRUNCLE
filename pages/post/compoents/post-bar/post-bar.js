@@ -1,7 +1,6 @@
 const app = getApp();
 const db = wx.cloud.database();
 const post = db.collection('post');
-const user = db.collection('user');
 const _ = db.command;
 
 Component({
