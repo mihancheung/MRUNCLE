@@ -27,6 +27,15 @@ Page({
     });
   },
 
+  onUnload () {
+    app.comments = null;
+  },
+
+  onShow () {
+    const postBar = this.selectComponent('#postBar') || {};
+    typeof postBar.onShow === 'function' && postBar.onShow()
+  },
+
   onReachBottom () {
     // 防反復加載渲染
     if (this.isPostTowxml) return;

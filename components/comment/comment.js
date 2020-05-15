@@ -127,6 +127,7 @@ Component({
         icon: 'none'
       });
 
+      app.comments = total;
       this._updateComments(postId, total);
       this.triggerEvent('getComments', {
         total,

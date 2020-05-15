@@ -25,7 +25,7 @@ Component({
   },
 
   lifetimes: {
-    ready: function () {
+    ready () {
       this._init();
     }
   },
@@ -41,6 +41,14 @@ Component({
   },
 
   methods: {
+    onShow () {
+      if (typeof app.comments !== 'number') return;
+      if (app.comments === this.data.postInfo.comments ) return;
+
+      this.setData({
+        'postInfo.comments': app.comments
+      });
+    },
     onTapMark () {
       if (!app.isConnected) {
         app.showNoNetworkToast();
@@ -157,6 +165,9 @@ Component({
       if (!res || !res.result || !res.result.postInfo) return;
 
       const { isMark, isLike, postInfo } = res.result;
+
+      // 缓存文章的评论数
+      app.comments = postInfo.comments;
 
       this.setData({
         isMark,
