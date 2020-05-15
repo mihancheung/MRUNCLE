@@ -17,13 +17,21 @@ exports.main = async (event, context) => {
   let isMark = true;
   let isLike = true;
 
-  const marksReq = marks.where({
+  const isMarksReq = marks.where({
     openId,
     postId
   }).count();
 
-  const likesReq = likes.where({
+  const isLikesReq = likes.where({
     openId,
+    postId
+  }).count();
+
+  const marksReq = marks.where({
+    postId
+  }).count();
+
+  const likesReq = likes.where({
     postId
   }).count();
 
@@ -31,6 +39,8 @@ exports.main = async (event, context) => {
     postId
   }).count();
 
+  const isMarksRes = await isMarksReq.catch(() => {});
+  const isLikesRes = await isLikesReq.catch(() => {});
   const marksRes = await marksReq.catch(() => {});
   const likesRes = await likesReq.catch(() => {});
 
@@ -38,12 +48,12 @@ exports.main = async (event, context) => {
   const commentsRes = await commentsReq.catch(() => {});
 
   // 用戶是否收藏文章
-  if (marksRes.total === 0) {
+  if (isMarksRes.total === 0) {
     isMark = false
   }
 
   // 用戶是否點贊文章
-  if (likesRes.total === 0) {
+  if (isLikesRes.total === 0) {
     isLike = false;
   }
 

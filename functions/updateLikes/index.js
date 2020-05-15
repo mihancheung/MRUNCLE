@@ -39,7 +39,6 @@ exports.main = async (event, context) => {
   let total = {}
   const totalRes = await likes.where({
     postId,
-    openId,
   }).count();
 
   if (totalRes) {
