@@ -2,7 +2,7 @@
   "usingComponents": {
     "towxml":"/towxml/towxml",
     "error": "/components/error/error",
-    "comment": "/components/comment/comment",
+    "to-post": "/components/to-post/to-post",
     "custom-nav": "/components/custom-nav/custom-nav",
     "post-bar": "/pages/post/compoents/post-bar/post-bar"
   },

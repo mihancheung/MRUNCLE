@@ -44,7 +44,7 @@
             wx:for="{{item.replies}}"
             wx:for-index="repliesIndex"
             wx:for-item="repliesItem"
-            wx:key="{{commentWxs.getReplyItemKey(repliesItem.openId, repliesIndex)}}"
+            wx:key="_id"
           >
             <text>{{commentWxs.getReplierStr(repliesItem.replier, repliesItem.replyTo)}}</text>
             <text>{{repliesItem.cnt}}</text>
@@ -75,7 +75,7 @@
   wx:if="{{isError}}"
   bindtapReload="onErrorReload"
 />
-<comment
+<to-post
   type="{{type}}"
   commentId="{{commentId}}"
   replier="{{replier}}"

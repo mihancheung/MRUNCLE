@@ -1,7 +1,7 @@
 {
   "usingComponents": {
     "error": "/components/error/error",
-    "comment": "/components/comment/comment"
+    "to-post": "/components/to-post/to-post"
   },
   "navigationBarBackgroundColor": "#ffffff",
   "navigationBarTextStyle": "black",

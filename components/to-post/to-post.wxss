@@ -1,4 +1,4 @@
-.comment {
+.post {
   position: fixed;
   left: 0;
   top: 0;
@@ -16,7 +16,7 @@
   background: rgba(0, 0, 0, .5);
 }
 
-.comment_form {
+.post_form {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -28,7 +28,7 @@
   z-index: 1;
 }
 
-.comment_form_item {
+.post_form_item {
   display: flex;
   align-items: flex-end;
   float: left;
@@ -36,7 +36,7 @@
   margin: 0 2vw;
 }
 
-.comment_txtarea {
+.post_txtarea {
   box-sizing: border-box;
   width: 75vw!important;
   height: 100%!important;
@@ -47,7 +47,7 @@
   border-radius: 4px;
 }
 
-.comment_btn {
+.post_btn {
   width: 13vw!important;
   height: 60rpx!important;
   line-height: 60rpx;

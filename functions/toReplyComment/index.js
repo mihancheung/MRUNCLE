@@ -78,7 +78,7 @@ exports.main = async (event, context) => {
   return {
     commentInfo: {
       ...data,
-      _id: res._id,
+      _id: `${openId}_${+new Date()}`,
     }
   }
 }

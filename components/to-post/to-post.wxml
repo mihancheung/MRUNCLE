@@ -1,0 +1,22 @@
+<view class="post" wx:if="{{isShowComment}}">
+  <form class="post_form" bind:submit="onSubmit">
+    <view class="post_form_item">
+      <textarea class="post_txtarea" name="cnt"
+        fixed
+        placeholder="{{placeHolder}}"
+        maxlength="{{300}}"
+        show-confirm-bar="{{false}}"
+        cursor-spacing="{{120}}"
+        disable-default-padding
+        auto-focus
+        value="{{textValue}}"
+        bind:blur="onBlur"
+        bind:input="onInput"
+      />
+    </view>
+    <view class="post_form_item">
+      <button form-type="submit" class="post_btn">发表</button>
+    </view>
+  </form>
+  <view class="mask"></view>
+</view>

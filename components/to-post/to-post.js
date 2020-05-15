@@ -37,6 +37,7 @@ Component({
     textValue: '',
     placeHolder: '说点什么吧：',
     type: 'post',
+    adjustPosition: true,
   },
 
   lifetimes: {
@@ -97,7 +98,7 @@ Component({
 
   methods: {
     onBlur () {
-      this._closeComment();
+      this._closePost();
     },
 
     onInput (event) {
@@ -109,7 +110,7 @@ Component({
       this._submitComment(cnt);
     },
 
-    _closeComment () {
+    _closePost () {
       this.triggerEvent('closeComment')
 
       this.setData({

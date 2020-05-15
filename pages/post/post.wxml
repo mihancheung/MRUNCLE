@@ -48,7 +48,7 @@
     bindtapReload="errorReload"
   />
 
-  <comment
+  <to-post
     postId="{{id}}"
     isShowComment="{{isShowComment}}"
     bind:closeComment="onCloseComment"
