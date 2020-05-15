@@ -1,5 +1,21 @@
 <import src="/tpls/loading/loading.wxml" />
 
+<wxs module="commentWxs">
+  var getReplyItemKey = function (openId, index) {
+    return openId + '_' + index;
+  }
+
+  var getReplierStr = function (replier, replyTo) {
+    var replyToStr = replyTo ? (' 回复 @' + replyTo) : '';
+    return replier + replyToStr + '：';
+  }
+
+  module.exports = {
+    getReplyItemKey: getReplyItemKey,
+    getReplierStr: getReplierStr
+  }
+</wxs>
+
 <view class="page_comment">
   <block wx:for="{{list}}" wx:key="listIndex" wx:for-index="listIndex" wx:for-item="blockItem">
     <view class="page_comment_item"
@@ -10,10 +26,37 @@
     >
       <view class="page_comment_avata"><image src="{{item.avatarUrl}}" /></view>
       <view class="page_comment_main">
-        <text class="page_comment_nickname">{{item.nickName}}</text>
-        <text class="page_comment_date">{{item.date}}</text>
-        <text class="page_comment_cnt">{{item.cnt}}</text>
-        <view bind:tap="onTapDelete" class="page_comment_delete" wx:if="{{userOpenId && item.openId && userOpenId === item.openId}}" data-id="{{item._id}}" data-index="{{[listIndex, blockItemIndex]}}">
+
+        <view class="page_comment_info"
+          bind:tap="onTapPoster"
+          data-id="{{item._id}}"
+          data-index="{{[listIndex, blockItemIndex]}}"
+          data-replier="{{item.nickName}}"
+        >
+          <text class="page_comment_nickname">{{item.nickName}}</text>
+          <text class="page_comment_date">{{item.date}}</text>
+          <text class="page_comment_cnt">{{item.cnt}}</text>
+        </view>
+
+        <view class="page_comment_replies" wx:if="{{item.replies && item.replies.length > 0}}">
+          <view class="page_comment_replies_item"
+            wx:if="{{repliesIndex < 3}}"
+            wx:for="{{item.replies}}"
+            wx:for-index="repliesIndex"
+            wx:for-item="repliesItem"
+            wx:key="{{commentWxs.getReplyItemKey(repliesItem.openId, repliesIndex)}}"
+          >
+            <text>{{commentWxs.getReplierStr(repliesItem.replier, repliesItem.replyTo)}}</text>
+            <text>{{repliesItem.cnt}}</text>
+          </view>
+          <text class="page_comment_replies_total" wx:if="{{item.replies.length > 3}}">共{{item.replies.length}}条回复</text>
+        </view>
+
+        <view bind:tap="onTapDelete" class="page_comment_delete"
+          wx:if="{{userOpenId && item.openId && userOpenId === item.openId}}"
+          data-id="{{item._id}}"
+          data-index="{{[listIndex, blockItemIndex]}}"
+        >
           <image class="page_comment_delete_icon" mode="aspectFit" src="/image/pages/comment/more.svg" />
         </view>
       </view>
@@ -33,6 +76,10 @@
   bindtapReload="onErrorReload"
 />
 <comment
+  type="{{type}}"
+  commentId="{{commentId}}"
+  replier="{{replier}}"
+  replyTo="{{replyTo}}"
   postId="{{postId}}"
   isShowComment="{{isShowComment}}"
   bind:closeComment="onCloseComment"

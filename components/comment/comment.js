@@ -9,12 +9,34 @@ Component({
     isShowComment: {
       type: Boolean,
       value: false,
+    },
+
+    type: {
+      type: String,
+      value: 'post'
+    },
+
+    commentId: {
+      type: String,
+      value: '',
+    },
+
+    replier: {
+      type: String,
+      value: '',
+    },
+
+    replyTo: {
+      type: String,
+      value: '',
     }
   },
 
   data: {
     isShowComment: false,
     textValue: '',
+    placeHolder: '说点什么吧：',
+    type: 'post',
   },
 
   lifetimes: {
@@ -34,6 +56,42 @@ Component({
     'postId': function (postId) {
       if (this.postId === postId) return;
       this.postId = postId
+    },
+
+    'commentId': function (commentId) {
+      if (this.commentId === commentId) return;
+      this.commentId = commentId
+    },
+
+    'type': function (type) {
+      if (this.type === type) return;
+      this.type = type;
+
+      if (type === 'post') {
+        this.setData({
+          placeHolder: '说点什么吧：'
+        });
+      }
+
+      if (type === 'reply') {
+        this.setData({
+          placeHolder: `回复 @${this.replier}：`
+        });
+      }
+    },
+
+    'replyTo': function (replyTo) {
+      if (this.replyTo === replyTo) return;
+      this.replyTo = replyTo;
+    },
+
+    'replier': function (replier) {
+      if (this.replier === replier) return;
+      this.replier = replier;
+
+      this.setData({
+        placeHolder: `回复 @${this.replier}：`
+      });
     }
   },
 
@@ -48,7 +106,7 @@ Component({
 
     onSubmit (event) {
       const cnt = event.detail.value.cnt || '';
-      this._submitComment(this.postId, cnt);
+      this._submitComment(cnt);
     },
 
     _closeComment () {
@@ -67,7 +125,8 @@ Component({
       });
     },
 
-    async _submitComment (postId, cnt) {
+    async _submitComment (cnt) {
+      const postId = this.postId;
       if (!app.isConnected) {
         app.showNoNetworkToast();
         return;
@@ -82,16 +141,32 @@ Component({
         return;
       }
 
-      const res = await wx.cloud.callFunction({
-        name: 'toComment',
-        data: {
-          postId,
-          cnt,
-        }
-      });
+      let res = null;
+      const { type } = this.data;
+
+      if (type === 'post') {
+        res = await wx.cloud.callFunction({
+          name: 'toComment',
+          data: {
+            postId,
+            cnt,
+          }
+        });
+      }
+
+      if (type === 'reply') {
+        res = await wx.cloud.callFunction({
+          name: 'toReplyComment',
+          data: {
+            id: this.commentId,
+            cnt,
+            replyTo: this.replyTo
+          }
+        });
+      }
 
       const { result } = res || {}
-      const { commentInfo, cntMsg, total } = result || {}
+      const { commentInfo, cntMsg, total: resultTotal } = result || {}
 
       if (cntMsg) {
         wx.showToast({
@@ -114,9 +189,16 @@ Component({
         icon: 'none'
       });
 
-      app.comments += 1;
+      let total = {}
+      if (type === 'post') {
+        app.comments += 1;
+        total = {
+          total: resultTotal
+        }
+      }
+
       this.triggerEvent('getComments', {
-        total,
+        ...total,
         commentInfo,
       })
       this._resetForm();

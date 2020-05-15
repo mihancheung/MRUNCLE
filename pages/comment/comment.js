@@ -8,6 +8,10 @@ Page({
     postId: '',
     list: [],
     userOpenId: '',
+    type: 'post',
+    commentId: '',
+    replier: '',
+    replyTo: '',
     isIniting: true,
     isLoading: false,
     isShowComment: false,
@@ -47,8 +51,14 @@ Page({
 
   onTapPost () {
     this.setData({
+      type: 'post',
       isShowComment: true
     })
+  },
+
+  onTapPoster (e) {
+    const { id, replier, index }  = e.currentTarget.dataset;
+    this._replyComment(id, replier, index)
   },
 
   onTapDelete (e) {
@@ -66,41 +76,25 @@ Page({
 
   onCommentDone (e) {
     const { commentInfo, total } = e.detail
-    const list = this.data.list;
-    const { date } = commentInfo || {};
-    commentInfo.date = postDate(date);
-    let nextComment = [];
+    const { type } = this.data
 
-    if (!list[0]) {
-      nextComment = [[commentInfo]];
-    } else {
-      nextComment = [...list[0]];
-      nextComment.splice(0,0,commentInfo);
+    if (type === 'post') {
+      this._toCommentDone(commentInfo, total );
     }
 
-    this.setData({
-      [`list[0]`]: nextComment
-    }, () => {
-      wx.setNavigationBarTitle({
-        title: `${total}条评论`
-      });
-      this.dynamicCommentTotal += 1;
+    if (type === 'reply') {
+      this._toReplyCommentDone(commentInfo);
+    }
+  },
 
-      typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
-        scrollTop: 0
-      });
-    });
-
+  onErrorReload: function () {
+    this._reloadPage();
   },
 
   _init () {
     this.isFetchingList = false;
     this.dynamicCommentTotal = 0;
     this._getList();
-  },
-
-  onErrorReload: function () {
-    this._reloadPage();
   },
 
   _reloadPage () {
@@ -141,8 +135,53 @@ Page({
     });
   },
 
+  _toReplyCommentDone (commentInfo) {
+    const index = this.replyIndex;
+    const replies = this.data.list[index[0]][index[1]].replies || []
+    const replyLength = replies.length;
+    this.setData({
+      [`list[${index[0]}][${index[1]}].replies[${replyLength}]`]: commentInfo
+    })
+  },
+
+  _toCommentDone (commentInfo, total ) {
+    const { list } = this.data;
+    const { date } = commentInfo || {};
+    commentInfo.date = postDate(date);
+    let nextComment = [];
+
+    if (!list[0]) {
+      nextComment = [[commentInfo]];
+    } else {
+      nextComment = [...list[0]];
+      nextComment.splice(0,0,commentInfo);
+    }
+
+    this.setData({
+      [`list[0]`]: nextComment
+    }, () => {
+      wx.setNavigationBarTitle({
+        title: `${total}条评论`
+      });
+      this.dynamicCommentTotal += 1;
+
+      typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
+        scrollTop: 0
+      });
+    });
+  },
+
+  async _replyComment (id, replier, index) {
+    this.replyIndex = index;
+    this.setData({
+      type: 'reply',
+      commentId: id,
+      replier,
+      isShowComment: true,
+    });
+  },
+
   async _deleteComment (id, postId, index) {
-    console.log('index', index)
     if (!id || !postId) {
       wx.showToast({
         title: '缺少删除评论条件',

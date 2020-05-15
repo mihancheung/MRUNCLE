@@ -63,6 +63,7 @@ page:after {
   position: absolute;
   right: 0;
   top: 0;
+  z-index: 1;
   height: 36rpx;
   width: 36rpx;
   display: flex;
@@ -90,6 +91,10 @@ page:after {
 }
 
 .page_comment_main {
+  position: relative;
+}
+
+.page_comment_info {
   position: relative;
 }
 

@@ -2,7 +2,7 @@
   <form class="comment_form" bind:submit="onSubmit">
     <view class="comment_form_item">
       <textarea class="comment_txtarea" name="cnt" fixed
-        placeholder="说点什么吧："
+        placeholder="{{placeHolder}}"
         maxlength="{{300}}"
         show-confirm-bar="{{false}}"
         cursor-spacing="{{120}}"
