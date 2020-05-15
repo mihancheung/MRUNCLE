@@ -67,19 +67,6 @@ Component({
       });
     },
 
-    async _updateComments (postId, total) {
-      if (typeof total !== 'number') return;
-      wx.cloud.callFunction({
-        name: 'updatePostInfo',
-        data: {
-          postId,
-          updateData: {
-            comments: total
-          }
-        }
-      });
-    },
-
     async _submitComment (postId, cnt) {
       if (!app.isConnected) {
         app.showNoNetworkToast();
@@ -128,7 +115,6 @@ Component({
       });
 
       app.comments = total;
-      this._updateComments(postId, total);
       this.triggerEvent('getComments', {
         total,
         commentInfo,
