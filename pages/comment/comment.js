@@ -52,19 +52,19 @@ Page({
   },
 
   onTapDelete (e) {
-    const { id }  = e.currentTarget.dataset
+    const { id, index }  = e.currentTarget.dataset
     wx.showActionSheet({
       itemList: ['删除评论'],
       itemColor: '#232323',
       success: (res) => {
         if (res.tapIndex === 0) {
-          this._deleteComment(id, this.data.postId);
+          this._deleteComment(id, this.data.postId, index);
         }
       }
     });
   },
 
-  onGetComments (e) {
+  onCommentDone (e) {
     const { commentInfo, total } = e.detail
     const list = this.data.list;
     const { date } = commentInfo || {};
@@ -141,7 +141,8 @@ Page({
     });
   },
 
-  async _deleteComment (id, postId) {
+  async _deleteComment (id, postId, index) {
+    console.log('index', index)
     if (!id || !postId) {
       wx.showToast({
         title: '缺少删除评论条件',
@@ -165,6 +166,10 @@ Page({
       });
       return
     };
+
+    this.setData({
+      [`list[${index[0]}][${index[1]}]`]: null
+    });
 
     wx.showToast({
       title: '删除成功',

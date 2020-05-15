@@ -1,14 +1,19 @@
 <import src="/tpls/loading/loading.wxml" />
 
 <view class="page_comment">
-  <block wx:for="{{list}}" wx:key="index" wx:for-item="blockItem">
-    <view class="page_comment_item" wx:for="{{blockItem}}" wx:key="_id">
+  <block wx:for="{{list}}" wx:key="listIndex" wx:for-index="listIndex" wx:for-item="blockItem">
+    <view class="page_comment_item"
+      wx:for="{{blockItem}}"
+      wx:for-index="blockItemIndex"
+      wx:key="_id"
+      wx:if="{{item}}"
+    >
       <view class="page_comment_avata"><image src="{{item.avatarUrl}}" /></view>
       <view class="page_comment_main">
         <text class="page_comment_nickname">{{item.nickName}}</text>
         <text class="page_comment_date">{{item.date}}</text>
         <text class="page_comment_cnt">{{item.cnt}}</text>
-        <view bind:tap="onTapDelete" class="page_comment_delete" wx:if="{{userOpenId && item.openId && userOpenId === item.openId}}" data-id="{{item._id}}">
+        <view bind:tap="onTapDelete" class="page_comment_delete" wx:if="{{userOpenId && item.openId && userOpenId === item.openId}}" data-id="{{item._id}}" data-index="{{[listIndex, blockItemIndex]}}">
           <image class="page_comment_delete_icon" mode="aspectFit" src="/image/pages/comment/more.svg" />
         </view>
       </view>
@@ -31,5 +36,5 @@
   postId="{{postId}}"
   isShowComment="{{isShowComment}}"
   bind:closeComment="onCloseComment"
-  bind:getComments="onGetComments"
+  bind:getComments="onCommentDone"
 />

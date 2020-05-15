@@ -3,6 +3,7 @@
     <view class="comment_form_item">
       <textarea class="comment_txtarea" name="cnt" fixed
         placeholder="说点什么吧："
+        maxlength="{{300}}"
         show-confirm-bar="{{false}}"
         cursor-spacing="{{120}}"
         disable-default-padding="{{true}}"
