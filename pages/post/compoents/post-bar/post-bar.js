@@ -60,12 +60,12 @@ Component({
         return;
       }
 
-      if (this.isHandlingPost) return;
+      if (this.isMarking) return;
 
       this.setData({
         isMark: !this.data.isMark
       }, () => {
-        this._updatePostMarkOrLike('marks', 'mark');
+        this._updateMarks();
       });
     },
 
@@ -80,12 +80,12 @@ Component({
         return;
       }
 
-      if (this.isHandlingPost) return;
+      if (this.isLiking) return;
 
       this.setData({
         isLike: !this.data.isLike
       }, () => {
-        this._updatePostMarkOrLike('likes', 'like');
+        this._updateLikes();
       });
     },
 
@@ -124,13 +124,7 @@ Component({
     _markDone () {
       const { isMark } = this.data;
 
-      this._updateUserData({
-        type: !isMark ? 'cancel' : 'add',
-        postIds: [this.properties.postId],
-        key: 'markPosts'
-      });
-
-      // 记录一次mark列表更新
+      // 记录一次mark列表更新,供个人中心列表更新用
       app.isMarkUpdate = true;
 
       wx.showToast({
@@ -141,13 +135,6 @@ Component({
 
     _likeDone () {
       const { isLike } = this.data;
-
-      this._updateUserData({
-        type: !isLike ? 'cancel' : 'add',
-        postIds: [this.properties.postId],
-        key: 'likePosts'
-      });
-
       wx.showToast({
         title: isLike ? '點 Like 嘅都係好人' : '多謝你，我會繼續努力',
         icon: 'none'
@@ -162,9 +149,8 @@ Component({
         }
       }).catch(() => null);
 
-      if (!res || !res.result || !res.result.postInfo) return;
-
-      const { isMark, isLike, postInfo } = res.result;
+      const { result } = res || {};
+      const { isMark = false, isLike = false, postInfo = {} } = result || {};
 
       // 缓存文章的评论数
       app.comments = postInfo.comments;
@@ -186,73 +172,98 @@ Component({
       });
     },
 
-    async _updatePostMarkLikeData (updateData, actionType) {
-      const res  = await wx.cloud.callFunction({
-        name: 'updatePostInfo', 
-        data: {
-          postId: this.properties.postId,
-          updateData,
-        }
-      }).catch(() => null);
+    _marksError () {
+      const { isMark } = this.data;
 
-      const nextFlagKey = actionType === 'mark' ? 'isMark' : 'isLike';
+      this.setData({
+        isMark: !isMark
+      });
 
-      // 異常
-      if (!res || !res.result) {
-        this.isHandlingPost = false;
+      wx.showToast({
+        title: !isMark ? 'Sorry，取消收藏失败咗' : 'Sorry，收藏失败咗',
+        icon: 'none'
+      });
+    },
 
-        // 重置
-        this.setData({
-          [nextFlagKey]: !this.data[nextFlagKey],
-        });
+    _likesError () {
+      const { isLike } = this.data;
 
-        wx.showToast({
-          title: actionType === 'mark' ? 'Sorry，收藏失聯咗' : 'Sorry，點贊失聯咗',
-          icon: 'none'
-        });
+      this.setData({
+        isLike: !isLike
+      });
+
+      wx.showToast({
+        title: !isLike ? 'Sorry，取消点赞失败咗' : 'Sorry，点赞失败咗',
+        icon: 'none'
+      });
+    },
+
+    async _updateMarks () {
+      const { isMark } = this.data;
+      const type = isMark ? 'add' : 'delete';
+
+      if (!this.properties.postId) {
+        this._marksError();
         return
       }
 
-      const nextData = actionType === 'mark' ? {
-        'postInfo.marks':updateData.marks
-      } : {
-        'postInfo.likes':updateData.likes
-      };
-
-      this.setData(nextData, () => {
-        this.isHandlingPost = false;
-        switch (actionType) {
-          case 'mark':
-            this._markDone();
-            break;
-
-          case 'like':
-            this._likeDone();
-            break;
+      this.isMarking = true;
+      const res = await wx.cloud.callFunction({
+        name: 'updateMarks',
+        data: {
+          type,
+          postId: this.properties.postId
         }
-      });
+      }).catch(() => null);
+      this.isMarking = false;
 
+      if (!res) {
+        this._marksError();
+        return;
+      }
+
+      const { result } = res || {};
+      const { total } = result || {};
+
+      this.setData({
+        'postInfo.marks': total,
+      }, () => {
+        this._markDone();
+      });
     },
 
-    _updatePostMarkOrLike (key, actionType) {
-      this.isHandlingPost = true;
-      const { isMark, isLike, postInfo } = this.data;
-      const isActionMap = {
-        mark: isMark,
-        like: isLike
+    async _updateLikes () {
+      const { isLike } = this.data;
+      const type = isLike ? 'add' : 'delete';
+
+      if (!this.properties.postId) {
+        this._likesError();
+        return
       }
 
-      let keyValue = postInfo[key];
+      this.isLiking = true;
+      const res = await wx.cloud.callFunction({
+        name: 'updateLikes',
+        data: {
+          type,
+          postId: this.properties.postId
+        }
+      }).catch(() => null);
+      this.isLiking = false;
 
-      if (typeof keyValue !== 'number') {
-        keyValue = 0;
+      if (!res) {
+        this._likesError();
+        return;
       }
 
-      const updateData = {
-        [key]: isActionMap[actionType] ? (keyValue + 1) : (keyValue - 1 < 0 ? 0 : keyValue - 1 ) 
-      } 
+      const { result } = res || {};
+      const { total } = result || {};
 
-      this._updatePostMarkLikeData(updateData, actionType);
+      this.setData({
+        'postInfo.likes': total,
+      }, () => {
+        this._likeDone();
+      });
     },
   }
 })
