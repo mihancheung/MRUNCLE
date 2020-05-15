@@ -66,7 +66,6 @@ exports.main = async (event, context) => {
     data
   }).catch(() => null);
 
-
   if (!res) {
     return {
       commentInfo: null,
@@ -86,7 +85,10 @@ exports.main = async (event, context) => {
   }
 
   return {
-    commentInfo: data,
+    commentInfo: {
+      ...data,
+      _id: res._id,
+    },
     ...total
   }
 }
