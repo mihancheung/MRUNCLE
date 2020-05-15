@@ -53,11 +53,25 @@ page:after {
 .page_comment_item {
   position: relative;
   padding: 40rpx 28rpx 40rpx 116rpx;
-  
 }
 
 .page_comment_item:nth-last-child(1) {
   border-bottom: none;
+}
+
+.page_comment_delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 36rpx;
+  width: 36rpx;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.page_comment_delete_icon {
+  height: 30rpx;
 }
 
 .page_comment_avata {

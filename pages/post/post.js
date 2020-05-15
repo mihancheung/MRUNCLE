@@ -33,7 +33,7 @@ Page({
 
   onShow () {
     const postBar = this.selectComponent('#postBar') || {};
-    typeof postBar.onShow === 'function' && postBar.onShow()
+    typeof postBar.onShow === 'function' && postBar.onShow();
   },
 
   onReachBottom () {

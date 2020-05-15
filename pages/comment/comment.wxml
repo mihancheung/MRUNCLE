@@ -8,6 +8,9 @@
         <text class="page_comment_nickname">{{item.nickName}}</text>
         <text class="page_comment_date">{{item.date}}</text>
         <text class="page_comment_cnt">{{item.cnt}}</text>
+        <view bind:tap="onTapDelete" class="page_comment_delete" wx:if="{{userOpenId && item.openId && userOpenId === item.openId}}" data-id="{{item._id}}">
+          <image class="page_comment_delete_icon" mode="aspectFit" src="/image/pages/comment/more.svg" />
+        </view>
       </view>
     </view>
   </block>

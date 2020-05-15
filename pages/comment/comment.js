@@ -7,6 +7,7 @@ Page({
   data: {
     postId: '',
     list: [],
+    userOpenId: '',
     isIniting: true,
     isLoading: false,
     isShowComment: false,
@@ -48,6 +49,19 @@ Page({
     this.setData({
       isShowComment: true
     })
+  },
+
+  onTapDelete (e) {
+    const { id }  = e.currentTarget.dataset
+    wx.showActionSheet({
+      itemList: ['删除评论'],
+      itemColor: '#232323',
+      success: (res) => {
+        if (res.tapIndex === 0) {
+          this._deleteComment(id, this.data.postId);
+        }
+      }
+    });
   },
 
   onGetComments (e) {
@@ -127,6 +141,37 @@ Page({
     });
   },
 
+  async _deleteComment (id, postId) {
+    if (!id || !postId) {
+      wx.showToast({
+        title: '缺少删除评论条件',
+        icon: 'none'
+      });
+      return;
+    };
+
+    const res = await wx.cloud.callFunction({
+      name: 'deleteComment',
+      data: {
+        id,
+        postId
+      }
+    }).catch(() => null);
+
+    if (!res) {
+      wx.showToast({
+        title: '未能成功删除',
+        icon: 'none'
+      });
+      return
+    };
+
+    wx.showToast({
+      title: '删除成功',
+      icon: 'none'
+    });
+  },
+
   async _getList () {
     if (!app.isConnected) {
       app.showNoNetworkToast();
@@ -151,7 +196,7 @@ Page({
     this.isFetchingList = false;
 
     const { result } = res || {};
-    const { total, list } = result || {}
+    const { total, list, openId: userOpenId } = result || {}
     this.total = total;
 
     if (!list) {
@@ -169,7 +214,8 @@ Page({
 
     this.setData({
       [`list[${this.data.list.length}]`]: nextList,
-      isLoading: nextListLength < this.total
+      isLoading: nextListLength < this.total,
+      userOpenId
     }, () => {
       this._setInitDone();
     });
