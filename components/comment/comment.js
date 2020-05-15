@@ -114,7 +114,7 @@ Component({
         icon: 'none'
       });
 
-      app.comments = total;
+      app.comments += 1;
       this.triggerEvent('getComments', {
         total,
         commentInfo,

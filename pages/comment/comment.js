@@ -170,6 +170,12 @@ Page({
       title: '删除成功',
       icon: 'none'
     });
+
+    wx.setNavigationBarTitle({
+      title: `${(app.comments - 1) || 0}条评论`
+    });
+    this.dynamicCommentTotal -= 1;
+    app.comments -= 1;
   },
 
   async _getList () {
@@ -198,6 +204,7 @@ Page({
     const { result } = res || {};
     const { total, list, openId: userOpenId } = result || {}
     this.total = total;
+    app.comments = total;
 
     if (!list) {
       this._setError();
