@@ -60,6 +60,7 @@ exports.main = async (event, context) => {
     nickName,
     replyTo,
     openId,
+    _id: `${openId}_${+new Date()}`,
   }
 
   // 写入回复评论
@@ -78,7 +79,7 @@ exports.main = async (event, context) => {
   return {
     commentInfo: {
       ...data,
-      _id: `${openId}_${+new Date()}`,
+      _id: `${openId}_${+new Date()}`, // 兼容之前没ID的数据
     }
   }
 }

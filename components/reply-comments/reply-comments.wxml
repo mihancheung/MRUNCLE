@@ -37,23 +37,6 @@
           <text class="page_comment_cnt">{{item.cnt}}</text>
         </view>
 
-        <view class="page_comment_replies" wx:if="{{item.replies && item.replies.length > 0}}"
-          bind:tap="onTapReply"
-          data-id="{{item._id}}"
-        >
-          <view class="page_comment_replies_item"
-            wx:if="{{repliesIndex < 3}}"
-            wx:for="{{item.replies}}"
-            wx:for-index="repliesIndex"
-            wx:for-item="repliesItem"
-            wx:key="_id"
-          >
-            <text>{{commentWxs.getReplierStr(repliesItem.nickName, repliesItem.replyTo)}}</text>
-            <text>{{repliesItem.cnt}}</text>
-          </view>
-          <text class="page_comment_replies_total" wx:if="{{item.replies.length > 3}}">共{{item.replies.length}}条回复</text>
-        </view>
-
         <view bind:tap="onTapDelete" class="page_comment_delete"
           wx:if="{{userOpenId && item.openId && userOpenId === item.openId}}"
           data-id="{{item._id}}"
@@ -78,7 +61,7 @@
   bindtapReload="onErrorReload"
 />
 <to-post
-  type="{{postType}}"
+  type="reply"
   commentId="{{commentId}}"
   replier="{{replier}}"
   replyTo="{{replyTo}}"

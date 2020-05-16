@@ -5,14 +5,9 @@ const COMMENT_MAX = 10;
 
 Component({
   properties: {
-    postId: {
+    commentId: {
       type: String,
       value: '',
-    },
-
-    type: {
-      type: String,
-      value: 'list'
     }
   },
 
@@ -20,7 +15,6 @@ Component({
     postId: '',
     list: [],
     userOpenId: '',
-    postType: 'post',
     commentId: '',
     replier: '',
     replyTo: '',
@@ -37,10 +31,10 @@ Component({
   },
 
   observers: {
-    'postId': function (postId) {
-      if (postId === this.data.postId) return;
+    'commentId': function (commentId) {
+      if (commentId === this.data.commentId) return;
       this.setData({
-        postId
+        commentId
       });
     }
   },
@@ -63,7 +57,6 @@ Component({
   
     onTapPost () {
       this.setData({
-        postType: 'post',
         isShowComment: true
       })
     },
@@ -85,25 +78,10 @@ Component({
         }
       });
     },
-
-    onTapReply (e) {
-      const { id }  = e.currentTarget.dataset;
-      wx.navigateTo({
-        url: `/pages/detail/detail?id=${id}`
-      });
-    },
   
     onCommentDone (e) {
       const { commentInfo, total } = e.detail
-      const { postType } = this.data
-  
-      if (postType === 'post') {
-        this._toCommentDone(commentInfo, total );
-      }
-  
-      if (postType === 'reply') {
-        this._toReplyCommentDone(commentInfo);
-      }
+      this._toCommentDone(commentInfo, total);
     },
   
     onErrorReload: function () {
@@ -125,14 +103,12 @@ Component({
       this._resetComponent();
     },
   
-    _resetComponent (cb) {
+    _resetComponent () {
       this.isFetchingList = false;
       this.dynamicCommentTotal = 0;
       this.setData({
         list: [],
         userOpenId: '',
-        postType: 'post',
-        commentId: '',
         replier: '',
         replyTo: '',
         isIniting: true,
@@ -190,10 +166,8 @@ Component({
     },
   
     async _replyComment (id, replier, index) {
-      console.log('reply')
       this.replyIndex = index;
       this.setData({
-        postType: 'reply',
         commentId: id,
         replier,
         isShowComment: true,
@@ -250,9 +224,9 @@ Component({
       this.isFetchingList = true;
   
       const res = await wx.cloud.callFunction({
-        name: 'getCommentList',
+        name: 'getReplyCommentList',
         data: {
-          postId: this.data.postId,
+          commentId: this.data.commentId,
           maxCommentList: COMMENT_MAX,
           skip: this.data.list.length * COMMENT_MAX + this.dynamicCommentTotal,
           orderBy: {
@@ -265,17 +239,19 @@ Component({
       this.isFetchingList = false;
   
       const { result } = res || {};
-      const { total, list, openId: userOpenId } = result || {}
+      const { total, replyCommentInfo, openId: userOpenId } = result || {}
       this.total = total;
       app.comments = total;
-      this.triggerEvent('getCommentsTotal', { total })
-  
-      if (!list) {
+      this.triggerEvent('getReplyTotal', { total })
+
+      if (!replyCommentInfo) {
         this._setError();
         return;
       };
+
+      const { postId, replies } = replyCommentInfo || []
   
-      const nextList = list.map((item) => {
+      const nextList = replies.map((item) => {
         const { date } = item || {};
         item.date = postDate(date);
         return item;
@@ -284,10 +260,15 @@ Component({
       const nextListLength = this.data.list.length * COMMENT_MAX + COMMENT_MAX
   
       this.setData({
+        info: {
+          ...replyCommentInfo,
+          replies: null
+        },
         [`list[${this.data.list.length}]`]: nextList,
         isLoading: nextListLength < this.total,
         userOpenId,
-        isIniting: false
+        isIniting: false,
+        postId
       });
     },
   }

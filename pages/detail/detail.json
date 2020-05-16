@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "reply-comments": "/components/reply-comments/reply-comments"
+  },
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "评论详情",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#ffffff",
+  "onReachBottomDistance": 90
+  
+}
