@@ -5,9 +5,9 @@
     return openId + '_' + index;
   }
 
-  var getReplierStr = function (replier, replyTo) {
+  var getReplierStr = function (nickName, replyTo) {
     var replyToStr = replyTo ? (' 回复 @' + replyTo) : '';
-    return replier + replyToStr + '：';
+    return nickName + replyToStr + '：';
   }
 
   module.exports = {
@@ -46,7 +46,7 @@
             wx:for-item="repliesItem"
             wx:key="_id"
           >
-            <text>{{commentWxs.getReplierStr(repliesItem.replier, repliesItem.replyTo)}}</text>
+            <text>{{commentWxs.getReplierStr(repliesItem.nickName, repliesItem.replyTo)}}</text>
             <text>{{repliesItem.cnt}}</text>
           </view>
           <text class="page_comment_replies_total" wx:if="{{item.replies.length > 3}}">共{{item.replies.length}}条回复</text>

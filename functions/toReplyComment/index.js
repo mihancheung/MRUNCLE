@@ -57,7 +57,7 @@ exports.main = async (event, context) => {
     cnt,
     date: new Date(),
     avatarUrl,
-    replier: nickName,
+    nickName,
     replyTo,
     openId,
   }
