@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "error": "/components/error/error",
+    "to-post": "/components/to-post/to-post"
+  }
+}

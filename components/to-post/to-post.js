@@ -36,12 +36,11 @@ Component({
     isShowComment: false,
     textValue: '',
     placeHolder: '说点什么吧：',
-    type: 'post',
-    adjustPosition: true,
   },
 
   lifetimes: {
     attached () {
+      this.type = this.properties.type;
       this.postId = this.properties.postId;
     }
   },
@@ -82,16 +81,16 @@ Component({
     },
 
     'replyTo': function (replyTo) {
-      if (this.replyTo === replyTo) return;
+      if (this.replyTo === replyTo || !replyTo) return;
       this.replyTo = replyTo;
     },
 
     'replier': function (replier) {
-      if (this.replier === replier) return;
+      if (this.replier === replier || !replier) return;
       this.replier = replier;
 
       this.setData({
-        placeHolder: `回复 @${this.replier}：`
+        placeHolder: `回复 @${replier}：`
       });
     }
   },
@@ -143,7 +142,7 @@ Component({
       }
 
       let res = null;
-      const { type } = this.data;
+      const type = this.type;
 
       if (type === 'post') {
         res = await wx.cloud.callFunction({
