@@ -17,6 +17,28 @@
 </wxs>
 
 <view class="page_comment">
+  <view class="page_comment_item page_comment_item_host">
+    <view class="page_comment_avata"><image src="{{info.avatarUrl}}" /></view>
+    <view class="page_comment_main">
+        <view class="page_comment_info"
+          data-id="{{info._id}}"
+          data-replier="{{info.nickName}}">
+          <text class="page_comment_nickname">{{info.nickName}}</text>
+          <text class="page_comment_date">{{info.date}}</text>
+          <text class="page_comment_cnt">{{info.cnt}}</text>
+        </view>
+
+        <view class="page_comment_delete"
+          wx:if="{{userOpenId && info.openId && userOpenId === info.openId}}"
+        >
+          <image class="page_comment_delete_icon" mode="aspectFit" src="/image/pages/comment/more.svg" />
+        </view>
+      </view>
+  </view>
+
+  <text class="page_comment_total">相关回复共{{total}}条</text>
+
+
   <block wx:for="{{list}}" wx:key="listIndex" wx:for-index="listIndex" wx:for-item="blockItem">
     <view class="page_comment_item"
       wx:for="{{blockItem}}"
@@ -29,7 +51,7 @@
 
         <view class="page_comment_info"
           bind:tap="onTapPoster"
-          data-id="{{item._id}}"
+          data-id="{{info._id}}"
           data-index="{{[listIndex, blockItemIndex]}}"
           data-replier="{{item.nickName}}">
           <text class="page_comment_nickname">{{item.nickName}}</text>
@@ -39,7 +61,6 @@
 
         <view bind:tap="onTapDelete" class="page_comment_delete"
           wx:if="{{userOpenId && item.openId && userOpenId === item.openId}}"
-          data-id="{{item._id}}"
           data-index="{{[listIndex, blockItemIndex]}}"
         >
           <image class="page_comment_delete_icon" mode="aspectFit" src="/image/pages/comment/more.svg" />

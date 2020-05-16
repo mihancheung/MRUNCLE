@@ -14,6 +14,8 @@ Component({
   data: {
     postId: '',
     list: [],
+    info: {},
+    total: '',
     userOpenId: '',
     commentId: '',
     replier: '',
@@ -268,7 +270,8 @@ Component({
         isLoading: nextListLength < this.total,
         userOpenId,
         isIniting: false,
-        postId
+        postId,
+        total,
       });
     },
   }

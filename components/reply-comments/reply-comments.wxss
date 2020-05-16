@@ -44,6 +44,19 @@
   border-bottom: none;
 }
 
+.page_comment_item_host {
+  border-bottom: 30rpx solid #f4f4f4;
+}
+
+.page_comment_total {
+  padding: 20rpx 28rpx 0;
+  background: #ffffff;
+  height: 50rpx;
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+}
+
 .page_comment_delete {
   position: absolute;
   right: 0;
