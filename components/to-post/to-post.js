@@ -21,21 +21,20 @@ Component({
       value: '',
     },
 
-    replier: {
-      type: String,
-      value: '',
-    },
-
     replyTo: {
       type: String,
-      value: '',
+      value: ''
+    },
+
+    placeHolder: {
+      type: String,
+      value: '说点什么吧：'
     }
   },
 
   data: {
     isShowComment: false,
     textValue: '',
-    placeHolder: '说点什么吧：',
   },
 
   lifetimes: {
@@ -54,45 +53,20 @@ Component({
     },
 
     'postId': function (postId) {
-      if (this.postId === postId) return;
       this.postId = postId
     },
 
+    'replyTo': function (replyTo) {
+      this.replyTo = replyTo
+    },
+
     'commentId': function (commentId) {
-      if (this.commentId === commentId) return;
       this.commentId = commentId
     },
 
     'type': function (type) {
-      if (this.type === type) return;
       this.type = type;
-
-      if (type === 'post') {
-        this.setData({
-          placeHolder: '说点什么吧：'
-        });
-      }
-
-      if (type === 'reply') {
-        this.setData({
-          placeHolder: `回复 @${this.replier}：`
-        });
-      }
     },
-
-    'replyTo': function (replyTo) {
-      if (this.replyTo === replyTo || !replyTo) return;
-      this.replyTo = replyTo;
-    },
-
-    'replier': function (replier) {
-      if (this.replier === replier || !replier) return;
-      this.replier = replier;
-
-      this.setData({
-        placeHolder: `回复 @${replier}：`
-      });
-    }
   },
 
   methods: {
@@ -110,7 +84,7 @@ Component({
     },
 
     _closePost () {
-      this.triggerEvent('closeComment')
+      this.triggerEvent('closeComment', {textValue: this.inputText})
 
       this.setData({
         textValue: this.inputText

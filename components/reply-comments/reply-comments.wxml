@@ -10,13 +10,18 @@
     return nickName + replyToStr + '：';
   }
 
+  var getDefaultPlaceHolder = function (nickName) {
+    return '回复 @' + nickName + '：'
+  }
+
   module.exports = {
     getReplyItemKey: getReplyItemKey,
-    getReplierStr: getReplierStr
+    getReplierStr: getReplierStr,
+    getDefaultPlaceHolder: getDefaultPlaceHolder
   }
 </wxs>
 
-<view class="page_comment">
+<view class="page_comment" id="reply-wrapper">
   <view class="page_comment_item page_comment_item_host">
     <view class="page_comment_avata"><image src="{{info.avatarUrl}}" /></view>
     <view class="page_comment_main">
@@ -26,12 +31,6 @@
           <text class="page_comment_nickname">{{info.nickName}}</text>
           <text class="page_comment_date">{{info.date}}</text>
           <text class="page_comment_cnt">{{info.cnt}}</text>
-        </view>
-
-        <view class="page_comment_delete"
-          wx:if="{{userOpenId && info.openId && userOpenId === info.openId}}"
-        >
-          <image class="page_comment_delete_icon" mode="aspectFit" src="/image/pages/comment/more.svg" />
         </view>
       </view>
   </view>
@@ -54,7 +53,7 @@
           data-id="{{info._id}}"
           data-index="{{[listIndex, blockItemIndex]}}"
           data-replier="{{item.nickName}}">
-          <text class="page_comment_nickname">{{item.nickName}}</text>
+          <text class="page_comment_nickname">{{commentWxs.getReplierStr(item.nickName, item.replyTo)}}</text>
           <text class="page_comment_date">{{item.date}}</text>
           <text class="page_comment_cnt">{{item.cnt}}</text>
         </view>
@@ -73,7 +72,7 @@
 </view>
 
 <view class="page_comment_post" bind:tap="onTapPost">
-  <text class="page_comment_post_txt">说点什么吧：</text>
+  <text class="page_comment_post_txt">{{placeHolder || commentWxs.getDefaultPlaceHolder(info.nickName)}}</text>
 </view>
 
 <template is="loading" data="{{ isLoading: isIniting }}" />
@@ -83,9 +82,9 @@
 />
 <to-post
   type="reply"
-  commentId="{{commentId}}"
-  replier="{{replier}}"
   replyTo="{{replyTo}}"
+  commentId="{{commentId}}"
+  placeHolder="{{placeHolder || commentWxs.getDefaultPlaceHolder(info.nickName)}}"
   postId="{{postId}}"
   isShowComment="{{isShowComment}}"
   bind:closeComment="onCloseComment"

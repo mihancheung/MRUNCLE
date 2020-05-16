@@ -17,9 +17,9 @@ Component({
     info: {},
     total: '',
     userOpenId: '',
-    commentId: '',
-    replier: '',
+    placeHolder: '',
     replyTo: '',
+    commentId: '',
     isIniting: true,
     isLoading: false,
     isShowComment: false,
@@ -111,7 +111,6 @@ Component({
       this.setData({
         list: [],
         userOpenId: '',
-        replier: '',
         replyTo: '',
         isIniting: true,
         isLoading: false,
@@ -144,34 +143,28 @@ Component({
       const { list } = this.data;
       const { date } = commentInfo || {};
       commentInfo.date = postDate(date);
-      let nextComment = [];
-  
-      if (!list[0]) {
-        nextComment = [[commentInfo]];
-      } else {
-        nextComment = [...list[0]];
-        nextComment.splice(0,0,commentInfo);
-      }
-  
+
+      const listListIndex = list.length === 0 ? 0 : list.length - 1;  
       this.setData({
-        [`list[0]`]: nextComment
+        [`list[${listListIndex}][${list[listListIndex].length}]`]: commentInfo,
+        placeHolder: '',
+        replyTo: '',
       }, () => {
-        wx.setNavigationBarTitle({
-          title: `${total}条评论`
-        });
         this.dynamicCommentTotal += 1;
-  
-        typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
-          scrollTop: 0
-        });
+        this.createSelectorQuery().select('#reply-wrapper').boundingClientRect(function(rect){
+          typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
+            scrollTop: rect.bottom
+          });
+        }).exec()
       });
     },
   
-    async _replyComment (id, replier, index) {
+    async _replyComment (id, replyTo, index) {
       this.replyIndex = index;
       this.setData({
         commentId: id,
-        replier,
+        placeHolder: `回复 @${replyTo}：`,
+        replyTo,
         isShowComment: true,
       });
     },

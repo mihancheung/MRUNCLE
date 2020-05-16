@@ -22,8 +22,7 @@ Component({
     userOpenId: '',
     postType: 'post',
     commentId: '',
-    replier: '',
-    replyTo: '',
+    placeHolder: '说点什么吧：',
     isIniting: true,
     isLoading: false,
     isShowComment: false,
@@ -55,15 +54,35 @@ Component({
       this._reloadPage();
     },
   
-    onCloseComment () {
+    onCloseComment (e) {
+      const { textValue } = e.detail
+      this.inpurtText = textValue;
+      let placeHolder = {}
+
+      if (!this.inpurtText) {
+        placeHolder = {
+          placeHolder: '说点什么吧：'
+        }
+      }
+
       this.setData({
-        isShowComment: false
+        isShowComment: false,
+        ...placeHolder
       });
     },
   
     onTapPost () {
+      let postType = {}
+
+      if (typeof this.inpurtText === 'string' && !this.inpurtText) {
+        postType = {
+          postType: 'post',
+          placeHolder: '说点什么吧：'
+        }
+      }
+
       this.setData({
-        postType: 'post',
+        ...postType,
         isShowComment: true
       })
     },
@@ -98,7 +117,7 @@ Component({
       const { postType } = this.data
   
       if (postType === 'post') {
-        this._toCommentDone(commentInfo, total );
+        this._toCommentDone(commentInfo, total);
       }
   
       if (postType === 'reply') {
@@ -133,8 +152,6 @@ Component({
         userOpenId: '',
         postType: 'post',
         commentId: '',
-        replier: '',
-        replyTo: '',
         isIniting: true,
         isLoading: false,
         isShowComment: false,
@@ -158,7 +175,8 @@ Component({
       const replies = this.data.list[index[0]][index[1]].replies || []
       const replyLength = replies.length;
       this.setData({
-        [`list[${index[0]}][${index[1]}].replies[${replyLength}]`]: commentInfo
+        [`list[${index[0]}][${index[1]}].replies[${replyLength}]`]: commentInfo,
+        placeHolder: '说点什么吧：'
       })
     },
   
@@ -176,7 +194,8 @@ Component({
       }
   
       this.setData({
-        [`list[0]`]: nextComment
+        [`list[0]`]: nextComment,
+        placeHolder: '说点什么吧：'
       }, () => {
         wx.setNavigationBarTitle({
           title: `${total}条评论`
@@ -189,13 +208,12 @@ Component({
       });
     },
   
-    async _replyComment (id, replier, index) {
-      console.log('reply')
+    _replyComment (id, replier, index) {
       this.replyIndex = index;
       this.setData({
+        placeHolder: `回复 @${replier}：`,
         postType: 'reply',
         commentId: id,
-        replier,
         isShowComment: true,
       });
     },
