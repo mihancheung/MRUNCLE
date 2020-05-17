@@ -6,12 +6,12 @@
   }
 
   var getReplierStr = function (nickName, replyTo) {
-    var replyToStr = replyTo ? (' 回复 @' + replyTo) : '';
-    return nickName + replyToStr + '：';
+    var replyToStr = replyTo ? ' 回复 ' : nickName;
+    return replyToStr;
   }
 
   var getDefaultPlaceHolder = function (nickName) {
-    return '回复 @' + nickName + '：'
+    return '回复 @' + nickName + ':'
   }
 
   module.exports = {
@@ -26,7 +26,7 @@
     <view class="page_comment_avata"><image src="{{info.avatarUrl}}" /></view>
     <view class="page_comment_main">
         <view class="page_comment_info"
-          data-id="{{info._id}}"
+          bind:tap="onTapHost"
           data-replier="{{info.nickName}}">
           <text class="page_comment_nickname">{{info.nickName}}</text>
           <text class="page_comment_date">{{info.date}}</text>
@@ -50,12 +50,15 @@
 
         <view class="page_comment_info"
           bind:tap="onTapPoster"
-          data-id="{{info._id}}"
-          data-index="{{[listIndex, blockItemIndex]}}"
           data-replier="{{item.nickName}}">
-          <text class="page_comment_nickname">{{commentWxs.getReplierStr(item.nickName, item.replyTo)}}</text>
+          <text class="page_comment_nickname">{{item.nickName}}</text>
           <text class="page_comment_date">{{item.date}}</text>
-          <text class="page_comment_cnt">{{item.cnt}}</text>
+          <view class="page_comment_cnt">
+            <text wx:if="{{item.replyTo}}">回复</text>
+            <text wx:if="{{item.replyTo}}" class="page_comment_nickname_replyTo">@{{item.replyTo}}</text>
+            <text wx:if="{{item.replyTo}}">：</text>
+            <text>{{item.cnt}}</text>
+          </view>
         </view>
 
         <view bind:tap="onTapDelete" class="page_comment_delete"

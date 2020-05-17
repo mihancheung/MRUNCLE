@@ -51,9 +51,21 @@ Component({
       this._reloadPage();
     },
   
-    onCloseComment () {
+    onCloseComment (e) {
+      const { textValue } = e.detail
+      this.inpurtText = textValue;
+      let placeHolder = {}
+
+      if (!this.inpurtText) {
+        placeHolder = {
+          placeHolder: '',
+          replyTo: ''
+        }
+      }
+
       this.setData({
-        isShowComment: false
+        isShowComment: false,
+        ...placeHolder
       });
     },
   
@@ -62,10 +74,18 @@ Component({
         isShowComment: true
       })
     },
+
+    onTapHost () {
+      this.setData({
+        isShowComment: true,
+        placeHolder: '',
+        replyTo: ''
+      })
+    },
   
     onTapPoster (e) {
-      const { id, replier, index }  = e.currentTarget.dataset;
-      this._replyComment(id, replier, index)
+      const { replier }  = e.currentTarget.dataset;
+      this._replyComment(replier)
     },
   
     onTapDelete (e) {
@@ -130,39 +150,28 @@ Component({
       });
     },
   
-    _toReplyCommentDone (commentInfo) {
-      const index = this.replyIndex;
-      const replies = this.data.list[index[0]][index[1]].replies || []
-      const replyLength = replies.length;
-      this.setData({
-        [`list[${index[0]}][${index[1]}].replies[${replyLength}]`]: commentInfo
-      })
-    },
-  
     _toCommentDone (commentInfo, total ) {
       const { list } = this.data;
       const { date } = commentInfo || {};
       commentInfo.date = postDate(date);
 
-      const listListIndex = list.length === 0 ? 0 : list.length - 1;  
+      const lastList = list[list.length - 1];
       this.setData({
-        [`list[${listListIndex}][${list[listListIndex].length}]`]: commentInfo,
+        [`list[${list.length - 1}][${lastList.length}]`]: commentInfo,
         placeHolder: '',
         replyTo: '',
       }, () => {
         this.dynamicCommentTotal += 1;
         this.createSelectorQuery().select('#reply-wrapper').boundingClientRect(function(rect){
           typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
-            scrollTop: rect.bottom
+            scrollTop: rect.height
           });
-        }).exec()
+        }).exec();
       });
     },
   
-    async _replyComment (id, replyTo, index) {
-      this.replyIndex = index;
+    async _replyComment (replyTo) {
       this.setData({
-        commentId: id,
         placeHolder: `回复 @${replyTo}：`,
         replyTo,
         isShowComment: true,
@@ -244,7 +253,10 @@ Component({
         return;
       };
 
-      const { postId, replies } = replyCommentInfo || []
+      const { postId, replies } = replyCommentInfo || [];
+
+      // 格式化日期
+      replyCommentInfo.date = postDate(replyCommentInfo.date);
   
       const nextList = replies.map((item) => {
         const { date } = item || {};

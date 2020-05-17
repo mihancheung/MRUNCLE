@@ -176,7 +176,8 @@ Component({
       const replyLength = replies.length;
       this.setData({
         [`list[${index[0]}][${index[1]}].replies[${replyLength}]`]: commentInfo,
-        placeHolder: '说点什么吧：'
+        placeHolder: '说点什么吧：',
+        postType: 'post'
       })
     },
   
@@ -195,7 +196,8 @@ Component({
   
       this.setData({
         [`list[0]`]: nextComment,
-        placeHolder: '说点什么吧：'
+        placeHolder: '说点什么吧：',
+        postType: 'post'
       }, () => {
         wx.setNavigationBarTitle({
           title: `${total}条评论`

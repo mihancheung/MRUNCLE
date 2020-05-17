@@ -38,11 +38,13 @@ export function postDate(date) {
     txt = `${parseInt(dist / m)}分钟前`
   } else if (dist >= h && dist < d) {
     txt = `${parseInt(dist / h)}小时前`
-  } else if (dist >= d && dist <= d * 3) {
-    txt = `${parseInt(dist / d)}日前`
+  } else if (new Date().getDate() - new Date(date).getDate() === 1) {
+    txt = '昨日'
+  } else {
+    txt = formatDate(date);
   }
 
-  return `${txt}`
+  return txt;
 }
 
 export function formatePostData (data = {}) {
