@@ -250,8 +250,8 @@ Component({
       const { list } = result || {}
 
       if (!list) return;
-
       const replyIndex = this.replyIndex
+      list.date = postDate(list.date);
 
       this.setData({
         [`list[${replyIndex[0]}][${replyIndex[1]}]`]: list
