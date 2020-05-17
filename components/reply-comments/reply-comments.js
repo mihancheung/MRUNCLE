@@ -95,7 +95,7 @@ Component({
         itemColor: '#232323',
         success: (res) => {
           if (res.tapIndex === 0) {
-            this._deleteComment(id, this.data.postId, index);
+            this._deleteComment(id, this.data.commentId, index);
           }
         }
       });
@@ -154,6 +154,9 @@ Component({
       const { list } = this.data;
       const { date } = commentInfo || {};
       commentInfo.date = postDate(date);
+      // this.total = total
+
+      app.isReplyCommentsUpdate = true;
 
       const lastList = list[list.length - 1];
       this.setData({
@@ -178,29 +181,35 @@ Component({
       });
     },
   
-    async _deleteComment (id, postId, index) {
-      if (!id || !postId) {
+    async _deleteComment (id, commentId, index) {
+      if (!id || !commentId) {
         wx.showToast({
           title: '缺少删除评论条件',
           icon: 'none'
         });
         return;
       };
+
+      wx.showLoading({
+        title: '正在刪除'
+      });
   
       const res = await wx.cloud.callFunction({
-        name: 'deleteComment',
+        name: 'deleteReplyComment',
         data: {
-          id,
-          postId
+          replyId: id,
+          commentId
         }
       }).catch(() => null);
+
+      wx.hideLoading();
   
       if (!res) {
         wx.showToast({
           title: '未能成功删除',
           icon: 'none'
         });
-        return
+        return;
       };
   
       this.setData({
@@ -212,11 +221,9 @@ Component({
         icon: 'none'
       });
   
-      wx.setNavigationBarTitle({
-        title: `${(app.comments - 1) || 0}条评论`
-      });
       this.dynamicCommentTotal -= 1;
-      app.comments -= 1;
+
+      app.isReplyCommentsUpdate = true;
     },
   
     async _getList () {

@@ -27,7 +27,7 @@
     <view class="page_comment_main">
         <view class="page_comment_info"
           bind:tap="onTapHost"
-          data-replier="{{info.nickName}}">
+        >
           <text class="page_comment_nickname">{{info.nickName}}</text>
           <text class="page_comment_date">{{info.date}}</text>
           <text class="page_comment_cnt">{{info.cnt}}</text>
@@ -64,8 +64,9 @@
         <view bind:tap="onTapDelete" class="page_comment_delete"
           wx:if="{{userOpenId && item.openId && userOpenId === item.openId}}"
           data-index="{{[listIndex, blockItemIndex]}}"
+          data-id="{{item._id}}"
         >
-          <image class="page_comment_delete_icon" mode="aspectFit" src="/image/pages/comment/more.svg" />
+          <image class="page_comment_delete_icon" mode="heightFix" src="/image/pages/comment/more.svg" />
         </view>
       </view>
     </view>

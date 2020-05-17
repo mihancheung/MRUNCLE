@@ -34,9 +34,9 @@
         <view class="page_comment_replies" wx:if="{{item.replies && item.replies.length > 0}}"
           bind:tap="onTapReply"
           data-id="{{item._id}}"
+          data-index="{{[listIndex, blockItemIndex]}}"
         >
           <view class="page_comment_replies_item"
-            wx:if="{{repliesIndex < 3}}"
             wx:for="{{item.replies}}"
             wx:for-index="repliesIndex"
             wx:for-item="repliesItem"
@@ -50,7 +50,7 @@
               <text>{{repliesItem.cnt}}</text>
             </view>
           </view>
-          <text class="page_comment_replies_total" wx:if="{{item.replies.length > 3}}">共{{item.replies.length}}条回复</text>
+          <text class="page_comment_replies_total" wx:if="{{item.replyTotal > 3}}">共{{item.replyTotal}}条回复</text>
         </view>
 
         <view bind:tap="onTapDelete" class="page_comment_delete"
@@ -58,7 +58,7 @@
           data-id="{{item._id}}"
           data-index="{{[listIndex, blockItemIndex]}}"
         >
-          <image class="page_comment_delete_icon" mode="aspectFit" src="/image/pages/comment/more.svg" />
+          <image class="page_comment_delete_icon" mode="heightFix" src="/image/pages/comment/more.svg" />
         </view>
       </view>
     </view>

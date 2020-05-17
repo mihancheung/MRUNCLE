@@ -17,6 +17,10 @@ Page({
     });
   },
 
+  onUnload () {
+    app.isReplyCommentsUpdate = false;
+  },
+
   onReachBottom () {
     const comments = this.selectComponent('#comments') || {};
     typeof comments.onReachBottom === 'function' && comments.onReachBottom();
@@ -30,9 +34,6 @@ Page({
 
   onGetCommentsTotal (e) {
     const { total } = e.detail
-    if (this.total === total) return;
-    this.setData({
-      total
-    });
+    this.total = total;
   }
 })

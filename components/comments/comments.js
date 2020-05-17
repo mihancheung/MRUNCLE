@@ -35,6 +35,14 @@ Component({
     }
   },
 
+  pageLifetimes: {
+    show () {
+      if (!app.isReplyCommentsUpdate) return;
+      app.isReplyCommentsUpdate = false;
+      this._updateReplyCommentById();
+    }
+  },
+
   observers: {
     'postId': function (postId) {
       if (postId === this.data.postId) return;
@@ -106,7 +114,9 @@ Component({
     },
 
     onTapReply (e) {
-      const { id }  = e.currentTarget.dataset;
+      const { id, index }  = e.currentTarget.dataset;
+      this.commentId = id;
+      this.replyIndex = index;
       wx.navigateTo({
         url: `/pages/detail/detail?id=${id}`
       });
@@ -219,6 +229,34 @@ Component({
         isShowComment: true,
       });
     },
+
+    async _updateReplyCommentById () {
+      if (!this.commentId) return;
+
+      wx.showLoading({
+        title: ''
+      });
+
+      const res = await wx.cloud.callFunction({
+        name: 'getCommentById',
+        data: {
+          commentId: this.commentId
+        }
+      }).catch(() => null);
+
+      wx.hideLoading();
+
+      const { result } = res || {};
+      const { list } = result || {}
+
+      if (!list) return;
+
+      const replyIndex = this.replyIndex
+
+      this.setData({
+        [`list[${replyIndex[0]}][${replyIndex[1]}]`]: list
+      })
+    },
   
     async _deleteComment (id, postId, index) {
       if (!id || !postId) {
@@ -283,7 +321,7 @@ Component({
           skip: this.data.list.length * COMMENT_MAX + this.dynamicCommentTotal,
           orderBy: {
             key: 'date',
-            type: 'desc'
+            type: -1
           }
         }
       });
