@@ -228,6 +228,10 @@ Component({
         });
         return;
       };
+
+      wx.showLoading({
+        title: '正在刪除'
+      });
   
       const res = await wx.cloud.callFunction({
         name: 'deleteComment',
@@ -236,6 +240,8 @@ Component({
           postId
         }
       }).catch(() => null);
+
+      wx.hideLoading();
   
       if (!res) {
         wx.showToast({

@@ -115,6 +115,10 @@ Component({
         return;
       }
 
+      wx.showLoading({
+        title: '正在發送'
+      });
+
       let res = null;
       const type = this.type;
 
@@ -141,6 +145,8 @@ Component({
 
       const { result } = res || {}
       const { commentInfo, cntMsg, total: resultTotal } = result || {}
+
+      wx.hideLoading();
 
       if (cntMsg) {
         wx.showToast({

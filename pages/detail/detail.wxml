@@ -1,8 +1,6 @@
-<view class="page_detail">
-  <reply-comments
-    wx:if="{{id}}"
-    id="comments"
-    commentId="{{id}}"
-    bind:getReplyTotal="onGetReplyTotal"
-  />
-</view>
+<reply-comments
+  wx:if="{{id}}"
+  id="comments"
+  commentId="{{id}}"
+  bind:getReplyTotal="onGetReplyTotal"
+/>

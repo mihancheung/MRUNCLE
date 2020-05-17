@@ -1,8 +1,6 @@
-<view class="page_comment">
-  <comments
-    wx:if="{{postId}}"
-    id="comments"
-    postId="{{postId}}"
-    bind:getCommentsTotal="onGetCommentsTotal"
-  />
-</view>
+<comments
+  wx:if="{{postId}}"
+  id="comments"
+  postId="{{postId}}"
+  bind:getCommentsTotal="onGetCommentsTotal"
+/>

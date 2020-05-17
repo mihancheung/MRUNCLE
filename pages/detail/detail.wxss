@@ -16,8 +16,3 @@ page:after {
   overflow: hidden;
   z-index: 10;
 }
-
-.page_detail {
-  position: relative;
-  min-height: 100vh;
-}
