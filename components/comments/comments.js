@@ -39,7 +39,7 @@ Component({
     show () {
       if (!app.isReplyCommentsUpdate) return;
       app.isReplyCommentsUpdate = false;
-      this._updateReplyCommentById();
+      this._updateReplyCommentInfo();
     }
   },
 
@@ -125,18 +125,13 @@ Component({
     onCommentDone (e) {
       const { commentInfo } = e.detail
       const { postType } = this.data
-
-      wx.setNavigationBarTitle({
-        title: `${app.comments}条评论`
-      });
   
       if (postType === 'post') {
         this._toCommentDone(commentInfo);
       }
   
       if (postType === 'reply') {
-        // this._toReplyCommentDone(commentInfo);
-        this._updateReplyCommentById();
+        this._updateReplyCommentInfo();
       }
     },
   
@@ -185,17 +180,6 @@ Component({
       });
     },
   
-    _toReplyCommentDone (commentInfo) {
-      const index = this.replyIndex;
-      const replies = this.data.list[index[0]][index[1]].replies || []
-      const replyLength = replies.length;
-      this.setData({
-        [`list[${index[0]}][${index[1]}].replies[${replyLength}]`]: commentInfo,
-        placeHolder: '说点什么吧：',
-        postType: 'post'
-      })
-    },
-  
     _toCommentDone (commentInfo) {
       const { list } = this.data;
       const { date } = commentInfo || {};
@@ -208,14 +192,14 @@ Component({
         nextComment = [...list[0]];
         nextComment.splice(0,0,commentInfo);
       }
-  
+
+      this._updateTotal();
       this.setData({
         [`list[0]`]: nextComment,
         placeHolder: '说点什么吧：',
         postType: 'post'
       }, () => {
         this.dynamicCommentTotal += 1;
-  
         typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
           scrollTop: 0
         });
@@ -233,34 +217,32 @@ Component({
       });
     },
 
-    async _updateReplyCommentById () {
+    async _updateReplyCommentInfo () {
       if (!this.commentId) return;
 
-      wx.showLoading({
-        title: '数据更新中'
-      });
-
-      const res = await wx.cloud.callFunction({
+      const res = wx.cloud.callFunction({
         name: 'getCommentById',
         data: {
           commentId: this.commentId
         }
-      }).catch(() => null);
+      });
 
-      wx.hideLoading();
+      const commentRes = await res.catch(() => null);
 
-      const { result } = res || {};
+      const { result } = commentRes || {};
       const { list } = result || {}
 
       if (!list) return;
       const replyIndex = this.replyIndex
       list.date = postDate(list.date);
 
+      await this._updateTotal();
+
       this.setData({
         [`list[${replyIndex[0]}][${replyIndex[1]}]`]: list,
         placeHolder: '说点什么吧：',
         postType: 'post'
-      })
+      });
     },
   
     async _deleteComment (id, postId, index) {
@@ -284,6 +266,7 @@ Component({
         }
       }).catch(() => null);
 
+      await this._updateTotal();
       wx.hideLoading();
   
       if (!res) {
@@ -303,11 +286,7 @@ Component({
         icon: 'none'
       });
   
-      wx.setNavigationBarTitle({
-        title: `${(app.comments - 1) || 0}条评论`
-      });
       this.dynamicCommentTotal -= 1;
-      app.comments -= 1;
     },
   
     async _getList () {
@@ -358,5 +337,23 @@ Component({
         isIniting: false
       });
     },
+
+    async _updateTotal () {
+      const res = await wx.cloud.callFunction({
+        name: 'getCommentsTotal',
+        data: {
+          postId: this.data.postId
+        }
+      })
+      .catch (() => null);
+
+      const { result } = res || {};
+      const { comments } = result || {}
+      app.comments = comments;
+
+      wx.setNavigationBarTitle({
+        title: `${comments || 0}条评论`
+      });
+    }
   }
 });

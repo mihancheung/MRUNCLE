@@ -1,16 +1,41 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
+const cloud = require('wx-server-sdk');
 
-cloud.init()
+cloud.init({
+  env: cloud.DYNAMIC_CURRENT_ENV
+});
 
-// 云函数入口函数
+const db = cloud.database();
+const $ = db.command.aggregate;
+const comment = db.collection('comment');
+
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
+  const { postId } = event;
+
+  const commentsReq = comment.where({
+    postId
+  }).count();
+
+  const replyCommentsReq = comment
+  .aggregate()
+  .match({
+    postId
+  })
+  .group({
+    _id: null,
+    replyCommentTotal: $.sum($.size($.ifNull(['$replies', []])))
+  })
+  .end();
+
+  // 回复评论数
+  const replyRes = await replyCommentsReq.catch(() => null)
+  const { list = [] } = replyRes || {}
+  const { replyCommentTotal = 0 } = list[0] || {}
+
+  // 文章非回复评论数
+  const commentsRes = await commentsReq.catch(() => {});
+  const { total: commentsResTotal = 0 } = commentsRes;
 
   return {
-    event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
+    comments: commentsResTotal + replyCommentTotal
   }
 }

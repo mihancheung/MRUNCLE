@@ -78,9 +78,20 @@ Page({
     });
   },
 
-  onGetComments () {
+  async onGetComments () {
+    const res = await wx.cloud.callFunction({
+      name: 'getCommentsTotal',
+      data: {
+        postId: this.data.id
+      }
+    })
+    .catch (() => null);
+
+    const { result } = res || {};
+    const { comments } = result || {}
+
     this.setData({
-      changeComments: app.comments
+      changeComments: comments
     });
   },
 

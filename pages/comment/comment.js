@@ -7,15 +7,12 @@ Page({
   },
 
   onLoad (option) {
-    const { id, total } = option;
-    this.total = total;
-
-    wx.setNavigationBarTitle({
-      title: `${total}条评论`
-    });
+    const { id } = option;
 
     this.setData({
       postId: id
+    }, () => {
+      this._updateTotal()
     });
   },
 
@@ -24,6 +21,7 @@ Page({
   },
 
   onShow () {
+    if (typeof app.comments !== 'number') return;
     wx.setNavigationBarTitle({
       title: `${app.comments}条评论`
     });
@@ -43,5 +41,23 @@ Page({
   onGetCommentsTotal (e) {
     const { total } = e.detail
     this.total = total;
-  }
+  },
+
+  async _updateTotal () {
+    const res = await wx.cloud.callFunction({
+      name: 'getCommentsTotal',
+      data: {
+        postId: this.data.postId
+      }
+    })
+    .catch (() => null);
+
+    const { result } = res || {};
+    const { comments } = result || {}
+    app.comments = comments;
+
+    wx.setNavigationBarTitle({
+      title: `${comments || 0}条评论`
+    });
+  },
 })

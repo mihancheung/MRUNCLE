@@ -42,10 +42,15 @@ Component({
   methods: {
     onShow () {
       if (typeof app.comments !== 'number') return;
-      if (app.comments === this.data.postInfo.comments ) return;
+      if (app.comments === this.data.postInfo.comments ) {
+        app.comments = null;
+        return;
+      };
 
       this.setData({
         'postInfo.comments': app.comments
+      }, () => {
+        app.comments = null;
       });
     },
     onTapMark () {
@@ -160,9 +165,6 @@ Component({
 
       const { result } = res || {};
       const { isMark = false, isLike = false, postInfo = {} } = result || {};
-
-      // 缓存文章的评论数
-      app.comments = postInfo.comments;
 
       this.setData({
         isMark,

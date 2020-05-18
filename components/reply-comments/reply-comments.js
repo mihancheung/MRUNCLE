@@ -103,7 +103,6 @@ Component({
   
     onCommentDone (e) {
       const { commentInfo } = e.detail
-      app.comments += 1;
       this._toCommentDone(commentInfo);
     },
   
@@ -157,6 +156,7 @@ Component({
       commentInfo.date = postDate(date);
 
       app.isReplyCommentsUpdate = true;
+      this._updateTotal();
 
       const lastList = list[list.length - 1];
       this.setData({
@@ -203,6 +203,8 @@ Component({
         }
       }).catch(() => null);
 
+      await this._updateTotal()
+
       wx.hideLoading();
   
       if (!res) {
@@ -224,8 +226,6 @@ Component({
       });
   
       this.dynamicCommentTotal -= 1;
-      app.comments -= 1;
-
       app.isReplyCommentsUpdate = true;
     },
   
@@ -287,6 +287,20 @@ Component({
         postId,
         total,
       });
+    },
+
+    async _updateTotal () {
+      const res = await wx.cloud.callFunction({
+        name: 'getCommentsTotal',
+        data: {
+          postId: this.data.postId
+        }
+      })
+      .catch (() => null);
+
+      const { result } = res || {};
+      const { comments } = result || {}
+      app.comments = comments;
     },
   }
 });
