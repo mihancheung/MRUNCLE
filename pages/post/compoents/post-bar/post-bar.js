@@ -103,6 +103,16 @@ Component({
     },
 
     onTapCommentList () {
+      if (!app.isConnected) {
+        app.showNoNetworkToast();
+        return;
+      }
+
+      if (!app.isLogin) {
+        this._jumpToLogin();
+        return;
+      }
+
       wx.navigateTo({
         url: `/pages/comment/comment?id=${this.properties.postId}&total=${this.data.postInfo.comments || 0}`
       });
