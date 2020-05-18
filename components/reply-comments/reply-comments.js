@@ -103,6 +103,7 @@ Component({
   
     onCommentDone (e) {
       const { commentInfo } = e.detail
+      app.comments += 1;
       this._toCommentDone(commentInfo);
     },
   
@@ -223,6 +224,7 @@ Component({
       });
   
       this.dynamicCommentTotal -= 1;
+      app.comments -= 1;
 
       app.isReplyCommentsUpdate = true;
     },

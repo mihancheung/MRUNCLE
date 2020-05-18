@@ -135,7 +135,8 @@ Component({
       }
   
       if (postType === 'reply') {
-        this._toReplyCommentDone(commentInfo);
+        // this._toReplyCommentDone(commentInfo);
+        this._updateReplyCommentById();
       }
     },
   
@@ -222,6 +223,7 @@ Component({
     },
   
     _replyComment (id, replier, index) {
+      this.commentId = id;
       this.replyIndex = index;
       this.setData({
         placeHolder: `回复 @${replier}：`,
@@ -235,7 +237,7 @@ Component({
       if (!this.commentId) return;
 
       wx.showLoading({
-        title: ''
+        title: '数据更新中'
       });
 
       const res = await wx.cloud.callFunction({
@@ -255,7 +257,9 @@ Component({
       list.date = postDate(list.date);
 
       this.setData({
-        [`list[${replyIndex[0]}][${replyIndex[1]}]`]: list
+        [`list[${replyIndex[0]}][${replyIndex[1]}]`]: list,
+        placeHolder: '说点什么吧：',
+        postType: 'post'
       })
     },
   
