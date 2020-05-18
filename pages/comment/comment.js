@@ -1,3 +1,5 @@
+const app = getApp();
+
 Page({
   data: {
     postId: '',
@@ -19,6 +21,12 @@ Page({
 
   onUnload () {
     app.isReplyCommentsUpdate = false;
+  },
+
+  onShow () {
+    wx.setNavigationBarTitle({
+      title: `${app.comments}条评论`
+    });
   },
 
   onReachBottom () {

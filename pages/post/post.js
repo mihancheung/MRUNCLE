@@ -78,9 +78,9 @@ Page({
     });
   },
 
-  onGetComments (e) {
+  onGetComments () {
     this.setData({
-      changeComments: e.detail.total
+      changeComments: app.comments
     });
   },
 

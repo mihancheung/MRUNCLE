@@ -170,8 +170,8 @@ Component({
       });
 
       let total = {}
+      app.comments += 1;
       if (type === 'post') {
-        app.comments += 1;
         total = {
           total: resultTotal
         }

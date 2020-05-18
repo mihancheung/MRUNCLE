@@ -102,8 +102,8 @@ Component({
     },
   
     onCommentDone (e) {
-      const { commentInfo, total } = e.detail
-      this._toCommentDone(commentInfo, total);
+      const { commentInfo } = e.detail
+      this._toCommentDone(commentInfo);
     },
   
     onErrorReload: function () {
@@ -150,11 +150,10 @@ Component({
       });
     },
   
-    _toCommentDone (commentInfo, total ) {
+    _toCommentDone (commentInfo ) {
       const { list } = this.data;
       const { date } = commentInfo || {};
       commentInfo.date = postDate(date);
-      // this.total = total
 
       app.isReplyCommentsUpdate = true;
 
@@ -163,6 +162,7 @@ Component({
         [`list[${list.length - 1}][${lastList.length}]`]: commentInfo,
         placeHolder: '',
         replyTo: '',
+        total: this.data.total + 1,
       }, () => {
         this.dynamicCommentTotal += 1;
         this.createSelectorQuery().select('#reply-wrapper').boundingClientRect(function(rect){
@@ -213,7 +213,8 @@ Component({
       };
   
       this.setData({
-        [`list[${index[0]}][${index[1]}]`]: null
+        [`list[${index[0]}][${index[1]}]`]: null,
+        total: this.data.total - 1
       });
   
       wx.showToast({
@@ -252,7 +253,6 @@ Component({
       const { result } = res || {};
       const { total, replyCommentInfo, openId: userOpenId } = result || {}
       this.total = total;
-      app.comments = total;
       this.triggerEvent('getReplyTotal', { total })
 
       if (!replyCommentInfo) {

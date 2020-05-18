@@ -123,11 +123,15 @@ Component({
     },
   
     onCommentDone (e) {
-      const { commentInfo, total } = e.detail
+      const { commentInfo } = e.detail
       const { postType } = this.data
+
+      wx.setNavigationBarTitle({
+        title: `${app.comments}条评论`
+      });
   
       if (postType === 'post') {
-        this._toCommentDone(commentInfo, total);
+        this._toCommentDone(commentInfo);
       }
   
       if (postType === 'reply') {
@@ -191,7 +195,7 @@ Component({
       })
     },
   
-    _toCommentDone (commentInfo, total ) {
+    _toCommentDone (commentInfo) {
       const { list } = this.data;
       const { date } = commentInfo || {};
       commentInfo.date = postDate(date);
@@ -209,9 +213,6 @@ Component({
         placeHolder: '说点什么吧：',
         postType: 'post'
       }, () => {
-        wx.setNavigationBarTitle({
-          title: `${total}条评论`
-        });
         this.dynamicCommentTotal += 1;
   
         typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
@@ -331,7 +332,6 @@ Component({
       const { result } = res || {};
       const { total, list, openId: userOpenId } = result || {}
       this.total = total;
-      app.comments = total;
       this.triggerEvent('getCommentsTotal', { total })
   
       if (!list) {

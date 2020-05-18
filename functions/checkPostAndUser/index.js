@@ -5,6 +5,7 @@ cloud.init({
 });
 
 const db = cloud.database();
+const $ = db.command.aggregate;
 const _ = db.command;
 const marks = db.collection('marks');
 const likes = db.collection('likes');
@@ -39,12 +40,28 @@ exports.main = async (event, context) => {
     postId
   }).count();
 
+  const replyCommentsReq = comment
+  .aggregate()
+  .match({
+    postId
+  })
+  .group({
+    _id: null,
+    replyCommentTotal: $.sum($.size($.ifNull(['$replies', []])))
+  })
+  .end();
+
   const isMarksRes = await isMarksReq.catch(() => {});
   const isLikesRes = await isLikesReq.catch(() => {});
   const marksRes = await marksReq.catch(() => {});
   const likesRes = await likesReq.catch(() => {});
 
-  // 文章评论数
+  // 回复评论数
+  const replyRes = await replyCommentsReq.catch(() => null)
+  const { list = [] } = replyRes || {}
+  const { replyCommentTotal = 0 } = list[0] || {}
+
+  // 文章非回复评论数
   const commentsRes = await commentsReq.catch(() => {});
 
   // 用戶是否收藏文章
@@ -63,7 +80,7 @@ exports.main = async (event, context) => {
     postInfo: {
       marks: marksRes.total || 0,
       likes: likesRes.total || 0,
-      comments: commentsRes.total || 0
+      comments: (commentsRes.total + replyCommentTotal) || 0
     }
   }
 }
