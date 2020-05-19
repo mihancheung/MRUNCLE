@@ -32,6 +32,11 @@ exports.main = async (event, context) => {
     .match({
       postId
     })
+    .skip(skip)
+    .limit(maxCommentList)
+    .sort({
+      [orderBy.key]: orderBy.type
+    })
     .project({
       avatarUrl: 1,
       cnt: 1,
@@ -42,11 +47,6 @@ exports.main = async (event, context) => {
       replies: $.slice([$.ifNull(['$replies', []]), 0, 3]),
       replyTotal: $.size($.ifNull(['$replies', []]))
     })
-    .sort({
-      [orderBy.key]: orderBy.type
-    })
-    .skip(skip)
-    .limit(maxCommentList)
     .end();
 
   let total = 0

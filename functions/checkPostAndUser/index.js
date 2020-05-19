@@ -15,72 +15,75 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const { OPENID: openId } = wxContext;
   const { postId } = event;
-  let isMark = true;
-  let isLike = true;
 
-  const isMarksReq = marks.where({
-    openId,
-    postId
-  }).count();
+  const marksReq = marks
+    .aggregate()
+    .match({
+      postId
+    })
+    .group({
+      _id: null,
+      marksTotal: $.sum(1),
+      openIds: $.addToSet('$openId')
+    })
+    .project({
+      marksTotal: '$marksTotal',
+      isMark: $.in([openId, '$openIds'])
+    })
+    .end();
 
-  const isLikesReq = likes.where({
-    openId,
-    postId
-  }).count();
+  const likesReq = likes
+    .aggregate()
+    .match({
+      postId
+    })
+    .group({
+      _id: null,
+      likesTotal: $.sum(1),
+      openIds: $.addToSet('$openId')
+    })
+    .project({
+      likesTotal: '$likesTotal',
+      isLike: $.in([openId, '$openIds'])
+    })
+    .end();
 
-  const marksReq = marks.where({
-    postId
-  }).count();
+  
+  const commentsReq = comment
+    .aggregate()
+    .match({
+      postId
+    })
+    .group({
+      _id: null,
+      commentsTotal: $.sum(1),
+      replyCommentTotal: $.sum($.size($.ifNull(['$replies', []])))
+    })
+    .end();
 
-  const likesReq = likes.where({
-    postId
-  }).count();
-
-  const commentsReq = comment.where({
-    postId
-  }).count();
-
-  const replyCommentsReq = comment
-  .aggregate()
-  .match({
-    postId
-  })
-  .group({
-    _id: null,
-    replyCommentTotal: $.sum($.size($.ifNull(['$replies', []])))
-  })
-  .end();
-
-  const isMarksRes = await isMarksReq.catch(() => {});
-  const isLikesRes = await isLikesReq.catch(() => {});
   const marksRes = await marksReq.catch(() => {});
   const likesRes = await likesReq.catch(() => {});
-
-  // 回复评论数
-  const replyRes = await replyCommentsReq.catch(() => null)
-  const { list = [] } = replyRes || {}
-  const { replyCommentTotal = 0 } = list[0] || {}
-
-  // 文章非回复评论数
   const commentsRes = await commentsReq.catch(() => {});
 
-  // 用戶是否收藏文章
-  if (isMarksRes.total === 0) {
-    isMark = false
-  }
+  // 收藏相关
+  const { list: marksList = [] } = marksRes || {}
+  const { marksTotal = 0, isMark } = marksList[0] || {}
 
-  // 用戶是否點贊文章
-  if (isLikesRes.total === 0) {
-    isLike = false;
-  }
+  // 点赞相关
+  const { list: likesList = [] } = likesRes || {}
+  const { likesTotal = 0, isLike } = likesList[0] || {}
+
+  // 评论相关
+  const { list: commentsList = [] } = commentsRes || {}
+  const { commentsTotal = 0, replyCommentTotal = 0 } = commentsList[0] || {}
 
   return {
     isMark,
     isLike,
     postInfo: {
-      marks: marksRes.total || 0,
-      likes: likesRes.total || 0,
-      comments: (commentsRes.total + replyCommentTotal) || 0
+      marks: marksTotal || 0,
+      likes: likesTotal || 0,
+      comments: (commentsTotal + replyCommentTotal) || 0
     }
   }
 }
