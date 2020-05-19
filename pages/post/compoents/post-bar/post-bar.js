@@ -67,7 +67,8 @@ Component({
       if (this.isMarking) return;
 
       this.setData({
-        isMark: !this.data.isMark
+        isMark: !this.data.isMark,
+        'postInfo.marks': this.data.isMark ? this.data.postInfo.marks - 1 : this.data.postInfo.marks + 1,
       }, () => {
         this._updateMarks();
       });
@@ -87,7 +88,8 @@ Component({
       if (this.isLiking) return;
 
       this.setData({
-        isLike: !this.data.isLike
+        isLike: !this.data.isLike,
+        'postInfo.likes': this.data.isLike ? this.data.postInfo.likes - 1 : this.data.postInfo.likes + 1,
       }, () => {
         this._updateLikes();
       });
@@ -184,10 +186,11 @@ Component({
     },
 
     _marksError () {
-      const { isMark } = this.data;
+      const { isMark, postInfo } = this.data;
 
       this.setData({
-        isMark: !isMark
+        isMark: !isMark,
+        'postInfo.marks': isMark ? postInfo.marks - 1 : postInfo.marks + 1
       });
 
       wx.showToast({
@@ -197,10 +200,11 @@ Component({
     },
 
     _likesError () {
-      const { isLike } = this.data;
+      const { isLike, postInfo } = this.data;
 
       this.setData({
-        isLike: !isLike
+        isLike: !isLike,
+        'postInfo.likes': isLike ? postInfo.likes - 1 : postInfo.likes + 1
       });
 
       wx.showToast({
@@ -233,14 +237,7 @@ Component({
         return;
       }
 
-      const { result } = res || {};
-      const { total } = result || {};
-
-      this.setData({
-        'postInfo.marks': total,
-      }, () => {
-        this._markDone();
-      });
+      this._markDone();
     },
 
     async _updateLikes () {
@@ -267,14 +264,7 @@ Component({
         return;
       }
 
-      const { result } = res || {};
-      const { total } = result || {};
-
-      this.setData({
-        'postInfo.likes': total,
-      }, () => {
-        this._likeDone();
-      });
+      this._likeDone();
     },
   }
 })
