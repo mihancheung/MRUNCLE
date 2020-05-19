@@ -8,6 +8,7 @@
 .post_content_loading {
   position: relative;
   height: 100rpx;
+  padding-bottom: 80rpx;
 }
 
 .post_content_loading .tpl_loading_text {

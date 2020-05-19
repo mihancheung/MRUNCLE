@@ -9,6 +9,5 @@
   "navigationStyle": "custom",
   "navigationBarBackgroundColor": "#ffffff",
   "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark",
-  "onReachBottomDistance": 90
+  "backgroundTextStyle": "dark"
 }

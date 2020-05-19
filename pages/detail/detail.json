@@ -7,7 +7,6 @@
   "navigationBarTitleText": "评论详情",
   "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark",
-  "backgroundColor": "#ffffff",
-  "onReachBottomDistance": 90
+  "backgroundColor": "#ffffff"
   
 }

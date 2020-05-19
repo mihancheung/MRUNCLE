@@ -173,5 +173,5 @@
 
 .page_comment .tpl_loading {
   position: static;
-  height: 230rpx;
+  height: 100rpx;
 }

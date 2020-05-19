@@ -112,6 +112,8 @@ Component({
   
     _init () {
       this.isFetchingList = false;
+      this.addReplyCommentId = [];
+      this.addReplyCommentOpenId = [];
       this.dynamicCommentTotal = 0;
       this._getList();
     },
@@ -128,6 +130,8 @@ Component({
     _resetComponent () {
       this.isFetchingList = false;
       this.dynamicCommentTotal = 0;
+      this.addReplyCommentId = [];
+      this.addReplyCommentOpenId = [];
       this.setData({
         list: [],
         userOpenId: '',
@@ -152,9 +156,10 @@ Component({
   
     _toCommentDone (commentInfo ) {
       const { list } = this.data;
-      const { date } = commentInfo || {};
+      const { date, _id, openId } = commentInfo || {};
       commentInfo.date = postDate(date);
-
+      this.addReplyCommentId.push(_id);
+      this.addReplyCommentOpenId.push(openId);
       app.isReplyCommentsUpdate = true;
       this._updateTotal();
 
@@ -168,7 +173,7 @@ Component({
         this.dynamicCommentTotal += 1;
         this.createSelectorQuery().select('#reply-wrapper').boundingClientRect(function(rect){
           typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
-            scrollTop: rect.height
+            scrollTop: (rect.height - wx.getSystemInfoSync().screenHeight) + 104
           });
         }).exec();
       });
@@ -267,11 +272,18 @@ Component({
       // 格式化日期
       replyCommentInfo.date = postDate(replyCommentInfo.date);
   
-      const nextList = replies.map((item) => {
+      let nextList = replies.map((item) => {
         const { date } = item || {};
         item.date = postDate(date);
         return item;
       });
+
+      if (this.addReplyCommentOpenId.length > 0 && this.addReplyCommentOpenId.length > 0) {
+        nextList = nextList.filter((item) => {
+          const { _id, openId } = item || {}
+          return !this.addReplyCommentId.includes(_id) && this.addReplyCommentOpenId.includes(openId);
+        });
+      }
   
       const nextListLength = this.data.list.length * COMMENT_MAX + COMMENT_MAX
   
