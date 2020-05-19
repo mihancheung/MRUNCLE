@@ -278,7 +278,7 @@ Component({
         return item;
       });
 
-      if (this.addReplyCommentOpenId.length > 0 && this.addReplyCommentOpenId.length > 0) {
+      if (this.addReplyCommentId.length > 0 && this.addReplyCommentOpenId.length > 0) {
         nextList = nextList.filter((item) => {
           const { _id, openId } = item || {}
           return !this.addReplyCommentId.includes(_id) && this.addReplyCommentOpenId.includes(openId);

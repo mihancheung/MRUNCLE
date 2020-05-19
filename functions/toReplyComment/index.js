@@ -78,8 +78,8 @@ exports.main = async (event, context) => {
 
   return {
     commentInfo: {
-      ...data,
       _id: `${openId}_${+new Date()}`, // 兼容之前没ID的数据
+      ...data,
     }
   }
 }
