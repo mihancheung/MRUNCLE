@@ -32,11 +32,11 @@ exports.main = async (event, context) => {
     .match({
       postId
     })
-    .skip(skip)
-    .limit(maxCommentList)
     .sort({
       [orderBy.key]: orderBy.type
     })
+    .skip(skip)
+    .limit(maxCommentList)
     .project({
       avatarUrl: 1,
       cnt: 1,
