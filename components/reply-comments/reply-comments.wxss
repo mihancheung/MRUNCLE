@@ -171,7 +171,8 @@
   border-bottom: 0.5px solid #2e89b3;
 }
 
-.page_comment .tpl_loading {
-  position: static;
+.page_comment_content_loading {
+  position: relative;
+  z-index: 1;
   height: 100rpx;
 }

@@ -106,6 +106,10 @@ Page({
   },
 
   async _toLogout () {
+    wx.showLoading({
+      title: '正在退出'
+    });
+
     const res = await wx.cloud.callFunction({
       name: 'logout'
     }).catch(() => null);
@@ -113,6 +117,8 @@ Page({
     const { result } = res || {};
     const { isLogout } = result || {};
     app.isLogin = !isLogout;
+
+    wx.hideLoading();
 
     if (res) {
       wx.reLaunch({

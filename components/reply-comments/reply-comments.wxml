@@ -72,7 +72,9 @@
     </view>
   </block>
 
-  <template is="loading" data="{{ isLoading, loadingText: '撈緊喇大佬🤦🏻‍♂️', isNoShowImage: true }}" />
+  <view class="page_comment_content_loading">
+    <template is="loading" data="{{ isLoading, loadingText: '撈緊喇大佬🤦🏻‍♂️', isNoShowImage: true }}" />
+  </view>
 </view>
 
 <view class="page_comment_post" bind:tap="onTapPost">
