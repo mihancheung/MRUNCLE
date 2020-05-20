@@ -161,3 +161,7 @@
   position: static;
   height: 100rpx;
 }
+
+.page_comment_init_loading .tpl_loading {
+  bottom: 104rpx;
+}

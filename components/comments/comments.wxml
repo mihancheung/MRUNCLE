@@ -71,7 +71,9 @@
   <text class="page_comment_post_txt">{{placeHolder}}</text>
 </view>
 
-<template is="loading" data="{{ isLoading: isIniting }}" />
+<view class="page_comment_init_loading">
+  <template is="loading" data="{{ isLoading: isIniting }}" />
+</view>
 <error
   wx:if="{{isError}}"
   bindtapReload="onErrorReload"
