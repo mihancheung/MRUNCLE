@@ -146,13 +146,12 @@ Component({
       const { result } = res || {}
       const { commentInfo, cntMsg, total: resultTotal } = result || {}
 
-      wx.hideLoading();
-
       if (cntMsg) {
         wx.showToast({
           title: '大佬讲嘢注意D啊',
           icon: 'none'
         });
+        wx.hideLoading();
         return
       }
 
@@ -161,13 +160,9 @@ Component({
           title: '评论似乎未成功，请重新再试',
           icon: 'none'
         });
+        wx.hideLoading();
         return
       }
-
-      wx.showToast({
-        title: '評論成功，多謝',
-        icon: 'none'
-      });
 
       let total = {}
       if (type === 'post') {

@@ -103,7 +103,7 @@ Component({
   
     onCommentDone (e) {
       const { commentInfo } = e.detail
-      this._toCommentDone(commentInfo);
+      this._updateCommentInfo(commentInfo);
     },
   
     onErrorReload: function () {
@@ -154,22 +154,24 @@ Component({
       });
     },
   
-    _toCommentDone (commentInfo ) {
+    async _updateCommentInfo (commentInfo ) {
       const { list } = this.data;
       const { date, _id, openId } = commentInfo || {};
       commentInfo.date = postDate(date);
       this.addReplyCommentId.push(_id);
       this.addReplyCommentOpenId.push(openId);
       app.isReplyCommentsUpdate = true;
-      this._updateTotal();
-
       const lastList = list[list.length - 1];
+
+      await this._updateTotal().catch(() => null);
+
       this.setData({
         [`list[${list.length - 1}][${lastList.length}]`]: commentInfo,
         placeHolder: '',
         replyTo: '',
         total: this.data.total + 1,
       }, () => {
+        this._commentDone();
         this.dynamicCommentTotal += 1;
         this.createSelectorQuery().select('#reply-wrapper').boundingClientRect(function(rect){
           typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
@@ -208,7 +210,7 @@ Component({
         }
       }).catch(() => null);
 
-      await this._updateTotal()
+      await this._updateTotal().catch(() => null);
 
       wx.hideLoading();
   
@@ -232,6 +234,14 @@ Component({
   
       this.dynamicCommentTotal -= 1;
       app.isReplyCommentsUpdate = true;
+    },
+
+    _commentDone () {
+      wx.hideLoading();
+      wx.showToast({
+        title: '多謝你嘅評論',
+        icon: 'none'
+      });
     },
   
     async _getList () {

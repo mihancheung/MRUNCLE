@@ -85,13 +85,23 @@ Page({
         postId: this.data.id
       }
     })
-    .catch (() => null);
+    .catch(() => null);
 
     const { result } = res || {};
     const { comments } = result || {}
 
     this.setData({
       changeComments: comments
+    }, () => {
+      this._commentDone();
+    });
+  },
+
+  _commentDone () {
+    wx.hideLoading();
+    wx.showToast({
+      title: '多謝你嘅評論',
+      icon: 'none'
     });
   },
 

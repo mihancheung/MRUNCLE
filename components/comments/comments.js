@@ -40,7 +40,8 @@ Component({
     show () {
       if (!app.isReplyCommentsUpdate) return;
       app.isReplyCommentsUpdate = false;
-      this._updateReplyCommentInfo();
+      const isShowFeedBack = false
+      this._updateReplyCommentInfo(isShowFeedBack);
     }
   },
 
@@ -128,7 +129,7 @@ Component({
       const { postType } = this.data
   
       if (postType === 'post') {
-        this._toCommentDone(commentInfo, total);
+        this._updateCommentInfo(commentInfo, total);
       }
   
       if (postType === 'reply') {
@@ -184,7 +185,7 @@ Component({
       });
     },
   
-    _toCommentDone (commentInfo, total) {
+    async _updateCommentInfo (commentInfo, total) {
       const { list } = this.data;
       const { date } = commentInfo || {};
       commentInfo.date = postDate(date);
@@ -198,13 +199,15 @@ Component({
         nextComment.splice(0,0,commentInfo);
       }
 
-      this._updateTotal();
+      await this._updateTotal().catch(() => null);
+
       this.setData({
         [`list[0]`]: nextComment,
         placeHolder: '说点什么吧：',
         postType: 'post',
         isEmpty: false,
       }, () => {
+        this._commentDone()
         typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
           scrollTop: 0
         });
@@ -222,6 +225,14 @@ Component({
       });
     },
 
+    _commentDone () {
+      wx.hideLoading();
+      wx.showToast({
+        title: '多謝你嘅評論',
+        icon: 'none'
+      });
+    },
+
     _setEmpty () {
       this.dynamicCommentTotal = 0;
       this.setData({
@@ -232,8 +243,11 @@ Component({
       });
     },
 
-    async _updateReplyCommentInfo () {
-      if (!this.commentId) return;
+    async _updateReplyCommentInfo (isShowFeedBack = true) {
+      if (!this.commentId) {
+        wx.hideLoading();
+        return;
+      };
 
       const res = wx.cloud.callFunction({
         name: 'getCommentById',
@@ -247,16 +261,22 @@ Component({
       const { result } = commentRes || {};
       const { list } = result || {}
 
-      if (!list) return;
+      if (!list) {
+        wx.hideLoading();
+        return;
+      };
       const replyIndex = this.replyIndex
       list.date = postDate(list.date);
 
-      await this._updateTotal();
+      await this._updateTotal().catch(() => null);
 
       this.setData({
         [`list[${replyIndex[0]}][${replyIndex[1]}]`]: list,
         placeHolder: '说点什么吧：',
         postType: 'post'
+      }, () => {
+        if (!isShowFeedBack) return;
+        this._commentDone();
       });
     },
   
@@ -281,7 +301,7 @@ Component({
         }
       }).catch(() => null);
 
-      await this._updateTotal();
+      await this._updateTotal().catch(() => null);
       wx.hideLoading();
   
       if (!res) {
