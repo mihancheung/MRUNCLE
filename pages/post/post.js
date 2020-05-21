@@ -23,7 +23,7 @@ Page({
     this.setData({
       id
     }, () => {
-      this.init();
+      this._init();
     });
   },
 
@@ -43,7 +43,7 @@ Page({
   
     if (thisReach % this.mdPostLength > 0) {
       const nextReach = thisReach + POST_MD_CHILD_MAX
-      this.setMd();
+      this._setMd();
 
       // 收起文章加載中
       if (nextReach >= this.mdPostLength) {
@@ -56,7 +56,7 @@ Page({
 
   onPullDownRefresh () {
     clearTimeout(this.timer);
-    this.reloadPage();
+    this._reloadPage();
   },
 
   onShareAppMessage () {
@@ -105,31 +105,31 @@ Page({
     });
   },
 
-  init () {
+  _init () {
     this.postImages = [];
     this.isPostTowxml = false;
     this.mdPostLength = 0;
     this.childLength = 0;
     this.md = null;
-    this.getPageInfo();
+    this._getPageInfo();
   },
 
   errorReload: function () {
-    this.reloadPage();
+    this._reloadPage();
   },
 
-  reloadPage () {
+  _reloadPage () {
     wx.stopPullDownRefresh();
 
     if (!app.isConnected) {
-      this.handleError();
+      this._handleError();
       return;
     }
 
-    this.retsetPageStatus(this.init)
+    this._retsetPageStatus(this._init)
   },
 
-  retsetPageStatus (cb) {
+  _retsetPageStatus (cb) {
     this.setData({
       info: {},
       md: {},
@@ -142,28 +142,28 @@ Page({
     });
   },
 
-  getPostImages () {
+  _getPostImages () {
     const imgs = wx.createSelectorQuery().selectAll('.post_content >>> .h2w__img')
     imgs.fields({
       properties: ['src'],
     }, (rects) => {
-      const urls = this.formatPostImages(rects);
-      this.setPostImages(urls);
+      const urls = this._formatPostImages(rects);
+      this._setPostImages(urls);
     }).exec();
   },
 
-  formatPostImages (rects) {
+  _formatPostImages (rects) {
     return rects.map((item) => {
       const { src } = item || {};
       return src;
     })
   },
 
-  setPostImages (urls) {
+  _setPostImages (urls) {
     this.postImages = urls;
   },
 
-  copyJumpLink (href) {
+  _copyJumpLink (href) {
     wx.setClipboardData({
       data: href,
       success () {
@@ -175,7 +175,7 @@ Page({
     });
   },
 
-  tapPostTag (e) {
+  _tapPostTag (e) {
     const { currentTarget } = e || {};
     const { dataset } = currentTarget || {};
     const { data } = dataset || {}
@@ -193,12 +193,12 @@ Page({
         break;
 
       case 'navigator':
-        this.copyJumpLink(href)
+        this._copyJumpLink(href)
         break;
     }
   },
 
-  setMd () {
+  _setMd () {
     const { child } = this.data;
     const thisMdLength = child.length;
     this.isPostTowxml = true;
@@ -216,20 +216,20 @@ Page({
       [`child[${child.length}]`]: nextChild,
       isPostRendering: true,
     }, () => {
-      this.getPostImages();
-      this.handleRenderPostDone();
+      this._getPostImages();
+      this._handleRenderPostDone();
       this.isPostTowxml = false;
     });
   },
 
-  mdToWxml (mdFile) {
+  _mdToWxml (mdFile) {
     if (!mdFile) return;
 
     const md = app.towxml(mdFile, 'markdown',{
       base: app.cdnBase,
       theme:'light',
       events: {
-        tap: this.tapPostTag
+        tap: this._tapPostTag
       }
     });
 
@@ -255,10 +255,10 @@ Page({
     this.md.child = [];
     this.md._e = [];
 
-    this.setMd();
+    this._setMd();
   },
 
-  handleNextData (data) {
+  _handleNextData (data) {
     const info = formatePostData(data);
     const { mdFileId } = info || {}
 
@@ -266,10 +266,10 @@ Page({
       info
     });
 
-    this.getPageMdFile(mdFileId);
+    this._getPageMdFile(mdFileId);
   },
 
-  handleError () {
+  _handleError () {
     this.isPostTowxml = false
     this.setData({
       isError: true,
@@ -278,53 +278,49 @@ Page({
     });
   },
 
-  handleRenderPostDone () {
+  _handleRenderPostDone () {
     this.setData({
       isLoading: false,
     });
   },
 
-  async getPageInfo () {
+  async _getPageInfo () {
     if (!app.isConnected) {
-      this.handleError();
+      this._handleError();
       return;
     }
 
     const res = await post.doc(this.data.id).get().catch(() => null);
 
     if (!res || !res.data) {
-      this.handleError();
+      this._handleError();
       return;
     }
 
-    this.handleNextData(res.data);
+    this._handleNextData(res.data);
   },
 
-  async getPageMdFile (mdFileId) {
+  async _getPageMdFile (fileID) {
     if (!app.isConnected) {
-      this.handleError();
+      this._handleError();
       return;
     }
 
-    const res = await wx.cloud.getTempFileURL({
-      fileList: [mdFileId],
-    }).catch(() => null);
+    const res = await wx.cloud.callFunction({
+      name: 'getPostMd',
+      data: {
+        fileID
+      }
+    });
 
-    if (!res || !res.fileList) {
-      this.handleError();
+    const { result } = res || {};
+    const { fileContent } = result || {}
+
+    if (!fileContent) {
+      this._handleError();
       return;
     }
 
-    const url = res.fileList[0] && res.fileList[0].tempFileURL
-    const mdFileRes = await app.wxRequire({
-      url
-    }).catch(() => null);
-
-    if (!mdFileRes || !mdFileRes.data) {
-      this.handleError();
-      return;
-    }
-
-    this.mdToWxml(mdFileRes.data);
+    this._mdToWxml(fileContent);
   }
 })
