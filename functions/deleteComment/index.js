@@ -15,7 +15,20 @@ exports.main = async (event, context) => {
 
   if (!res) return;
 
+  // 拿最新的评论总数
+  let total = {}
+  const totalRes = await commentDB.where({
+    postId
+  }).count();
+
+  if (totalRes) {
+    total = {
+      total: totalRes.total || 0
+    }
+  }
+
   return {
-    res
+    res,
+    ...total
   }
 }

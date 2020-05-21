@@ -1,0 +1,22 @@
+.tpl_comment_empty {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tpl_comment_empty_image {
+  width: 140rpx;
+  height: 140rpx;
+  margin-bottom: 50rpx;
+}
+
+.tpl_comment_empty_text {
+  color: #666666;
+}

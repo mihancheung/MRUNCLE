@@ -1,4 +1,5 @@
 @import '../../tpls/loading/loading.wxss';
+@import '../../tpls/comment-empty/comment-empty.wxss';
 
 .page_comment {
   padding: 40rpx 0;
@@ -163,5 +164,9 @@
 }
 
 .page_comment_init_loading .tpl_loading {
+  bottom: 104rpx;
+}
+
+.tpl_comment_empty {
   bottom: 104rpx;
 }

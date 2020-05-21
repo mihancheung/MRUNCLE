@@ -27,6 +27,7 @@ Component({
     isLoading: false,
     isShowComment: false,
     isError: false,
+    isEmpty: false,
   },
 
   lifetimes: {
@@ -54,7 +55,7 @@ Component({
 
   methods: {
     onReachBottom () {
-      if (this.isFetchingList || this.data.list.length * COMMENT_MAX >= this.total) return;
+      if (this.isFetchingList || this.data.list.length * COMMENT_MAX >= this.initTotal) return;
       this._getList();
     },
   
@@ -123,11 +124,11 @@ Component({
     },
   
     onCommentDone (e) {
-      const { commentInfo } = e.detail
+      const { commentInfo, total } = e.detail
       const { postType } = this.data
   
       if (postType === 'post') {
-        this._toCommentDone(commentInfo);
+        this._toCommentDone(commentInfo, total);
       }
   
       if (postType === 'reply') {
@@ -157,6 +158,7 @@ Component({
     _resetComponent (cb) {
       this.isFetchingList = false;
       this.dynamicCommentTotal = 0;
+      this.initTotal = 0;
       this.setData({
         list: [],
         userOpenId: '',
@@ -166,6 +168,7 @@ Component({
         isLoading: false,
         isShowComment: false,
         isError: false,
+        isEmpty: false,
       }, () => {
         this._init();
       });
@@ -177,17 +180,19 @@ Component({
       this.setData({
         isIniting: false,
         isError: true,
+        isEmpty: false
       });
     },
   
-    _toCommentDone (commentInfo) {
+    _toCommentDone (commentInfo, total) {
       const { list } = this.data;
       const { date } = commentInfo || {};
       commentInfo.date = postDate(date);
       let nextComment = [];
+      this.dynamicCommentTotal += 1;
   
       if (!list[0]) {
-        nextComment = [[commentInfo]];
+        nextComment = [commentInfo];
       } else {
         nextComment = [...list[0]];
         nextComment.splice(0,0,commentInfo);
@@ -197,9 +202,9 @@ Component({
       this.setData({
         [`list[0]`]: nextComment,
         placeHolder: '说点什么吧：',
-        postType: 'post'
+        postType: 'post',
+        isEmpty: false,
       }, () => {
-        this.dynamicCommentTotal += 1;
         typeof wx.pageScrollTo === 'function' && wx.pageScrollTo({
           scrollTop: 0
         });
@@ -214,6 +219,15 @@ Component({
         postType: 'reply',
         commentId: id,
         isShowComment: true,
+      });
+    },
+
+    _setEmpty () {
+      this.dynamicCommentTotal = 0;
+      this.setData({
+        isIniting: false,
+        isLoading: false,
+        isEmpty: true
       });
     },
 
@@ -276,17 +290,24 @@ Component({
         });
         return
       };
+
+      const { result } = res || {}
+      const { total } = result || {}
+
+      this.dynamicCommentTotal -= 1;
   
       this.setData({
         [`list[${index[0]}][${index[1]}]`]: null
+      }, () => {
+        if (total === 0) {
+          this._setEmpty();
+        }
       });
   
       wx.showToast({
         title: '删除成功',
         icon: 'none'
       });
-  
-      this.dynamicCommentTotal -= 1;
     },
   
     async _getList () {
@@ -314,8 +335,13 @@ Component({
   
       const { result } = res || {};
       const { total, list, openId: userOpenId } = result || {}
-      this.total = total;
-      this.triggerEvent('getCommentsTotal', { total })
+      this.initTotal = !this.initTotal ? total : this.initTotal;
+      this.triggerEvent('getCommentsTotal', { total });
+
+      if (total === 0) {
+        this._setEmpty();
+        return;
+      }
   
       if (!list) {
         this._setError();
@@ -332,7 +358,7 @@ Component({
   
       this.setData({
         [`list[${this.data.list.length}]`]: nextList,
-        isLoading: nextListLength < this.total,
+        isLoading: nextListLength < total,
         userOpenId,
         isIniting: false
       });
