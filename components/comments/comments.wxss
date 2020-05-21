@@ -47,11 +47,12 @@
 
 .page_comment_delete {
   position: absolute;
-  right: 0;
+  right: -28rpx;
   top: -10rpx;
   z-index: 1;
   height: 50rpx;
   width: 50rpx;
+  padding-right: 28rpx;
   display: flex;
   justify-content: flex-end;
   align-items: center;
