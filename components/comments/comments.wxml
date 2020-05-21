@@ -74,9 +74,7 @@
 
 <template is="comment-empty" data="{{ isEmpty }}" />
 
-<view class="page_comment_init_loading">
-  <template is="loading" data="{{ isLoading: isIniting }}" />
-</view>
+<template is="loading" data="{{ isLoading: isIniting }}" />
 
 <error
   wx:if="{{isError}}"

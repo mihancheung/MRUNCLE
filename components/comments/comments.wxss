@@ -163,10 +163,7 @@
   height: 100rpx;
 }
 
-.page_comment_init_loading .tpl_loading {
-  bottom: 104rpx;
-}
-
 .tpl_comment_empty {
-  bottom: 104rpx;
+  bottom: calc(104rpx + constant(safe-area-inset-bottom));
+  bottom: calc(104rpx + env(safe-area-inset-bottom));
 }
