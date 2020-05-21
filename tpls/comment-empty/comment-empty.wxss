@@ -18,5 +18,5 @@
 }
 
 .tpl_comment_empty_text {
-  color: #666666;
+  color: #999999;
 }

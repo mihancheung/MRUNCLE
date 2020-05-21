@@ -60,7 +60,8 @@ exports.main = async (event, context) => {
   if (!listRes || !listRes.list) {
     return {
       list: null,
-      total
+      total,
+      openId,
     }
   }
 

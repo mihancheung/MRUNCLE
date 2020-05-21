@@ -1,7 +1,6 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/about/about",
     "pages/user/user",
     "pages/post/post",
     "pages/login/login",
@@ -11,7 +10,7 @@
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#202020",
-    "navigationBarTitleText": "MRUNCLE",
+    "navigationBarTitleText": "MRUNCLE'S BLOG",
     "navigationBarTextStyle": "white"
   },
   "style": "v2",
@@ -28,13 +27,6 @@
       {
         "pagePath": "pages/index/index",
         "text": "HOME",
-        "iconPath": "image/tab-bar/post.png",
-        "selectedIconPath": "image/tab-bar/post_s.png"
-      },
-
-      {
-        "pagePath": "pages/about/about",
-        "text": "MRUNCLE",
         "iconPath": "image/tab-bar/mruncle.png",
         "selectedIconPath": "image/tab-bar/mruncle_s.png"
       },
@@ -42,8 +34,8 @@
       {
         "pagePath": "pages/user/user",
         "text": "ME",
-        "iconPath": "image/tab-bar/user.png",
-        "selectedIconPath": "image/tab-bar/user_s.png"
+        "iconPath": "image/tab-bar/post.png",
+        "selectedIconPath": "image/tab-bar/post_s.png"
       }
     ]
   }

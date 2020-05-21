@@ -227,7 +227,8 @@ Component({
       this.setData({
         isIniting: false,
         isLoading: false,
-        isEmpty: true
+        isEmpty: true,
+        userOpenId: this.userOpenId
       });
     },
 
@@ -337,6 +338,7 @@ Component({
       const { total, list, openId: userOpenId } = result || {}
       this.initTotal = !this.initTotal ? total : this.initTotal;
       this.triggerEvent('getCommentsTotal', { total });
+      this.userOpenId = userOpenId;
 
       if (total === 0) {
         this._setEmpty();

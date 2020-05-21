@@ -3,5 +3,6 @@
     "error": "/components/error/error"
   },
   "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark"
+  "backgroundTextStyle": "dark",
+  "navigationBarTitleText": "WELCOME"
 }
