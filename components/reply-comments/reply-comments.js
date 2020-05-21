@@ -43,7 +43,7 @@ Component({
 
   methods: {
     onReachBottom () {
-      if (this.isFetchingList || this.data.list.length * COMMENT_MAX >= this.total) return;
+      if (this.isFetchingList || this.data.list.length * COMMENT_MAX >= this.initTotal) return;
       this._getList();
     },
   
@@ -259,7 +259,7 @@ Component({
   
       const { result } = res || {};
       const { total, replyCommentInfo, openId: userOpenId } = result || {}
-      this.total = total;
+      this.initTotal = this.initTotal ? total : this.initTotal;
       this.triggerEvent('getReplyTotal', { total })
 
       if (!replyCommentInfo) {
@@ -293,7 +293,7 @@ Component({
           replies: null
         },
         [`list[${this.data.list.length}]`]: nextList,
-        isLoading: nextListLength < this.total,
+        isLoading: nextListLength < total,
         userOpenId,
         isIniting: false,
         postId,
