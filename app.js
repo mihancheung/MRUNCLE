@@ -13,10 +13,6 @@ App({
     this._setIsLogin();
   },
 
-  // cdnBase: config.cdnBase,
-  // postAvata: '/image/me.jpeg',
-  // postAuthor: 'MRUNCLE',
-  // towxml:require('/towxml/index'),
   isConnected: true,
 
   async _setIsLogin () {
