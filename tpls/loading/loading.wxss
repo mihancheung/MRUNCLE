@@ -26,7 +26,39 @@
 }
 
 .tpl_loading_box {
-  overflow: visible!important;
+  position: relative;
+  height: 12rpx;
+  width: 12rpx;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .3);
+  animation: dot2 1.6s step-start infinite;
+}
+
+.tpl_loading_box:before {
+  content: '';
+  position: absolute;
+  left: -22rpx;
+  top: 0;
+  height: 12rpx;
+  width: 12rpx;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .1);
+  animation: dot1 1.6s step-start infinite;
+}
+
+.tpl_loading_box:after {
+  content: '';
+  position: absolute;
+  right: -22rpx;
+  top: 0;
+  height: 12rpx;
+  width: 12rpx;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .5);
+  animation: dot3 1.6s step-start infinite;
 }
 
 @keyframes avataSharp {
@@ -36,4 +68,46 @@
   100% {
     filter: hue-rotate(120deg);
   } 
+}
+
+@keyframes dot1 {
+  0%, 100% {
+    background: rgba(0, 0, 0, .1);
+  }
+
+  30% {
+    background: rgba(0, 0, 0, .5);
+  }
+
+  60% {
+    background: rgba(0, 0, 0, .3);
+  }
+}
+
+@keyframes dot2 {
+  0%, 100% {
+    background: rgba(0, 0, 0, .3);
+  }
+
+  30% {
+    background: rgba(0, 0, 0, .1);
+  }
+
+  60% {
+    background: rgba(0, 0, 0, .5);
+  }
+}
+
+@keyframes dot3 {
+  0%, 100% {
+    background: rgba(0, 0, 0, .5);
+  }
+
+  30% {
+    background: rgba(0, 0, 0, .3);
+  }
+
+  60% {
+    background: rgba(0, 0, 0, .1);
+  }
 }
