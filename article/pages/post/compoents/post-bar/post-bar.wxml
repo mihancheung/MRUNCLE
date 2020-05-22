@@ -1,0 +1,51 @@
+<wxs module="postBar">
+  var nums = function (num) {
+    if (num >= 1000 && num < 10000) {
+      num = Math.floor((num / 1000) * 100) / 100  + 'k'
+    }
+
+    if (num >= 10000 && num < 1000000) {
+      num = Math.floor((num / 10000) * 10) / 10 + 'w'
+    }
+
+    if (num >= 1000000 && num < 10000000) {
+      num = parseInt(num / 1000000) + '百萬'
+    }
+
+    if (num >= 10000000 && num < 100000000) {
+      num = parseInt(num / 10000000) + '千萬'
+    }
+
+    if (num >= 100000000 && num < 100000000000) {
+      num = parseInt(num / 100000000) + '億'
+    }
+
+    return num;
+  };
+
+  module.exports = {
+    nums: nums
+  }
+</wxs>
+
+<view class="post_bar {{isShow ? 'post_bar_show' : ''}}">
+  <view class="post_bar_main">
+    <view class="post_bar_comment" bind:tap="onTapComment">发表精彩评论</view>
+    <view class="post_bar_tool" bind:tap="onTapCommentList">
+      <image class="post_bar_tool_image" src="./images/comment.svg" mode="heightFix" />
+      <text class="post_bar_tool_item_txt">{{postInfo.comments || 0}}</text>
+    </view>
+    <view class="post_bar_tool{{isMark ? ' post_bar_tool_on' : ''}}" bind:tap="onTapMark">
+      <image class="post_bar_tool_image" src="./images/{{ isMark ? 'stared' : 'star'}}.svg" mode="heightFix" />
+      <text class="post_bar_tool_item_txt">{{postBar.nums(postInfo.marks) || 0}}</text>
+    </view>
+    <view class="post_bar_tool{{isLike ? ' post_bar_tool_on' : ''}}" bind:tap="onTapLike">
+      <image class="post_bar_tool_image" src="./images/{{ isLike ? 'liked' : 'like'}}.svg" mode="heightFix" />
+      <text class="post_bar_tool_item_txt">{{postInfo.likes || 0}}</text>
+    </view>
+    <view class="post_bar_tool">
+      <button open-type="share" class="post_bar_tool_sharebtn"></button>
+      <image class="post_bar_tool_image" src="./images/share.svg" mode="heightFix" />
+    </view>
+  </view>
+</view>

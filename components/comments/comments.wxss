@@ -1,5 +1,5 @@
 @import '../../tpls/loading/loading.wxss';
-@import '../../tpls/comment-empty/comment-empty.wxss';
+@import './tpls/comment-empty/comment-empty.wxss';
 
 .page_comment {
   padding: 40rpx 0;

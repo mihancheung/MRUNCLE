@@ -1,0 +1,6 @@
+<template name="comment-empty">
+  <view catchtouchmove="true" class="tpl_comment_empty" wx:if="{{ isEmpty }}">
+    <image class="tpl_comment_empty_image"  src="./images/components/comments/comments_empty.svg" />
+    <text class="tpl_comment_empty_text">沙發機會難得兄臺</text>
+  </view>
+</template>

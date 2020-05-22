@@ -1,11 +1,7 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/user/user",
-    "pages/post/post",
-    "pages/login/login",
-    "pages/comment/comment",
-    "pages/detail/detail"
+    "pages/user/user"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -15,9 +11,7 @@
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
-  "usingComponents":  {
-    "mp-loading": "/miniprogram_npm/weui-miniprogram/loading/loading"
-  },
+  "usingComponents":  {},
 
   "tabBar": {
     "color": "#cccccc",
@@ -38,5 +32,30 @@
         "selectedIconPath": "image/tab-bar/post_s.png"
       }
     ]
+  },
+
+  "subpackages": [
+    {
+      "root": "article",
+      "name": "article",
+      "pages": [
+        "pages/post/post",
+        "pages/comment/comment",
+        "pages/detail/detail"
+      ]
+    },
+    {
+      "root": "login",
+      "pages": [
+        "pages/login/login"
+      ]
+    }
+  ],
+
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": ["article"]
+    }
   }
 }

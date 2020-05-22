@@ -1,0 +1,6 @@
+<view class="gb_login">
+  <custom-nav />
+  <image class="gb_login_icon" mode="heightFix" src="./images/login.svg" />
+  <text class="gb_login_desc">{{desc}}</text>
+  <button class="gb_login_btn" open-type="getUserInfo" bindgetuserinfo="login">{{isLoging ? '登入中..' : '登入'}}</button>
+</view>

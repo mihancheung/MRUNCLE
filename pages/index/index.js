@@ -32,8 +32,7 @@ Page({
 
   onShareAppMessage () {
     return {
-      title: '一位混跡於互聯網多年噶佚名卒仔',
-      imageUrl: '/image/share/post.png'
+      title: '混跡於互聯網多年不知尚能饭否噶老兵'
     }
   },
 
@@ -154,7 +153,7 @@ Page({
   navToPost (id) {
     if (!id) return;
     wx.navigateTo({
-      url: `/pages/post/post?id=${id}`
+      url: `/article/pages/post/post?id=${id}`
     });
   },
 

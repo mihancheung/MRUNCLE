@@ -1,4 +1,4 @@
-import { postDate } from '../../utils/index';
+import { postDate, showNoNetworkToast } from '../../utils/index';
 
 const app = getApp();
 const COMMENT_MAX = 10;
@@ -261,13 +261,13 @@ Component({
 
     _jumpToLogin () {
       wx.navigateTo({
-        url: '/pages/login/login?desc=你的認可或批評需要你的登入記錄'
+        url: '/login/pages/login/login?desc=你的認可或批評需要你的登入記錄'
       });
     },
   
     async _getList () {
       if (!app.isConnected) {
-        app.showNoNetworkToast();
+        showNoNetworkToast();
         return;
       }
   

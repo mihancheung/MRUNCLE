@@ -1,5 +1,5 @@
 <import src="/tpls/loading/loading.wxml" />
-<import src="/tpls/comment-empty/comment-empty.wxml" />
+<import src="./tpls/comment-empty/comment-empty.wxml" />
 
 <wxs module="commentWxs">
   var getReplyItemKey = function (openId, index) {
@@ -59,7 +59,7 @@
           data-id="{{item._id}}"
           data-index="{{[listIndex, blockItemIndex]}}"
         >
-          <image class="page_comment_delete_icon" mode="heightFix" src="/image/pages/comment/more.svg" />
+          <image class="page_comment_delete_icon" mode="heightFix" src="./images/more.svg" />
         </view>
       </view>
     </view>

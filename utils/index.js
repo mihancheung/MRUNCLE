@@ -1,4 +1,5 @@
-const app = getApp();
+import { config } from '../utils/config';
+
 export function formatDate(date) {
   if (!date) return date
 
@@ -17,7 +18,7 @@ export function formatDate(date) {
     }
   }
   return `${o.Y}-${o.M}-${o.D} ${o.h}:${o.m}:${o.s}`
-}
+};
 
 export function postDate(date) {
   if (!date) return date
@@ -45,7 +46,7 @@ export function postDate(date) {
   }
 
   return txt;
-}
+};
 
 export function formatePostData (data = {}) {
   const {
@@ -55,11 +56,11 @@ export function formatePostData (data = {}) {
     mdFileId: dataMdFileId,
     poster: dataPoster
   } = data || {};
-  const avata = dataAvata || app.postAvata;
-  const author = dataAuthor || app.postAuthor;
+  const avata = dataAvata || config.postAvata;
+  const author = dataAuthor || config.postAuthor;
   const date = formatDate(+new Date(dataDate));
-  const mdFileId = `${app.cdnBase}${dataMdFileId}`;
-  const poster = `${app.cdnBase}${dataPoster}`;
+  const mdFileId = `${config.cdnBase}${dataMdFileId}`;
+  const poster = `${config.cdnBase}${dataPoster}`;
 
   return {
     ...data,
@@ -69,4 +70,12 @@ export function formatePostData (data = {}) {
     mdFileId,
     poster
   }
-}
+};
+
+export function showNoNetworkToast () {
+  wx.showToast({
+    title: '大禍，你嘅網絡 off 咗',
+    icon: 'none',
+    duration: 2500
+  });
+};

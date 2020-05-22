@@ -1,3 +1,5 @@
+import { showNoNetworkToast } from '../../utils/index';
+
 const app = getApp();
 
 Component({
@@ -102,7 +104,7 @@ Component({
     async _submitComment (cnt) {
       const postId = this.postId;
       if (!app.isConnected) {
-        app.showNoNetworkToast();
+        showNoNetworkToast();
         return;
       }
 

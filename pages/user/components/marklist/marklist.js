@@ -1,4 +1,4 @@
-import { formatePostData } from '../../../../utils/index';
+import { formatePostData, showNoNetworkToast } from '../../../../utils/index';
 
 const app = getApp();
 const MAX_MARK_LIST = 10;
@@ -41,7 +41,7 @@ Component({
       if (!id) return;
 
       wx.navigateTo({
-        url: `/pages/post/post?id=${id}`
+        url: `/article/pages/post/post?id=${id}`
       });
     },
 
@@ -79,7 +79,7 @@ Component({
 
     async _getData () {
       if (!app.isConnected) {
-        app.showNoNetworkToast();
+        showNoNetworkToast();
         return;
       }
 

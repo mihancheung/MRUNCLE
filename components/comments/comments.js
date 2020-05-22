@@ -1,4 +1,4 @@
-import { postDate } from '../../utils/index';
+import { postDate, showNoNetworkToast } from '../../utils/index';
 
 const app = getApp();
 const COMMENT_MAX = 10;
@@ -130,7 +130,7 @@ Component({
       this.commentId = id;
       this.replyIndex = index;
       wx.navigateTo({
-        url: `/pages/detail/detail?id=${id}`
+        url: `/article/pages/detail/detail?id=${id}`
       });
     },
   
@@ -197,7 +197,7 @@ Component({
 
     _jumpToLogin () {
       wx.navigateTo({
-        url: '/pages/login/login?desc=你的認可或批評需要你的登入記錄'
+        url: '/login/pages/login/login?desc=你的認可或批評需要你的登入記錄'
       });
     },
   
@@ -349,7 +349,7 @@ Component({
   
     async _getList () {
       if (!app.isConnected) {
-        app.showNoNetworkToast();
+        showNoNetworkToast();
         return;
       }
   
