@@ -15,7 +15,7 @@ module.exports = {
   <view class="page_user_hd">
     <view class="page_user_info">
       <image class="page_user_avata" src="{{userInfo.avatarUrl}}" bind:tap="onTapAvata" />
-      <text class="page_user_nickname">{{userInfo.nickName}}</text>
+      <text class="page_user_nickname">{{userInfo.nickName || ''}}</text>
     </view>
     <view class="page_user_tab">
       <text class="{{users.getTabCls('msg', tab)}}" data-tab="msg" bind:tap="onTapTab">消息</text>

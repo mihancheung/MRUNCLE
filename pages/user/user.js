@@ -71,16 +71,7 @@ Page({
       return;
     }
 
-    if (app.isLogin) {
-      this._setUserInfo();
-      return;
-    }
-
-    const res = await wx.cloud.callFunction({
-      name: 'isLogin'
-    }).catch(() => null);
-
-    if (!res || !res.result.isLogin) {
+    if (!app.isLogin) {
       wx.navigateTo({
         url: `/pages/login/login?desc=查看我的主頁需要提供登入信息`
       });
@@ -114,11 +105,28 @@ Page({
       name: 'logout'
     }).catch(() => null);
 
+    wx.hideLoading();
+
     const { result } = res || {};
     const { isLogout } = result || {};
+
+    if (!isLogout) {
+      wx.showToast({
+        title: '登出似乎未成功',
+        icon: 'none'
+      });
+      return;
+    }
+
     app.isLogin = !isLogout;
 
-    wx.hideLoading();
+    wx.removeStorage({
+      key: 'OPENID',
+    });
+
+    wx.removeStorage({
+      key: 'userInfo',
+    });
 
     if (res) {
       wx.reLaunch({
@@ -135,17 +143,33 @@ Page({
   },
 
   async _setUserInfo () {
+    const userInfoRes = await wx.getStorage({
+      key: 'userInfo'
+    }).catch(() => null);
+    const { data: userInfo } = userInfoRes || {}
+
+    // 登录存storage的用户信息
+    if (userInfo) {
+      this.setData({
+        isLogin: true,
+        isLoading: false,
+        userInfo
+      });
+      return;
+    }
+
+    // 兜底异常，从云端拿用户数据
     const res = await wx.cloud.callFunction({
       name: 'getUserInfo',
     });
 
     const { result } = res || {}
-    const { userInfo } = result || {}
+    const { userInfo: cloudUserInfo } = result || {}
 
     this.setData({
       isLogin: true,
       isLoading: false,
-      userInfo
+      userInfo: cloudUserInfo
     });
   }
 });

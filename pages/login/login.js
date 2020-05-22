@@ -44,7 +44,7 @@ Page({
     this._setIsLoging(false);
 
     const { result } = loginRes || {};
-    const { isLogin } = result || {};
+    const { isLogin, openId } = result || {};
 
     // 重新设置全局登录状态
     app.isLogin = isLogin;
@@ -56,6 +56,16 @@ Page({
       });
       return;
     }
+
+    await wx.setStorage({
+      key: 'OPENID',
+      data: openId
+    }).catch(() => null);
+
+    await wx.setStorage({
+      key: 'userInfo',
+      data: userInfo
+    }).catch(() => null);
 
     this.navigateTo();
   }

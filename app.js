@@ -17,13 +17,15 @@ App({
   isConnected: true,
 
   async _setIsLogin () {
-    const isLoginRes = await wx.cloud.callFunction({
-      name: 'isLogin'
+    const openIdRes = await wx.getStorage({
+      key: 'OPENID'
     }).catch(() => null);
 
-    const { result } = isLoginRes || {};
-    const { isLogin } = result || {};
-    this.isLogin = isLogin;
+    const { data: openId } = openIdRes || {}
+
+    // 如果缓存数据有登录状态
+    if (!openId) return;
+    this.isLogin = true;
   },
 
   watchNetworkStatus () {

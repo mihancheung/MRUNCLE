@@ -25,6 +25,7 @@ exports.main = async (event, context) => {
   }
 
   return {
-    isLogin
+    isLogin,
+    openId
   }
 }
