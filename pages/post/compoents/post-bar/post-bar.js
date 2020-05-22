@@ -115,11 +115,6 @@ Component({
         return;
       }
 
-      if (!app.isLogin) {
-        this._jumpToLogin();
-        return;
-      }
-
       wx.navigateTo({
         url: `/pages/comment/comment?id=${this.properties.postId}&total=${this.data.postInfo.comments || 0}`
       });
@@ -130,11 +125,9 @@ Component({
     },
 
     _jumpToLogin () {
-      const path = encodeURIComponent(`${this.route}?id=${this.properties.postId}`);
       wx.navigateTo({
         url: '/pages/login/login?desc=你的認可或批評需要你的登入記錄'
       });
-      return;
     },
 
     _markDone () {

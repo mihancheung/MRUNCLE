@@ -82,6 +82,11 @@ Component({
     },
   
     onTapPost () {
+      if (!app.isLogin) {
+        this._jumpToLogin();
+        return;
+      }
+
       let postType = {}
 
       if (typeof this.inpurtText === 'string' && !this.inpurtText) {
@@ -98,6 +103,11 @@ Component({
     },
   
     onTapPoster (e) {
+      if (!app.isLogin) {
+        this._jumpToLogin();
+        return;
+      }
+
       const { id, replier, index }  = e.currentTarget.dataset;
       this._replyComment(id, replier, index)
     },
@@ -182,6 +192,12 @@ Component({
         isIniting: false,
         isError: true,
         isEmpty: false
+      });
+    },
+
+    _jumpToLogin () {
+      wx.navigateTo({
+        url: '/pages/login/login?desc=你的認可或批評需要你的登入記錄'
       });
     },
   

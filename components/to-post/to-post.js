@@ -157,7 +157,7 @@ Component({
 
       if (!commentInfo) {
         wx.showToast({
-          title: '评论似乎未成功，请重新再试',
+          title: '评论似乎未成功',
           icon: 'none'
         });
         wx.hideLoading();

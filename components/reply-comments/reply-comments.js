@@ -70,12 +70,22 @@ Component({
     },
   
     onTapPost () {
+      if (!app.isLogin) {
+        this._jumpToLogin();
+        return;
+      }
+
       this.setData({
         isShowComment: true
       })
     },
 
     onTapHost () {
+      if (!app.isLogin) {
+        this._jumpToLogin();
+        return;
+      }
+
       this.setData({
         isShowComment: true,
         placeHolder: '',
@@ -84,6 +94,11 @@ Component({
     },
   
     onTapPoster (e) {
+      if (!app.isLogin) {
+        this._jumpToLogin();
+        return;
+      }
+
       const { replier }  = e.currentTarget.dataset;
       this._replyComment(replier)
     },
@@ -241,6 +256,12 @@ Component({
       wx.showToast({
         title: '多謝你嘅評論',
         icon: 'none'
+      });
+    },
+
+    _jumpToLogin () {
+      wx.navigateTo({
+        url: '/pages/login/login?desc=你的認可或批評需要你的登入記錄'
       });
     },
   
