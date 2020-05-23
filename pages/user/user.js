@@ -29,6 +29,11 @@ Page({
     if (this.data.tab === 'mark' && this.cmtMarkList && typeof this.cmtMarkList.onReachBottom === 'function') {
       this.cmtMarkList.onReachBottom();
     }
+
+    this.msg = this.selectComponent('#msg') 
+    if (this.data.tab === 'msg' && this.msg && typeof this.msg.onReachBottom === 'function') {
+      this.msg.onReachBottom();
+    }
   },
 
   onTapAvata () {
@@ -54,6 +59,10 @@ Page({
     }, () => {
       if (this.data.tab === 'mark') {
         this.cmtMarkList = this.selectComponent('#marklist');
+      }
+
+      if (this.data.tab === 'msg') {
+        this.msg = this.selectComponent('#msg');
       }
     });
   },

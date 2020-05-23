@@ -57,6 +57,16 @@
   color: #232323;
 }
 
+.replies_item_post_title {
+  display: inline;
+  color: #666666;
+}
+
+.replies_item_post_title view {
+  display: inline;
+  color: #2e89b3;
+}
+
 .replies_item_cnt {
   margin: 16rpx 0;
   word-wrap: break-word;
@@ -130,6 +140,5 @@
 
 .replies .tpl_loading {
   position: static;
-  height: 100rpx;
-  padding-bottom: 40rpx;
+  height: 250rpx;
 }

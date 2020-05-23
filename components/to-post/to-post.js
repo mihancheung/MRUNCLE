@@ -153,7 +153,7 @@ Component({
       }
 
       if (type === 'reply') {
-        const { cnt: replyCommentInfoCnt, commentOpenId } = this.replyCommentInfo || {}
+        const { cnt: replyCommentInfoCnt, commentOpenId, date } = this.replyCommentInfo || {}
         res = await wx.cloud.callFunction({
           name: 'toReplyComment',
           data: {
@@ -163,7 +163,8 @@ Component({
             replyItem: this.replyItem,
             replyCommentInfo: {
               cnt: replyCommentInfoCnt,
-              commentOpenId
+              commentOpenId,
+              postId: this.postId
             },
           }
         });

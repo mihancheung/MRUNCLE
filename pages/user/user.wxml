@@ -30,7 +30,7 @@ module.exports = {
     </view>
 
     <view class="page_user_msg" hidden="{{tab !== 'msg'}}">
-      <replyList />
+      <replyList id="msg" />
     </view>
   </view>
 </view>

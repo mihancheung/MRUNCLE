@@ -1,4 +1,4 @@
-import { formatePostData, showNoNetworkToast } from '../../../../utils/index';
+import { postDate,  showNoNetworkToast } from '../../../../utils/index';
 
 const app = getApp();
 const MAX_MARK_LIST = 10;
@@ -20,46 +20,51 @@ Component({
 
   lifetimes: {
     attached: function () {
-      // this._init();
+      this._init();
     }
   },
 
   pageLifetimes:  {
     show () {
-      // 如果mark列表在其他地方有更新，重置数据
-      if (app.isMarkUpdate) {
-        this._resetData();
-      }
+
     }
   },
 
   methods: {
     onTapArticle (e) {
       const { dataset } = e.currentTarget
-      const { id } = dataset || {};
+      const { postId } = dataset || {};
 
-      if (!id) return;
+      if (!postId) return;
 
       wx.navigateTo({
-        url: `/article/pages/post/post?id=${id}`
+        url: `/article/pages/post/post?id=${postId}`
+      });
+    },
+
+    onTapReply (e) {
+      const { dataset } = e.currentTarget;
+      const { commentId } = dataset || {};
+
+      if (!commentId) return;
+
+      wx.navigateTo({
+        url: `/article/pages/detail/detail?id=${commentId}`
       });
     },
 
     onReachBottom () {
-      if (this._isGettingData || this.data.list.length * MAX_MARK_LIST >= this.total) return;
+      if (this._isGettingData || this.data.list.length * MAX_MARK_LIST >= this.initTotal) return;
       this._getData();
     },
 
     _init () {
-      // 重置mark列表是否更新
-      app.isMarkUpdate = false
       this._getData();
     },
 
     _resetData () {
       // 重置mark列表是否更新
-      app.isMarkUpdate = false
-      this.total = null;
+      this.initTotal = null;
       this.setData({
         isLoading: true,
         isError: false,
@@ -85,7 +90,7 @@ Component({
 
       this._isGettingData = true
       const res = await wx.cloud.callFunction({
-        name: 'getUserMarkList',
+        name: 'getReplyMsg',
         data: {
           maxMarksLength: MAX_MARK_LIST,
           skip: this.data.list.length * MAX_MARK_LIST,
@@ -95,34 +100,31 @@ Component({
       this._isGettingData = false
 
       const { result } = res || {};
-      const { userMarkList, total } = result || {}
+      const { msgList, total } = result || {}
 
-      this.total = typeof this.total !== 'number' ? total : this.total;
+      this.initTotal = typeof this.initTotal !== 'number' ? total : this.initTotal;
 
-      if (this.total === 0) {
+      if (this.initTotal === 0) {
         this._setListEmpty();
         return;
       }
 
-      if (!userMarkList || userMarkList.length === 0) {
+      if (!msgList || msgList.length === 0) {
         return;
       }
 
-
-      const nextList = userMarkList.map((item) => {
-        const formatItem = formatePostData(item);
-        delete formatItem.author;
-        delete formatItem.avata;
-        delete formatItem.mdFileId;
-
-        return formatItem;
+      const nextList = msgList.map((item) => {
+        const { date } = item || {};
+        const formateDate = postDate(date);
+        item.date = formateDate;
+        return item;
       });
 
       const nextListLength = this.data.list.length * MAX_MARK_LIST + MAX_MARK_LIST
 
       this.setData({
         [`list[${this.data.list.length}]`]: nextList,
-        isLoading: nextListLength < this.total
+        isLoading: nextListLength < this.initTotal
       });
     }
   }

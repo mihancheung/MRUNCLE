@@ -1,109 +1,38 @@
 <import src="/tpls/loading/loading.wxml" />
 
+<wxs module="msgWxs">
+  var getQouteReplyToTxt = function (replyTo) {
+    return replyTo ? ' 回復 @' + replyTo : '';
+  }
+
+  module.exports = {
+    getQouteReplyToTxt: getQouteReplyToTxt
+  }
+</wxs>
+
 <view class="replies">
-  
-  <view class="replies_item">
-    <image class="replies_item_avata" src="/image/me.jpeg" />
-    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
-    <view class="replies_item_main">
-      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
-      <view class="replies_item_cnt">
-        <view class="replies_item_cnt_replyto">回復<text class="replies_item_cnt_replyto_name">@dkdkdkdk</text>：</view>
-        <view class="replies_item_cnt_text">哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中</view>
-      </view>
-      <view class="replies_item_qoute">
-        dkdkdk 回復 @dkdkdk：在
-      </view>
-      <text class="replies_item_date">2020-02-02</text>
-    </view>
-  </view>
-
-  <view class="replies_item">
-    <image class="replies_item_avata" src="/image/me.jpeg" />
-    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
-    <view class="replies_item_main">
-      <view class="replies_item_title"><text class="replies_item_replier">我是回復者我是回復者我是回復者我是回復者</text>回復了我的評論</view>
-      <view class="replies_item_cnt">
-        <view class="replies_item_cnt_replyto">回復<text class="replies_item_cnt_replyto_name">@dkdkdkdk:</text></view>
-        <view class="replies_item_cnt_text">內容內容內容</view>
-      </view>
-      <view class="replies_item_qoute">
-        dkdkdk 回復 @dkdkdk：在哪呢現在中在嗎在嗎右右咗啦中中
-      </view>
-      <text class="replies_item_date">2020-02-02</text>
-    </view>
-  </view>
-
-  <view class="replies_item">
-    <image class="replies_item_avata" src="/image/me.jpeg" />
-    <text class="replies_item_comment">我是評</text>
-    <view class="replies_item_main">
-      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
-      <view class="replies_item_cnt">
-        <view class="replies_item_cnt_text">內容內容內容</view>
-      </view>
-      <text class="replies_item_date">2020-02-02</text>
-    </view>
-  </view>
-
-  <view class="replies_item">
-    <image class="replies_item_avata" src="/image/me.jpeg" />
-    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
-    <view class="replies_item_main">
-      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
-      <view class="replies_item_cnt">
-        <view class="replies_item_cnt_replyto">回復
-          <text class="replies_item_cnt_replyto_name">@dkdkdkdk</text>
+  <block wx:for="{{list}}" wx:for-item="listItem" wx:for-index="listIndex" wx:key="listIndex">
+    <view class="replies_item" wx:for="{{listItem}}" wx:key="_id" data-comment-id="{{item.commentId}}" bind:tap="onTapReply">
+      <image class="replies_item_avata" src="{{item.replier.avatarUrl}}" />
+      <text class="replies_item_comment">{{item.cnt}}</text>
+      <view class="replies_item_main">
+        <view class="replies_item_title"><text class="replies_item_replier">{{item.replier.nickName}}</text>回復了我<view wx:if="{{item.postTitle}}" class="replies_item_post_title">在<view bind:tap="onTapArticle" data-post-id="{{item.postId}}">《{{item.postTitle}}》</view></view>的評論</view>
+        <view class="replies_item_cnt">
+          <view class="replies_item_cnt_replyto" wx:if="{{item.replyToReply}}">回復<text class="replies_item_cnt_replyto_name">@{{item.replyToReply.nickName}}</text>：</view>
+          <view class="replies_item_cnt_text">{{item.replier.cnt}}</view>
         </view>
-        <view class="replies_item_cnt_text">內容內容內容</view>
-      </view>
-      <view class="replies_item_qoute">
-        dkdkdk 回復 @dkdkdk：在哪呢現在中在嗎在嗎右右咗啦中中
-      </view>
-      <text class="replies_item_date">2020-02-02</text>
-    </view>
-  </view>
-
-  <view class="replies_item">
-    <image class="replies_item_avata" src="/image/me.jpeg" />
-    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
-    <view class="replies_item_main">
-      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
-      <view class="replies_item_cnt">
-        <view class="replies_item_cnt_replyto">回復
-          <text class="replies_item_cnt_replyto_name">@dkdkdkdk</text>
+        <view class="replies_item_qoute" wx:if="{{item.replyToReply}}">
+          {{item.replyToReply.nickName}}{{msgWxs.getQouteReplyToTxt(item.replyToReply.replyTo)}}：{{item.replyToReply.cnt}}
         </view>
-        <view class="replies_item_cnt_text">內容內容內容</view>
+        <text class="replies_item_date">{{item.date}}</text>
       </view>
-      <view class="replies_item_qoute">
-        dkdkdk 回復 @dkdkdk：在哪呢現在中在嗎在嗎右右咗啦中中
-      </view>
-      <text class="replies_item_date">2020-02-02</text>
     </view>
-  </view>
-
-  <view class="replies_item">
-    <image class="replies_item_avata" src="/image/me.jpeg" />
-    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
-    <view class="replies_item_main">
-      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
-      <view class="replies_item_cnt">
-        <view class="replies_item_cnt_replyto">回復
-          <text class="replies_item_cnt_replyto_name">@dkdkdkdk</text>
-        </view>
-        <view class="replies_item_cnt_text">內容內容內容</view>
-      </view>
-      <view class="replies_item_qoute">
-        dkdkdk 回復 @dkdkdk：在哪呢現在中在嗎在嗎右右咗啦中中
-      </view>
-      <text class="replies_item_date">2020-02-02</text>
-    </view>
-  </view>
+  </block>
 
   <template is="loading" data="{{ isLoading, loadingText: '撈緊喇大佬🤦🏻‍♂️', isNoShowImage: true }}" />
 </view>
 
 <view class="page_user_empty" wx:if="{{isShowEmpty}}">
-  <image class="page_user_empty_icon" src="./images/pages/user/mark_empty.svg" mode="heightFix" />
+  <image class="page_user_empty_icon" src="./images/comment_empty.svg" mode="heightFix" />
   <text class="page_user_empty_txt">仲未收到任何評論</text>
 </view>
