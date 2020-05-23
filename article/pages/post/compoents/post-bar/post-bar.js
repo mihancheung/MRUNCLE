@@ -1,9 +1,6 @@
 import { showNoNetworkToast } from '../../../../../utils/index';
 
 const app = getApp();
-const db = wx.cloud.database();
-const post = db.collection('post');
-const _ = db.command;
 
 Component({
   properties: {
@@ -72,6 +69,10 @@ Component({
         isMark: !this.data.isMark,
         'postInfo.marks': this.data.isMark ? this.data.postInfo.marks - 1 : this.data.postInfo.marks + 1,
       }, () => {
+        wx.showToast({
+          title: this.data.isMark ? '靚 POST 為你 MARK' : '已狠心將你揼',
+          icon: 'none'
+        });
         this._updateMarks();
       });
     },
@@ -93,6 +94,10 @@ Component({
         isLike: !this.data.isLike,
         'postInfo.likes': this.data.isLike ? this.data.postInfo.likes - 1 : this.data.postInfo.likes + 1,
       }, () => {
+        wx.showToast({
+          title: this.data.isLike ? '點 Like 嘅都係好人' : '多謝你，我會繼續努力',
+          icon: 'none'
+        });
         this._updateLikes();
       });
     },
@@ -133,23 +138,8 @@ Component({
     },
 
     _markDone () {
-      const { isMark } = this.data;
-
       // 记录一次mark列表更新,供个人中心列表更新用
       app.isMarkUpdate = true;
-
-      wx.showToast({
-        title: isMark ? '靚 POST 為你 MARK' : '已狠心將你揼',
-        icon: 'none'
-      });
-    },
-
-    _likeDone () {
-      const { isLike } = this.data;
-      wx.showToast({
-        title: isLike ? '點 Like 嘅都係好人' : '多謝你，我會繼續努力',
-        icon: 'none'
-      });
     },
 
     async _checkPostAndUser () {
@@ -258,8 +248,6 @@ Component({
         this._likesError();
         return;
       }
-
-      this._likeDone();
     },
   }
 })
