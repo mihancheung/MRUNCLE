@@ -1,0 +1,109 @@
+<import src="/tpls/loading/loading.wxml" />
+
+<view class="replies">
+  
+  <view class="replies_item">
+    <image class="replies_item_avata" src="/image/me.jpeg" />
+    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
+    <view class="replies_item_main">
+      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
+      <view class="replies_item_cnt">
+        <view class="replies_item_cnt_replyto">回復<text class="replies_item_cnt_replyto_name">@dkdkdkdk</text>：</view>
+        <view class="replies_item_cnt_text">哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中哪呢現在中在嗎在嗎右右咗啦中中</view>
+      </view>
+      <view class="replies_item_qoute">
+        dkdkdk 回復 @dkdkdk：在
+      </view>
+      <text class="replies_item_date">2020-02-02</text>
+    </view>
+  </view>
+
+  <view class="replies_item">
+    <image class="replies_item_avata" src="/image/me.jpeg" />
+    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
+    <view class="replies_item_main">
+      <view class="replies_item_title"><text class="replies_item_replier">我是回復者我是回復者我是回復者我是回復者</text>回復了我的評論</view>
+      <view class="replies_item_cnt">
+        <view class="replies_item_cnt_replyto">回復<text class="replies_item_cnt_replyto_name">@dkdkdkdk:</text></view>
+        <view class="replies_item_cnt_text">內容內容內容</view>
+      </view>
+      <view class="replies_item_qoute">
+        dkdkdk 回復 @dkdkdk：在哪呢現在中在嗎在嗎右右咗啦中中
+      </view>
+      <text class="replies_item_date">2020-02-02</text>
+    </view>
+  </view>
+
+  <view class="replies_item">
+    <image class="replies_item_avata" src="/image/me.jpeg" />
+    <text class="replies_item_comment">我是評</text>
+    <view class="replies_item_main">
+      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
+      <view class="replies_item_cnt">
+        <view class="replies_item_cnt_text">內容內容內容</view>
+      </view>
+      <text class="replies_item_date">2020-02-02</text>
+    </view>
+  </view>
+
+  <view class="replies_item">
+    <image class="replies_item_avata" src="/image/me.jpeg" />
+    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
+    <view class="replies_item_main">
+      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
+      <view class="replies_item_cnt">
+        <view class="replies_item_cnt_replyto">回復
+          <text class="replies_item_cnt_replyto_name">@dkdkdkdk</text>
+        </view>
+        <view class="replies_item_cnt_text">內容內容內容</view>
+      </view>
+      <view class="replies_item_qoute">
+        dkdkdk 回復 @dkdkdk：在哪呢現在中在嗎在嗎右右咗啦中中
+      </view>
+      <text class="replies_item_date">2020-02-02</text>
+    </view>
+  </view>
+
+  <view class="replies_item">
+    <image class="replies_item_avata" src="/image/me.jpeg" />
+    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
+    <view class="replies_item_main">
+      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
+      <view class="replies_item_cnt">
+        <view class="replies_item_cnt_replyto">回復
+          <text class="replies_item_cnt_replyto_name">@dkdkdkdk</text>
+        </view>
+        <view class="replies_item_cnt_text">內容內容內容</view>
+      </view>
+      <view class="replies_item_qoute">
+        dkdkdk 回復 @dkdkdk：在哪呢現在中在嗎在嗎右右咗啦中中
+      </view>
+      <text class="replies_item_date">2020-02-02</text>
+    </view>
+  </view>
+
+  <view class="replies_item">
+    <image class="replies_item_avata" src="/image/me.jpeg" />
+    <text class="replies_item_comment">我是評論內容評論內容評論內容</text>
+    <view class="replies_item_main">
+      <view class="replies_item_title"><text class="replies_item_replier">我是回復者</text>回復了我的評論</view>
+      <view class="replies_item_cnt">
+        <view class="replies_item_cnt_replyto">回復
+          <text class="replies_item_cnt_replyto_name">@dkdkdkdk</text>
+        </view>
+        <view class="replies_item_cnt_text">內容內容內容</view>
+      </view>
+      <view class="replies_item_qoute">
+        dkdkdk 回復 @dkdkdk：在哪呢現在中在嗎在嗎右右咗啦中中
+      </view>
+      <text class="replies_item_date">2020-02-02</text>
+    </view>
+  </view>
+
+  <template is="loading" data="{{ isLoading, loadingText: '撈緊喇大佬🤦🏻‍♂️', isNoShowImage: true }}" />
+</view>
+
+<view class="page_user_empty" wx:if="{{isShowEmpty}}">
+  <image class="page_user_empty_icon" src="./images/pages/user/mark_empty.svg" mode="heightFix" />
+  <text class="page_user_empty_txt">仲未收到任何評論</text>
+</view>

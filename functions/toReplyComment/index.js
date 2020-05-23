@@ -7,12 +7,34 @@ cloud.init({
 const db = cloud.database();
 const _ = db.command;
 const commentDB = db.collection('comment');
+const userReplyDB = db.collection('user-reply');
+
+// let replyUser = {
+//   openId: '',
+//   commentId: '',
+//   cnt: '',
+//   replier: {
+//     openId: '',
+//     nickName: '',
+//     avatarUrl: '',
+//     date: '',
+//     cnt: ''
+//   },
+//   replyToReply: {
+//     nickName: '',
+//     cnt: '',
+//     replyTo: '@dkdk'
+//   }
+
+// }
 
 // 云函数入口函数
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const { OPENID: openId } = wxContext
-  const { cnt, id, replyTo } = event
+  const { cnt, id, replyTo, replyItem, replyCommentInfo } = event
+
+  console.log('replyCommentInfo', replyCommentInfo, 'replyItem', replyItem)
 
   // 评论内容安全检测
   const cntCheckRes = await cloud.openapi.security.msgSecCheck({
@@ -75,6 +97,27 @@ exports.main = async (event, context) => {
       commentInfo: null,
     }
   }
+
+
+  // 寫進用戶回復表
+  const { commentOpenId, cnt: replyCommentInfoCnt } = replyCommentInfo || {};
+  const { openId: replyItemOpenId } = replyItem || {}
+
+  const replyUserRes = await userReplyDB.add({
+    data: {
+      openId: replyItemOpenId || commentOpenId,
+      commentId: id,
+      cnt: replyCommentInfoCnt,
+      replier: {
+        openId,
+        date: new Date(),
+        avatarUrl,
+        nickName,
+        cnt
+      },
+      replyToReply: replyItem
+    }
+  }).catch(() => null);
 
   return {
     commentInfo: {

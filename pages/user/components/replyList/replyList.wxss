@@ -1,0 +1,135 @@
+@import '/tpls/loading/loading.wxss';
+
+.replies {
+  padding: 0 40rpx;
+}
+
+.replies_item {
+  position: relative;
+  padding: 40rpx 116rpx 40rpx 100rpx;
+  border-top: 0.5px solid #e5e5e5;
+}
+.replies_item:nth-child(1) {
+  border-top: none;
+}
+
+.replies_item_avata {
+  position: absolute;
+  left: 0;
+  top: 40rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  box-shadow: 0 0 10rpx rgba(0, 0, 0, .1);
+}
+
+.replies_item_comment {
+  position: absolute;
+  right: 0;
+  top: 40rpx;
+  width: 4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-size: 24rpx;
+  color: #666666;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.replies_item_main {
+  font-size: 28rpx;
+  color: #232323;
+}
+
+.replies_item_title {
+  font-size: 24rpx;
+  color: #666666;
+}
+
+.replies_item_replier {
+  font-weight: bold;
+  margin-right: 10rpx;
+  overflow: hidden;
+  vertical-align: top;
+  color: #232323;
+}
+
+.replies_item_cnt {
+  margin: 16rpx 0;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.replies_item_cnt_replyto {
+  display: inline;
+}
+
+.replies_item_cnt_replyto_name {
+  color: #2e89b3;
+  margin: 0 0 0 10rpx;
+}
+
+.replies_item_cnt_text {
+  display: inline;
+}
+
+.replies_item_qoute {
+  position: relative;
+  padding-left: 16rpx;
+  margin-bottom: 16rpx;
+  color: #999999;
+  font-size: 24rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.replies_item_qoute:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4rpx;
+  background: #e7e7e7;
+  overflow: hidden;
+}
+
+.replies_item_date {
+  color: #999999;
+  font-size: 24rpx;
+}
+
+.page_user_empty {
+  min-height: calc(100vh - 592rpx);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page_user_empty_icon {
+  height: 104rpx;
+}
+
+.page_user_empty_txt {
+  margin: 40rpx 0 0;
+  color: #999999;
+}
+
+
+.replies .tpl_loading {
+  position: static;
+  height: 100rpx;
+  padding-bottom: 40rpx;
+}

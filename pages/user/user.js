@@ -26,7 +26,9 @@ Page({
   },
 
   onReachBottom () {
-    this.cmtMarkList && typeof this.cmtMarkList.onReachBottom === 'function' && this.cmtMarkList.onReachBottom();
+    if (this.data.tab === 'mark' && this.cmtMarkList && typeof this.cmtMarkList.onReachBottom === 'function') {
+      this.cmtMarkList.onReachBottom();
+    }
   },
 
   onTapAvata () {
@@ -71,7 +73,12 @@ Page({
       return;
     }
 
-    if (!app.isLogin) {
+    const openIdRes = await wx.getStorage({
+      key: 'OPENID'
+    }).catch(() => null);
+    const { data: openId } = openIdRes || {}
+
+    if (!app.isLogin && !openId) {
       wx.navigateTo({
         url: `/login/pages/login/login?desc=查看我的主頁需要提供登入信息`
       });

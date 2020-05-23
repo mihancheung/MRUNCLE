@@ -28,6 +28,16 @@ Component({
       value: ''
     },
 
+    replyItem: {
+      type: Object,
+      value: null
+    },
+
+    replyCommentInfo: {
+      type: Object,
+      value: {}
+    },
+
     placeHolder: {
       type: String,
       value: '说点什么吧：'
@@ -62,6 +72,14 @@ Component({
       this.replyTo = replyTo
     },
 
+    'replyItem': function (replyItem) {
+      this.replyItem = replyItem
+    },
+
+    'replyCommentInfo': function (replyCommentInfo) {
+      this.replyCommentInfo = replyCommentInfo
+    },
+    
     'commentId': function (commentId) {
       this.commentId = commentId
     },
@@ -135,12 +153,18 @@ Component({
       }
 
       if (type === 'reply') {
+        const { cnt: replyCommentInfoCnt, commentOpenId } = this.replyCommentInfo || {}
         res = await wx.cloud.callFunction({
           name: 'toReplyComment',
           data: {
             id: this.commentId,
             cnt,
-            replyTo: this.replyTo
+            replyTo: this.replyTo,
+            replyItem: this.replyItem,
+            replyCommentInfo: {
+              cnt: replyCommentInfoCnt,
+              commentOpenId
+            },
           }
         });
       }

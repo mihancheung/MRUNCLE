@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "error": "/components/error/error",
-    "marklist": "./components/marklist/marklist"
+    "marklist": "./components/marklist/marklist",
+    "replyList": "./components/replyList/replyList"
   },
   "backgroundColor": "#f7f7f7",
   "enablePullDownRefresh": true,

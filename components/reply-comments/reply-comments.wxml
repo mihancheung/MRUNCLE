@@ -1,22 +1,11 @@
 <import src="/tpls/loading/loading.wxml" />
 
 <wxs module="commentWxs">
-  var getReplyItemKey = function (openId, index) {
-    return openId + '_' + index;
-  }
-
-  var getReplierStr = function (nickName, replyTo) {
-    var replyToStr = replyTo ? ' 回复 ' : nickName;
-    return replyToStr;
-  }
-
   var getDefaultPlaceHolder = function (nickName) {
     return '回复 @' + nickName + ':'
   }
 
   module.exports = {
-    getReplyItemKey: getReplyItemKey,
-    getReplierStr: getReplierStr,
     getDefaultPlaceHolder: getDefaultPlaceHolder
   }
 </wxs>
@@ -50,6 +39,7 @@
 
         <view class="page_comment_info"
           bind:tap="onTapPoster"
+          data-reply-item="{{item}}"
           data-replier="{{item.nickName}}">
           <text class="page_comment_nickname">{{item.nickName}}</text>
           <text class="page_comment_date">{{item.date}}</text>
@@ -90,8 +80,10 @@
   type="reply"
   replyTo="{{replyTo}}"
   commentId="{{commentId}}"
+  replyCommentInfo="{{info}}"
   placeHolder="{{placeHolder || commentWxs.getDefaultPlaceHolder(info.nickName)}}"
   postId="{{postId}}"
+  replyItem="{{replyItem}}"
   isShowComment="{{isShowComment}}"
   bind:closeComment="onCloseComment"
   bind:getComments="onCommentDone"

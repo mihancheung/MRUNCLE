@@ -46,6 +46,7 @@ exports.main = async (event, context) => {
   return {
     replyCommentInfo: res.list[0],
     total: res.list[0].total,
-    openId
+    openId,
+    commentOpenId: res.list[0].openId
   }
 }

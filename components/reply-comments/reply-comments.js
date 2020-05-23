@@ -15,6 +15,7 @@ Component({
     postId: '',
     list: [],
     info: {},
+    replyItem: null,
     total: '',
     userOpenId: '',
     placeHolder: '',
@@ -59,7 +60,8 @@ Component({
       if (!this.inpurtText) {
         placeHolder = {
           placeHolder: '',
-          replyTo: ''
+          replyTo: '',
+          replyItem: null,
         }
       }
 
@@ -89,7 +91,8 @@ Component({
       this.setData({
         isShowComment: true,
         placeHolder: '',
-        replyTo: ''
+        replyTo: '',
+        replyItem: null,
       })
     },
   
@@ -99,8 +102,8 @@ Component({
         return;
       }
 
-      const { replier }  = e.currentTarget.dataset;
-      this._replyComment(replier)
+      const { replier, replyItem }  = e.currentTarget.dataset;
+      this._replyComment(replier, replyItem)
     },
   
     onTapDelete (e) {
@@ -151,6 +154,7 @@ Component({
         list: [],
         userOpenId: '',
         replyTo: '',
+        replyItem: null,
         isIniting: true,
         isLoading: false,
         isShowComment: false,
@@ -184,6 +188,7 @@ Component({
         [`list[${list.length - 1}][${lastList.length}]`]: commentInfo,
         placeHolder: '',
         replyTo: '',
+        replyItem: null,
         total: this.data.total + 1,
       }, () => {
         this._commentDone();
@@ -196,11 +201,12 @@ Component({
       });
     },
   
-    async _replyComment (replyTo) {
+    async _replyComment (replyTo, replyItem) {
       this.setData({
         placeHolder: `回复 @${replyTo}：`,
         replyTo,
         isShowComment: true,
+        replyItem,
       });
     },
   
@@ -289,7 +295,7 @@ Component({
       this.isFetchingList = false;
   
       const { result } = res || {};
-      const { total, replyCommentInfo, openId: userOpenId } = result || {}
+      const { total, replyCommentInfo, openId: userOpenId, commentOpenId } = result || {}
       this.initTotal = this.initTotal ? total : this.initTotal;
       this.triggerEvent('getReplyTotal', { total })
 
@@ -321,7 +327,8 @@ Component({
       this.setData({
         info: {
           ...replyCommentInfo,
-          replies: null
+          replies: null,
+          commentOpenId,
         },
         [`list[${this.data.list.length}]`]: nextList,
         isLoading: nextListLength < total,

@@ -28,6 +28,7 @@ Component({
     isShowComment: false,
     isError: false,
     isEmpty: false,
+    replyCommentInfo: {},
   },
 
   lifetimes: {
@@ -108,8 +109,8 @@ Component({
         return;
       }
 
-      const { id, replier, index }  = e.currentTarget.dataset;
-      this._replyComment(id, replier, index)
+      const { id, replier, index, item }  = e.currentTarget.dataset;
+      this._replyComment(id, replier, index, item)
     },
   
     onTapDelete (e) {
@@ -230,7 +231,7 @@ Component({
       });
     },
   
-    _replyComment (id, replier, index) {
+    _replyComment (id, replier, index, item) {
       this.commentId = id;
       this.replyIndex = index;
       this.setData({
@@ -238,6 +239,10 @@ Component({
         postType: 'reply',
         commentId: id,
         isShowComment: true,
+        replyCommentInfo: {
+          commentOpenId: item.openId,
+          cnt: item.cnt
+        },
       });
     },
 

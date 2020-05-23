@@ -24,6 +24,7 @@
 
         <view class="page_comment_info"
           bind:tap="onTapPoster"
+          data-item="{{item}}"
           data-id="{{item._id}}"
           data-index="{{[listIndex, blockItemIndex]}}"
           data-replier="{{item.nickName}}">
@@ -84,6 +85,7 @@
 <to-post
   type="{{postType}}"
   commentId="{{commentId}}"
+  replyCommentInfo="{{replyCommentInfo}}"
   postId="{{postId}}"
   placeHolder="{{placeHolder}}"
   isShowComment="{{isShowComment}}"
