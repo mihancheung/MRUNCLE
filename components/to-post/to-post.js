@@ -174,20 +174,20 @@ Component({
       const { commentInfo, cntMsg, total: resultTotal } = result || {}
 
       if (cntMsg) {
+        wx.hideLoading();
         wx.showToast({
           title: '大佬讲嘢注意D啊',
           icon: 'none'
         });
-        wx.hideLoading();
         return
       }
 
       if (!commentInfo) {
+        wx.hideLoading();
         wx.showToast({
           title: '评论似乎未成功',
           icon: 'none'
         });
-        wx.hideLoading();
         return
       }
 

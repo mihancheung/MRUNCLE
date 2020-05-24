@@ -13,6 +13,6 @@
 </view>
 
 <view class="page_user_empty" wx:if="{{isShowEmpty}}">
-  <image class="page_user_empty_icon" src="./images/pages/user/mark_empty.svg" mode="heightFix" />
+  <image class="page_user_empty_icon" src="./images/mark_empty.svg" mode="heightFix" />
   <text class="page_user_empty_txt">仲未 Mark 有文章</text>
 </view>
