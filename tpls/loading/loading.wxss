@@ -2,14 +2,17 @@
   position: absolute;
   left: 0;
   top: 0;
-  bottom: 0;
   right: 0;
+  bottom: 0;
   background: #ffffff;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
 }
 
 .tpl_loading_image {

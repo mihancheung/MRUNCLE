@@ -25,6 +25,7 @@ Component({
     isLoading: false,
     isShowComment: false,
     isError: false,
+    isComment404: false,
   },
 
   lifetimes: {
@@ -159,6 +160,7 @@ Component({
         isLoading: false,
         isShowComment: false,
         isError: false,
+        isComment404: false,
       }, () => {
         this._init();
       });
@@ -170,6 +172,15 @@ Component({
       this.setData({
         isIniting: false,
         isError: true,
+      });
+    },
+
+    _setComment404 () {
+      this.isFetchingList = false;
+      this.dynamicCommentTotal = 0;
+      this.setData({
+        isIniting: false,
+        isComment404: true,
       });
     },
   
@@ -295,14 +306,20 @@ Component({
       this.isFetchingList = false;
   
       const { result } = res || {};
-      const { total, replyCommentInfo, openId: userOpenId, commentOpenId } = result || {}
-      this.initTotal = this.initTotal ? total : this.initTotal;
-      this.triggerEvent('getReplyTotal', { total })
+      const { total, replyCommentInfo, openId: userOpenId, commentOpenId, code } = result || {}
 
-      if (!replyCommentInfo) {
+      if (code === 404) {
+        this._setComment404();
+        return;
+      }
+
+      if (code === 500) {
         this._setError();
         return;
-      };
+      }
+
+      this.initTotal = this.initTotal ? total : this.initTotal;
+      this.triggerEvent('getReplyTotal', { total })
 
       const { postId, replies } = replyCommentInfo || [];
 

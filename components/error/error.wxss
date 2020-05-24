@@ -12,11 +12,12 @@
   width: 100vw;
   background: #fff;
   z-index: 1000;
+  box-sizing: border-box;
 }
 
 .gb_error_icon {
-  width: 300rpx;
-  height: 300rpx;
+  width: 220rpx;
+  height: 220rpx;
   margin: 0!important;
   background: none!important;
 }
@@ -37,8 +38,8 @@
 
 .gb_error_btn {
   margin: 100rpx 0 0;
-  height: 120rpx;
-  width: 120rpx;
+  height: 100rpx;
+  width: 100rpx;
   border-radius: 50%;
   box-shadow: 0 4rpx 16rpx rgba(0,0,0,.2);
 }

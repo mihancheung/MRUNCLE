@@ -36,14 +36,22 @@ exports.main = async (event, context) => {
     .end()
     .catch(() => null);
 
-  if (!res || res.list.length === 0) {
+  if (!res) {
     return {
-      list: null,
-      total: 0,
+      code: 500,
+      msg: '获取数据异常',
+    }
+  }
+
+  if (res.list.length === 0) {
+    return {
+      code: 404,
+      msg: '评论已关闭'
     }
   }
 
   return {
+    code: 0,
     replyCommentInfo: res.list[0],
     total: res.list[0].total,
     openId,

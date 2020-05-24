@@ -76,6 +76,12 @@
   wx:if="{{isError}}"
   bindtapReload="onErrorReload"
 />
+
+<view class="no_replies" wx:if="{{isComment404}}" catchtouchmove="true">
+  <image class="no_replies_icon" src="../comments/images/comments_empty.svg" />
+  <text class="no_replies_txt">评论已关闭</text>
+</view>
+
 <to-post
   type="reply"
   replyTo="{{replyTo}}"

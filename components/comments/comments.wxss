@@ -165,6 +165,5 @@
 }
 
 .tpl_comment_empty {
-  bottom: calc(104rpx + constant(safe-area-inset-bottom));
-  bottom: calc(104rpx + env(safe-area-inset-bottom));
+  bottom: 104rpx;
 }
