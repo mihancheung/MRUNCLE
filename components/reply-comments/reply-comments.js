@@ -25,12 +25,24 @@ Component({
     isLoading: false,
     isShowComment: false,
     isError: false,
-    isComment404: false,
+    isComment404: false
   },
 
   lifetimes: {
     attached () {
       this._init();
+      this.setData({
+        isLogin: app.isLogin
+      });
+    }
+  },
+
+  pageLifetimes: {
+    show () {
+      if (this.data.isLogin === app.isLogin) return
+      this.setData({
+        isLogin: app.isLogin
+      });
     }
   },
 

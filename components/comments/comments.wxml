@@ -56,7 +56,7 @@
         </view>
 
         <view bind:tap="onTapDelete" class="page_comment_delete"
-          wx:if="{{userOpenId && item.openId && userOpenId === item.openId}}"
+          wx:if="{{isLogin && userOpenId && item.openId && userOpenId === item.openId}}"
           data-id="{{item._id}}"
           data-index="{{[listIndex, blockItemIndex]}}"
         >

@@ -34,11 +34,20 @@ Component({
   lifetimes: {
     attached () {
       this._init();
+      this.setData({
+        isLogin: app.isLogin
+      });
     }
   },
 
   pageLifetimes: {
     show () {
+      if (this.data.isLogin !== app.isLogin) {
+        this.setData({
+          isLogin: app.isLogin
+        });
+      };
+
       if (!app.isReplyCommentsUpdate) return;
       app.isReplyCommentsUpdate = false;
       const isShowFeedBack = false
