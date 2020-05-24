@@ -160,7 +160,7 @@
 }
 
 .page_user_empty {
-  min-height: calc(100vh - 592rpx);
+  min-height: calc(100vh - 580rpx);
   display: flex;
   flex-direction: column;
   justify-content: center;

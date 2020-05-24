@@ -53,8 +53,55 @@ Component({
       });
     },
 
-    onDelete () {
-      console.log('dele')
+    async onDelete (e) {
+      const { id, index } = e.currentTarget.dataset;
+      if (this.deleting) return;
+
+      const isDelete = await wx.showModal({
+        title: '删除后将不能恢复，是否继续？'
+      });
+
+      if (isDelete.cancel) return;
+
+      wx.showLoading({
+        title: '正在删除'
+      });
+
+      this.deleting = true;
+      const res = await wx.cloud.callFunction({
+        name: 'deleteMsg',
+        data: {
+          id
+        }
+      }).catch(() => null);
+      this.deleting = false;
+      wx.hideLoading();
+
+      const { result } = res || {};
+      const { total, res: resultRes } = result || {};
+
+      if (!resultRes) {
+        wx.showToast({
+          title: '未能成功删除',
+          icon: 'none'
+        });
+        return
+      };
+      
+      this.dynamicCommentTotal -= 1;
+  
+      this.setData({
+        [`list[${index[0]}][${index[1]}]`]: null
+      }, () => {
+        if (total === 0) {
+          this._setListEmpty();
+        }
+      });
+  
+      wx.showToast({
+        title: '删除成功',
+        icon: 'none'
+      });
     },
 
     onTouchEnd (e) {
@@ -116,8 +163,9 @@ Component({
       this.startX = e.changedTouches[0].pageX;
       this.startY = e.changedTouches[0].pageY;
       this.startTimeStamp = e.timeStamp;
+      const preItem = this.index && this.data.list[this.index[0]][this.index[1]];
 
-      if (this.index && JSON.stringify(this.index) !== JSON.stringify(index)) {
+      if (preItem && JSON.stringify(this.index) !== JSON.stringify(index)) {
         this.setData({
           [`list[${this.index[0]}][${this.index[1]}].x`]: 0,
         });
@@ -130,20 +178,8 @@ Component({
     },
 
     _init () {
+      this.dynamicCommentTotal = 0;
       this._getData();
-    },
-
-    _resetData () {
-      // 重置mark列表是否更新
-      this.initTotal = null;
-      this.setData({
-        isLoading: true,
-        isError: false,
-        isShowEmpty: false,
-        list: [],
-      }, () => {
-        this._getData();
-      });
     },
 
     _setListEmpty () {
@@ -164,7 +200,7 @@ Component({
         name: 'getReplyMsg',
         data: {
           maxMarksLength: MAX_MARK_LIST,
-          skip: this.data.list.length * MAX_MARK_LIST,
+          skip: this.data.list.length * MAX_MARK_LIST + this.dynamicCommentTotal,
         }
       }).catch(() => null);
 
@@ -175,7 +211,7 @@ Component({
 
       this.initTotal = typeof this.initTotal !== 'number' ? total : this.initTotal;
 
-      if (this.initTotal === 0) {
+      if (total === 0) {
         this._setListEmpty();
         return;
       }

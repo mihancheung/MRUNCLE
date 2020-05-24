@@ -12,8 +12,8 @@
 
 <view class="replies">
   <block wx:for="{{list}}" wx:for-item="listItem" wx:for-index="listIndex" wx:key="listIndex">
-    <movable-area class="replies_item_movable_area" wx:for="{{listItem}}" wx:key="_id">
-      <movable-view direction="horizontal" x="{{item.x}}" inertia class="replies_item_movable_view">
+    <movable-area wx:if="{{item}}" class="replies_item_movable_area" wx:for="{{listItem}}" wx:key="_id">
+      <movable-view direction="horizontal" x="{{item.x}}" damping="{{50}}" inertia class="replies_item_movable_view">
         <view class="replies_item" bind:tap="onTapReply" bind:touchstart="onTouchStart" bind:touchend="onTouchEnd" data-index="{{[listIndex, index]}}" data-comment-id="{{item.commentId}}">
           <image class="replies_item_avata" src="{{item.replier.avatarUrl}}" />
           <text class="replies_item_comment">{{item.cnt}}</text>
@@ -29,7 +29,7 @@
             <text class="replies_item_date">{{item.date}}</text>
           </view>
         </view>
-        <view class="replies_delete" bind:tap="onDelete">删除</view>
+        <view class="replies_delete" bind:tap="onDelete" data-index="{{[listIndex, index]}}" data-id="{{item._id}}">删除</view>
       </movable-view>
     </movable-area>
   </block>
