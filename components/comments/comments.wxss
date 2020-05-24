@@ -162,6 +162,7 @@
 .page_comment .tpl_loading {
   position: static;
   height: 100rpx;
+  padding-bottom: 0;
 }
 
 .tpl_comment_empty {

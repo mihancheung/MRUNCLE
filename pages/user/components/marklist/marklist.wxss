@@ -67,4 +67,5 @@
 .mark .tpl_loading {
   position: static;
   height: 230rpx;
+  padding-bottom: 0;
 }

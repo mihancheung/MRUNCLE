@@ -1,21 +1,60 @@
 @import '/tpls/loading/loading.wxss';
 
 .replies {
-  padding: 0 40rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.replies_item_movable_area {
+  position: relative;
+  width: auto;
+  height: auto;
+}
+
+.replies_item_movable_area:nth-last-child(1) .replies_item:after {
+  background: none;
+}
+
+.replies_item_movable_view {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  height: auto;
+  width: calc(100% + 150rpx);
+  background: #ffffff;
+}
+
+.replies_delete {
+  flex: 1;
+  width: 150rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: bold;
+  background: #fe3723;
 }
 
 .replies_item {
   position: relative;
-  padding: 40rpx 116rpx 40rpx 100rpx;
-  border-top: 0.5px solid #e5e5e5;
+  box-sizing: border-box;
+  width: calc(100% - 150rpx);
+  padding: 40rpx 150rpx 40rpx 150rpx;
 }
-.replies_item:nth-child(1) {
-  border-top: none;
+
+.replies_item:after {
+  content: '';
+  position: absolute;
+  left: 40rpx;
+  bottom: 0;
+  right: 0;
+  height: 0.5px;
+  background: #e5e5e5;
 }
 
 .replies_item_avata {
   position: absolute;
-  left: 0;
+  left: 40rpx;
   top: 40rpx;
   width: 80rpx;
   height: 80rpx;
@@ -25,7 +64,7 @@
 
 .replies_item_comment {
   position: absolute;
-  right: 0;
+  right: 40rpx;
   top: 40rpx;
   width: 4em;
   overflow: hidden;
@@ -141,4 +180,5 @@
 .replies .tpl_loading {
   position: static;
   height: 250rpx;
+  padding-bottom: 0;
 }

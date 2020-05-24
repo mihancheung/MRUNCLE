@@ -12,21 +12,26 @@
 
 <view class="replies">
   <block wx:for="{{list}}" wx:for-item="listItem" wx:for-index="listIndex" wx:key="listIndex">
-    <view class="replies_item" wx:for="{{listItem}}" wx:key="_id" data-comment-id="{{item.commentId}}" bind:tap="onTapReply">
-      <image class="replies_item_avata" src="{{item.replier.avatarUrl}}" />
-      <text class="replies_item_comment">{{item.cnt}}</text>
-      <view class="replies_item_main">
-        <view class="replies_item_title"><text class="replies_item_replier">{{item.replier.nickName}}</text>回復了我<view wx:if="{{item.postTitle}}" class="replies_item_post_title">在<view bind:tap="onTapArticle" data-post-id="{{item.postId}}">《{{item.postTitle}}》</view></view>的評論</view>
-        <view class="replies_item_cnt">
-          <view class="replies_item_cnt_replyto" wx:if="{{item.replyToReply}}">回復<text class="replies_item_cnt_replyto_name">@{{item.replyToReply.nickName}}</text>：</view>
-          <view class="replies_item_cnt_text">{{item.replier.cnt}}</view>
+    <movable-area class="replies_item_movable_area" wx:for="{{listItem}}" wx:key="_id">
+      <movable-view direction="horizontal" x="{{item.x}}" inertia class="replies_item_movable_view">
+        <view class="replies_item" bind:tap="onTapReply" bind:touchstart="onTouchStart" bind:touchend="onTouchEnd" data-index="{{[listIndex, index]}}" data-comment-id="{{item.commentId}}">
+          <image class="replies_item_avata" src="{{item.replier.avatarUrl}}" />
+          <text class="replies_item_comment">{{item.cnt}}</text>
+          <view class="replies_item_main">
+            <view class="replies_item_title"><text class="replies_item_replier">{{item.replier.nickName}}</text>回復了我<view wx:if="{{item.postTitle}}" class="replies_item_post_title">在<view bind:tap="onTapArticle" data-post-id="{{item.postId}}">《{{item.postTitle}}》</view></view>的評論</view>
+            <view class="replies_item_cnt">
+              <view class="replies_item_cnt_replyto" wx:if="{{item.replyToReply}}">回復<text class="replies_item_cnt_replyto_name">@{{item.replyToReply.nickName}}</text>：</view>
+              <view class="replies_item_cnt_text">{{item.replier.cnt}}</view>
+            </view>
+            <view class="replies_item_qoute" wx:if="{{item.replyToReply}}">
+              {{item.replyToReply.nickName}}{{msgWxs.getQouteReplyToTxt(item.replyToReply.replyTo)}}：{{item.replyToReply.cnt}}
+            </view>
+            <text class="replies_item_date">{{item.date}}</text>
+          </view>
         </view>
-        <view class="replies_item_qoute" wx:if="{{item.replyToReply}}">
-          {{item.replyToReply.nickName}}{{msgWxs.getQouteReplyToTxt(item.replyToReply.replyTo)}}：{{item.replyToReply.cnt}}
-        </view>
-        <text class="replies_item_date">{{item.date}}</text>
-      </view>
-    </view>
+        <view class="replies_delete" bind:tap="onDelete">删除</view>
+      </movable-view>
+    </movable-area>
   </block>
 
   <template is="loading" data="{{ isLoading, loadingText: '撈緊喇大佬🤦🏻‍♂️', isNoShowImage: true }}" />

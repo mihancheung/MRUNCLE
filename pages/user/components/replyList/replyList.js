@@ -15,7 +15,7 @@ Component({
     isLoading: true,
     isError: false,
     isShowEmpty: false,
-    list: [],
+    list: []
   },
 
   lifetimes: {
@@ -51,6 +51,77 @@ Component({
       wx.navigateTo({
         url: `/article/pages/detail/detail?id=${commentId}`
       });
+    },
+
+    onDelete () {
+      console.log('dele')
+    },
+
+    onTouchEnd (e) {
+      const { index } = e.currentTarget.dataset
+      this.endX = e.changedTouches[0].pageX;
+      this.endY = e.changedTouches[0].pageY;
+      this.endTimeStamp = e.timeStamp;
+      const thisItem = `list[${index[0]}][${index[1]}]`;
+      this.index = index;
+
+      let pixelRatio = 1;
+
+      try {
+        const res = wx.getSystemInfoSync()
+        pixelRatio = res.screenWidth / 750;
+      } catch (e) {
+        pixelRatio = 1;
+      }
+
+      const stamp = this.endTimeStamp - this.startTimeStamp;
+      const distX = this.endX - this.startX
+      const btnWidth = 150 * pixelRatio;
+      const btnShowWidth = btnWidth / 2;
+      const distY = this.endY - this.startY;
+      const tan = Math.abs(distY / distX);
+
+      if (stamp < 200 && tan > 0.364 && distX < 0) {
+        return;
+      }
+
+
+      if (stamp < 700) {
+        if (distX < 0) {
+          this.setData({
+            [`${thisItem}.x`]: btnWidth * -1
+          });
+        } else {
+          this.setData({
+            [`${thisItem}.x`]: 0
+          });
+        }
+      }
+
+      if (stamp >= 700) {
+        if (Math.abs(distX) > btnShowWidth) {
+          this.setData({
+            [`${thisItem}.x`]: btnWidth * -1
+          });
+        } else {
+          this.setData({
+            [`${thisItem}.x`]: 0
+          });
+        }
+      }
+    },
+
+    onTouchStart (e) {
+      const { index } = e.currentTarget.dataset;
+      this.startX = e.changedTouches[0].pageX;
+      this.startY = e.changedTouches[0].pageY;
+      this.startTimeStamp = e.timeStamp;
+
+      if (this.index && JSON.stringify(this.index) !== JSON.stringify(index)) {
+        this.setData({
+          [`list[${this.index[0]}][${this.index[1]}].x`]: 0,
+        });
+      }
     },
 
     onReachBottom () {
@@ -117,6 +188,7 @@ Component({
         const { date } = item || {};
         const formateDate = postDate(date);
         item.date = formateDate;
+        item.x = 0;
         return item;
       });
 
