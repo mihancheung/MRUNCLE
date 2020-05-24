@@ -1,7 +1,7 @@
 @import '../../tpls/loading/loading.wxss';
 
 .page_comment {
-  padding: 40rpx 0;
+  padding: 10rpx 0 0;
   font-size: 28rpx;
   color: #232323;
 }

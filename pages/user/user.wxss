@@ -17,7 +17,7 @@ page {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 350rpx;
+  height: 400rpx;
 }
 
 .page_user_avata {
