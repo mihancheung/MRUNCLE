@@ -16,8 +16,9 @@ App({
   isConnected: true,
 
   async _setIsLogin () {
+    const key = config.isDev ? 'OPENID_DEV' : 'OPENID_PRO';
     const openIdRes = await wx.getStorage({
-      key: 'OPENID'
+      key
     }).catch(() => null);
     const { data: openId } = openIdRes || {}
     if (!openId) return;

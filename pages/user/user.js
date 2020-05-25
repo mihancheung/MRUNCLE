@@ -1,3 +1,4 @@
+import { config } from '../../utils/config';
 const app = getApp();
 
 Page({
@@ -82,8 +83,9 @@ Page({
       return;
     }
 
+    const key = config.isDev ? 'OPENID_DEV' : 'OPENID_PRO';
     const openIdRes = await wx.getStorage({
-      key: 'OPENID'
+      key
     }).catch(() => null);
     const { data: openId } = openIdRes || {}
 
@@ -136,12 +138,14 @@ Page({
 
     app.isLogin = !isLogout;
 
+    const openIdKey = config.isDev ? 'OPENID_DEV' : 'OPENID_PRO';
     wx.removeStorage({
-      key: 'OPENID',
+      key: openIdKey,
     });
 
+    const userInfoKey = config.isDev ? 'userInfo_dev' : 'userInfo_pro';
     wx.removeStorage({
-      key: 'userInfo',
+      key: userInfoKey,
     });
 
     if (res) {
@@ -159,8 +163,9 @@ Page({
   },
 
   async _setUserInfo () {
+    const key = config.isDev ? 'userInfo_dev' : 'userInfo_pro';
     const userInfoRes = await wx.getStorage({
-      key: 'userInfo'
+      key
     }).catch(() => null);
     const { data: userInfo } = userInfoRes || {}
 

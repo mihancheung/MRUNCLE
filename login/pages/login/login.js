@@ -1,6 +1,5 @@
-const app = getApp({
-  allowDefault: true
-});
+import { config } from '../../../utils/config';
+const app = getApp();
 
 Page({
   data: {
@@ -59,13 +58,15 @@ Page({
       return;
     }
 
+    const openIdKey = config.isDev ? 'OPENID_DEV' : 'OPENID_PRO';
     await wx.setStorage({
-      key: 'OPENID',
+      key: openIdKey,
       data: openId
     }).catch(() => null);
 
+    const userInfoKey = config.isDev ? 'userInfo_dev' : 'userInfo_pro';
     await wx.setStorage({
-      key: 'userInfo',
+      key: userInfoKey,
       data: userInfo
     }).catch(() => null);
 
