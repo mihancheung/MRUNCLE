@@ -1,10 +1,10 @@
-<view class="custom_nav {{ !isShowBack ? 'custom_nav_noback' : ''}}" style="padding: {{statusBarHeigth}}px 0 0 {{menuBtnRight}}px; height: {{statusBarTitleHeigth}}px;">
-  <view class="btns_box">
-    <view class="icon_box" bindtap="back" wx:if="{{isShowBack}}">
+<view class="custom_nav" style="padding: {{statusBarHeigth}}px 0 0 {{menuBtnRight}}px; height: {{statusBarTitleHeigth}}px;">
+  <view class="btns_box" style="width: {{isShowBack ? menuBtnWidth : menuBtnHeight}}px; height: {{menuBtnHeight}}px;">
+    <view class="icon_box" bindtap="back" wx:if="{{isShowBack}}" style="width: {{menuBtnWidth / 2}}px;">
       <image mode="heightFix" class="back_icon" src="./images/back.svg" />
     </view>
     <view class="line" wx:if="{{isShowBack}}"></view>
-    <view class="icon_box" bindtap="backHome">
+    <view class="icon_box" bindtap="backHome" style="width: {{isShowBack ? menuBtnWidth / 2 : menuBtnHeight}}px;">
       <image mode="heightFix" class="home_icon" src="./images/home.svg" />
     </view>
   </view>

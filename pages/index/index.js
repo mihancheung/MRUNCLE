@@ -16,7 +16,8 @@ Page({
     postList: [],
     statusBarHeigth: wx.getSystemInfoSync().statusBarHeight,
     statusBarTitleHeigth: ((wx.getMenuButtonBoundingClientRect().top - wx.getSystemInfoSync().statusBarHeight) * 2) + wx.getMenuButtonBoundingClientRect().height,
-    menuBtnRight: wx.getSystemInfoSync().screenWidth - wx.getMenuButtonBoundingClientRect().right
+    menuBtnRight: wx.getSystemInfoSync().screenWidth - wx.getMenuButtonBoundingClientRect().right,
+    menuBtnHeight: wx.getMenuButtonBoundingClientRect().height,
   },
 
   onLoad () {
