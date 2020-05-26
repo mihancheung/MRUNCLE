@@ -68,7 +68,8 @@
   top: 40rpx;
   width: 60rpx;
   height: 60rpx;
-  background: #fbfaf4;
+  background: #f4f4f4;
+  border-radius: 50%;
 }
 
 .page_comment_avata image {

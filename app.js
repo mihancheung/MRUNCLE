@@ -3,7 +3,8 @@ import { config } from './utils/config';
 App({
   onLaunch () {
     wx.cloud.init({
-      env: config.cloudEnv
+      env: config.cloudEnv,
+      traceUser: true
     });
 
     wx.onNetworkStatusChange(function(res) {
