@@ -60,9 +60,60 @@
   </view>
 </view>
 
-<view class="home_menu" bind:tap="onTapFilterBox" hidden="{{!isShowFilter}}" style="top: {{statusBarHeigth + statusBarTitleHeigth}}px" catchtouchmove>
+<view class="home_menu {{isFilterAct ? 'home_menu_show' : ''}}" bind:tap="onTapFilterBox" hidden="{{!isShowFilter}}" style="top: {{statusBarHeigth + statusBarTitleHeigth}}px" catchtouchmove>
   <scroll-view scroll-y="true" class="home_menu_scroll" bind:tap="onTapScrollBox" catchtap>
     <view class="home_menu_tags" bind:tap="onTapTag">
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
+      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
+      <view class="home_menu_tags_item">前端</view>
+      <view class="home_menu_tags_item">性能优化</view>
+      <view class="home_menu_tags_item">童年</view>
+      <view class="home_menu_tags_item">时间差</view>
       <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
       <view class="home_menu_tags_item">前端</view>
       <view class="home_menu_tags_item">性能优化</view>
@@ -71,4 +122,5 @@
       
     </view>
   </scroll-view>
+  <view class="home_menu_mask"></view>
 </view>

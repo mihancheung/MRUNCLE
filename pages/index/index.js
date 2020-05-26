@@ -12,6 +12,7 @@ Page({
     isPostPageError: false,
     isInitError: false,
     isShowFilter: false,
+    isFilterAct: false,
     postList: [],
     statusBarHeigth: wx.getSystemInfoSync().statusBarHeight,
     statusBarTitleHeigth: ((wx.getMenuButtonBoundingClientRect().top - wx.getSystemInfoSync().statusBarHeight) * 2) + wx.getMenuButtonBoundingClientRect().height,
@@ -20,6 +21,10 @@ Page({
 
   onLoad () {
     this.init()
+  },
+
+  onUnload () {
+    clearTimeout(this.actTimer);
   },
 
   onPullDownRefresh () {
@@ -75,9 +80,26 @@ Page({
   },
 
   _toggleFilterShow () {
-    this.setData({
-      isShowFilter: !this.data.isShowFilter
-    });
+    clearTimeout(this.actTimer);
+    if (this.data.isShowFilter) {
+      this.setData({
+        isFilterAct: false
+      }, () => {
+        this.actTimer = setTimeout(() => {
+          this.setData({
+            isShowFilter: false
+          })
+        }, 300);
+      });
+    } else {
+      this.setData({
+        isShowFilter: true
+      }, () => {
+        this.setData({
+          isFilterAct: true
+        })
+      });
+    }
   },
 
   _getFilterTags () {
