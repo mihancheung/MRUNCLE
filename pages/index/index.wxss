@@ -179,26 +179,25 @@ page {
   right: 0;
   bottom: 0;
   width: 100vw;
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, .1);
 }
 
-.home_menu_scoll {
+.home_menu_scroll {
   position: absolute;
   right: 0;
   top: 0;
   width: 100%;
   height: 35vh;
-  background: rgba(247, 247, 247, 1);
-  box-shadow: -10rpx 0 15rpx rgba(0, 0, 0, .1);
-  border-radius: 0 0 20rpx 20rpx;
-  box-sizing: border-box;
 }
 
 
 .home_menu_tags {
-  padding: 20rpx 30rpx;
+  min-height: 420rpx;
+  padding: 20rpx 30rpx 30rpx;
   font-size: 28rpx;
-  color: #666666;
+  color: #f1f1f1;
+  background: #202020;
+  box-sizing: border-box;
 }
 
 .home_menu_tags_item {
@@ -209,6 +208,6 @@ page {
 }
 
 .home_menu_tags_item_on {
-  color: #232323;
+  color: #5692ca;
   font-weight: bolder;
 }

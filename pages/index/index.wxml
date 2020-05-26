@@ -14,7 +14,7 @@
   }
 </wxs>
 
-<view class="home" style="padding-top: {{statusBarHeigth}}px">
+<view class="home" style="padding-top: {{statusBarHeigth + statusBarTitleHeigth}}px">
   <view class="home_banner">
     <image class="home_avata" mode="aspectFit" src="/image/banner.png" />
     <text class="home_title">MRUNCLE'S BLOG</text>
@@ -53,66 +53,22 @@
 
 <view class="home_bar" style="padding-top: {{statusBarHeigth}}px; height: {{statusBarTitleHeigth}}px;">
   <text class="home_bar_title">WELCOME</text>
-  <view class="home_bar_btn" style="top: {{statusBarHeigth}}px; left: {{menuBtnRight}}px; height: {{statusBarTitleHeigth}}px">
+  <view class="home_bar_btn" bind:tap="onTapFilter" style="top: {{statusBarHeigth}}px; left: {{menuBtnRight}}px; height: {{statusBarTitleHeigth}}px">
     <view class="home_bar_btn_box">
       <image class="home_bar_icon" mode="widthFix" src="/image/list.svg" />
     </view>
   </view>
 </view>
 
-<view class="home_menu" hidden="{{!isShowFilter}}" style="top: {{statusBarHeigth + statusBarTitleHeigth}}px" catchtouchmove>
-  <scroll-view scroll-y="true" class="home_menu_scoll">
-    <view class="home_menu_tags">
+<view class="home_menu" bind:tap="onTapFilterBox" hidden="{{!isShowFilter}}" style="top: {{statusBarHeigth + statusBarTitleHeigth}}px" catchtouchmove>
+  <scroll-view scroll-y="true" class="home_menu_scroll" bind:tap="onTapScrollBox" catchtap>
+    <view class="home_menu_tags" bind:tap="onTapTag">
       <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
       <view class="home_menu_tags_item">前端</view>
       <view class="home_menu_tags_item">性能优化</view>
       <view class="home_menu_tags_item">童年</view>
       <view class="home_menu_tags_item">时间差</view>
-      <view class="home_menu_tags_item">电影</view>
-      <view class="home_menu_tags_item">前端</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">时间差</view>
-      <view class="home_menu_tags_item">电影</view>
-      <view class="home_menu_tags_item">前端</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">时间差</view>
-      <view class="home_menu_tags_item">电影</view>
-      <view class="home_menu_tags_item">前端</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">时间差</view>
-      <view class="home_menu_tags_item">电影</view>
-      <view class="home_menu_tags_item">前端</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">时间差</view>
-      <view class="home_menu_tags_item">电影</view>
-      <view class="home_menu_tags_item">前端</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">时间差</view>
-      <view class="home_menu_tags_item">电影</view>
-      <view class="home_menu_tags_item">前端</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">时间差</view>
-      <view class="home_menu_tags_item">电影</view>
-      <view class="home_menu_tags_item">前端</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">时间差</view>
-      <view class="home_menu_tags_item">电影</view>
-      <view class="home_menu_tags_item">前端</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
+      
     </view>
   </scroll-view>
 </view>

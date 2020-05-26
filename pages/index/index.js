@@ -58,6 +58,32 @@ Page({
     });
   },
 
+  onTapFilter () {
+    if (!this.initFilterTags) {
+      this._getFilterTags();
+    }
+
+    this._toggleFilterShow();
+  },
+
+  onTapFilterBox () {
+    this._toggleFilterShow();
+  },
+
+  onTapTag () {
+    console.log('32323')
+  },
+
+  _toggleFilterShow () {
+    this.setData({
+      isShowFilter: !this.data.isShowFilter
+    });
+  },
+
+  _getFilterTags () {
+
+  },
+
   init () {
     this.postTotal = 0;
     this.isGettingData = false
