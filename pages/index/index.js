@@ -2,6 +2,7 @@ import { formatePostData } from '../../utils/index';
 
 const app = getApp();
 const db = wx.cloud.database();
+const _ = db.command;
 const post = db.collection('post');
 const MAX_POST = 5;
 
@@ -14,6 +15,9 @@ Page({
     isShowFilter: false,
     isFilterAct: false,
     postList: [],
+    tags: [],
+    matchTag: '',
+    isTagsLoading: true,
     statusBarHeigth: wx.getSystemInfoSync().statusBarHeight,
     statusBarTitleHeigth: ((wx.getMenuButtonBoundingClientRect().top - wx.getSystemInfoSync().statusBarHeight) * 2) + wx.getMenuButtonBoundingClientRect().height,
     menuBtnRight: wx.getSystemInfoSync().screenWidth - wx.getMenuButtonBoundingClientRect().right,
@@ -30,6 +34,7 @@ Page({
 
   onPullDownRefresh () {
     this.reloadPage();
+    this._resetFilter();
     wx.stopPullDownRefresh();
   },
 
@@ -65,7 +70,7 @@ Page({
   },
 
   onTapFilter () {
-    if (!this.initFilterTags) {
+    if (!this.initFilterTags && !this.data.isShowFilter) {
       this._getFilterTags();
     }
 
@@ -76,8 +81,19 @@ Page({
     this._toggleFilterShow();
   },
 
-  onTapTag () {
-    console.log('32323')
+  onTapTag (e) {
+    const { tag } = e.currentTarget.dataset;
+    this.setData({
+      matchTag: tag === this.data.matchTag ? '' : tag,
+    }, () => {
+      this._toggleFilterShow();
+      wx.pageScrollTo({
+        scrollTop: 0,
+        complete: () => {
+          this.reloadPage()
+        }
+      });
+    });
   },
 
   _toggleFilterShow () {
@@ -103,7 +119,19 @@ Page({
     }
   },
 
-  _getFilterTags () {
+  async _getFilterTags () {
+    this.initFilterTags = true;
+    const res = await wx.cloud.callFunction({
+      name: 'getPostTags'
+    }).catch(() => null);
+
+    const { result } = res || {};
+    const { tags = [] } = result || {};
+
+    this.setData({
+      tags,
+      isTagsLoading: false,
+    });
 
   },
 
@@ -129,10 +157,19 @@ Page({
       isPostPageLoading: false,
       isPostPageError: false,
       isInitError: false,
-      postList: []
+      postList: [],
     }, () => {
       typeof cb === 'function' && cb();
     });
+  },
+
+  _resetFilter () {
+    this.initFilterTags = false;
+    this.setData({
+      isTagsLoading: true,
+      tags: [],
+      matchTag: '',
+    })
   },
 
   setIsShowPostPageLoading (isShow) {
@@ -211,13 +248,16 @@ Page({
   },
 
   async getPostLength () {
-    const res = await post.count();
+    const { matchTag } = this.data
+    const res = await post.where({
+      tags: matchTag ? _.in([matchTag, '$tags']) : _.exists(true)
+    }).count();
     if (!res || typeof res.total !== 'number') return;
     this.postTotal = res.total
   },
 
   async getPostList () {
-    const { postList } = this.data
+    const { postList, matchTag } = this.data
     this.isGettingData = true;
 
     if (!app.isConnected) {
@@ -226,13 +266,16 @@ Page({
     }
 
     const res = await post
+      .where({
+        tags: matchTag ? _.in([matchTag, '$tags']) : _.exists(true)
+      })
       .orderBy('date', 'desc')
+      .skip(postList.length * MAX_POST)
+      .limit(MAX_POST)
       .field({
         date: false,
         mdFileId: false,
       })
-      .skip(postList.length * MAX_POST)
-      .limit(MAX_POST)
       .get().catch(() => null);
 
     if (!res || !res.data) {

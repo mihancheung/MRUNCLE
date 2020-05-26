@@ -61,13 +61,12 @@
 </view>
 
 <view class="home_menu {{isFilterAct ? 'home_menu_show' : ''}}" bind:tap="onTapFilterBox" hidden="{{!isShowFilter}}" style="top: {{statusBarHeigth + statusBarTitleHeigth}}px" catchtouchmove>
-  <scroll-view scroll-y="true" class="home_menu_scroll" bind:tap="onTapScrollBox" catchtap>
-    <view class="home_menu_tags" bind:tap="onTapTag">
-      <view class="home_menu_tags_item home_menu_tags_item_on">电影</view>
-      <view class="home_menu_tags_item">前端</view>
-      <view class="home_menu_tags_item">性能优化</view>
-      <view class="home_menu_tags_item">童年</view>
-      <view class="home_menu_tags_item">时间差</view>
+  <scroll-view scroll-y="true" class="home_menu_scroll" bind:tap="onTapScrollBox">
+    <view class="home_menu_tags" catchtap>
+      <view class="home_menu_tags_item {{matchTag === item ? 'home_menu_tags_item_on' : ''}}" data-tag="{{item}}" wx:for="{{tags}}" wx:key="index" bind:tap="onTapTag" >
+        {{item}}
+      </view>
+      <template is="loading" data="{{ isLoading: isTagsLoading, loadingText: '撈緊喇大佬🤦🏻‍♂️', isNoShowImage: true }}" />
     </view>
   </scroll-view>
   <view class="home_menu_mask"></view>

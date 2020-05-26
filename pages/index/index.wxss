@@ -188,11 +188,11 @@ page {
   z-index: 1;
   width: 100%;
   height: 510rpx;
-  background: #f7f7f7;
-  box-sizing: border-box;
   transition: all .3s ease;
   transform: translateY(-510rpx);
   border-radius: 0 0 30rpx 30rpx;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .home_menu_mask {
@@ -208,9 +208,18 @@ page {
 
 
 .home_menu_tags {
+  position: relative;
   padding: 15rpx 30rpx;
   font-size: 28rpx;
   color: #666666;
+  background: #f7f7f7;
+  border-radius: 0 0 30rpx 30rpx;
+}
+
+.home_menu_tags .tpl_loading {
+  position: static;
+  height: 500rpx;
+  background: #f7f7f7;
 }
 
 .home_menu_tags_item {
@@ -218,11 +227,11 @@ page {
   height: 40rpx;
   padding: 0 10rpx;
   margin: 15rpx 20rpx 15rpx 0;
+  transition: color .3s ease;
 }
 
 .home_menu_tags_item_on {
-  color: #232323;
-  font-weight: bolder;
+  color: #2c67ff;
 }
 
 .home_menu_show .home_menu_scroll {

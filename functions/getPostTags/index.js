@@ -1,16 +1,36 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
+const cloud = require('wx-server-sdk');
 
-cloud.init()
+cloud.init({
+  env: cloud.DYNAMIC_CURRENT_ENV
+});
 
-// 云函数入口函数
+const db = cloud.database();
+const $ = db.command.aggregate;
+const post = db.collection('post');
+
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
+
+  const res = await post.aggregate()
+    .unwind('$tags')
+    .group({
+      _id: null,
+      tags: $.addToSet('$tags')
+    })
+    .end()
+    .catch(() => null);
+
+  if (!res) {
+    return {
+      code: '500',
+      tags: []
+    }
+  }
+
+  const { list = [] } = res;
+  const { tags = [] } = list[0] || {};
 
   return {
-    event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
+    code: 0,
+    tags
   }
 }
