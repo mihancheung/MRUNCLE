@@ -14,7 +14,7 @@
   }
 </wxs>
 
-<view class="home">
+<view class="home" style="padding-top: {{statusBarHeigth}}px">
   <view class="home_banner">
     <image class="home_avata" mode="aspectFit" src="/image/banner.png" />
     <text class="home_title">MRUNCLE'S BLOG</text>
@@ -48,5 +48,14 @@
       wx:if="{{isInitError}}"
       bindtapReload="errorReload"
     />
+  </view>
+</view>
+
+<view class="home_bar" style="padding-top: {{statusBarHeigth}}px; height: {{statusBarTitleHeigth}}px;">
+  <text class="home_bar_title">MRUNCLE'S BLOG</text>
+  <view class="home_bar_btn" style="top: {{statusBarHeigth}}px; left: {{menuBtnRight}}px; height: {{statusBarTitleHeigth}}px">
+    <view class="home_bar_btn_box">
+      <image class="home_bar_icon" mode="widthFix" src="/image/list.svg" />
+    </view>
   </view>
 </view>

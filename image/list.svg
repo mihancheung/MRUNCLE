@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="474px" height="354px" viewBox="0 0 474 354" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>list</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="list" fill="#FFFFFF">
+            <path d="M453.738,157 L106,157 C94.954,157 86,165.954 86,177 C86,188.046 94.954,197 106,197 L453.738,197 C464.784,197 473.738,188.046 473.738,177 C473.738,165.954 464.784,157 453.738,157 Z" id="Path"></path>
+            <path d="M453.738,7 L106,7 C94.954,7 86,15.954 86,27 C86,38.046 94.954,47 106,47 L453.738,47 C464.784,47 473.738,38.046 473.738,27 C473.738,15.954 464.784,7 453.738,7 Z" id="Path"></path>
+            <path d="M453.738,307 L106,307 C94.954,307 86,315.954 86,327 C86,338.046 94.954,347 106,347 L453.738,347 C464.784,347 473.738,338.046 473.738,327 C473.738,315.954 464.784,307 453.738,307 Z" id="Path"></path>
+            <circle id="Oval" cx="27" cy="27" r="27"></circle>
+            <circle id="Oval" cx="27" cy="177" r="27"></circle>
+            <circle id="Oval" cx="27" cy="327" r="27"></circle>
+        </g>
+    </g>
+</svg>

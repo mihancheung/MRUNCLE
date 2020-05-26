@@ -1,4 +1,4 @@
-<view class="custom_nav {{ !isShowBack ? 'custom_nav_noback' : ''}}" style="padding-top: {{statusBarHeigth}}px">
+<view class="custom_nav {{ !isShowBack ? 'custom_nav_noback' : ''}}" style="padding: {{statusBarHeigth}}px 0 0 {{menuBtnRight}}px; height: {{statusBarTitleHeigth}}px;">
   <view class="btns_box">
     <view class="icon_box" bindtap="back" wx:if="{{isShowBack}}">
       <image mode="heightFix" class="back_icon" src="./images/back.svg" />
