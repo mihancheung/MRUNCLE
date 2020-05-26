@@ -21,7 +21,7 @@
   </view>
 
   <view class="home_post">
-    <view class="home_post_item" bindtap="onTapPost" wx:for="{{modPostList.formatPostList(postList)}}" wx:key="_id" data-id="{{item._id}}" data-info="{{item}}">
+    <view class="home_post_item" wx:if="{{!isInitError}}" bindtap="onTapPost" wx:for="{{modPostList.formatPostList(postList)}}" wx:key="_id" data-id="{{item._id}}" data-info="{{item}}">
       <image class="home_post_image" mode="aspectFill"  src="{{item.poster}}" />
       <view class="home_post_info">
         <text class="home_post_title">{{item.title}}</text>
@@ -42,8 +42,12 @@
       />
     </view>
 
-    <template is="loading" data="{{ isLoading: isInitLoading }}" />
+    <view wx:if="{{isInitLoading}}" class="home_post_initloading" style="height: calc(100vh - {{statusBarHeigth + statusBarTitleHeigth}}px - 420rpx)">
+      <template is="loading" data="{{ isLoading: isInitLoading }}" />
+    </view>
+
     <error
+      style="height: calc(100vh - {{statusBarHeigth + statusBarTitleHeigth}}px - 420rpx)"
       class="cpm_error_custom"
       wx:if="{{isInitError}}"
       bindtapReload="errorReload"
