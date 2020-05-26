@@ -172,3 +172,43 @@ page {
 .home_post_pageloading .gb_error_desc {
   font-size: 24rpx;
 }
+
+.home_menu {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  background: rgba(0, 0, 0, .5);
+}
+
+.home_menu_scoll {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 35vh;
+  background: rgba(247, 247, 247, 1);
+  box-shadow: -10rpx 0 15rpx rgba(0, 0, 0, .1);
+  border-radius: 0 0 20rpx 20rpx;
+  box-sizing: border-box;
+}
+
+
+.home_menu_tags {
+  padding: 20rpx 30rpx;
+  font-size: 28rpx;
+  color: #666666;
+}
+
+.home_menu_tags_item {
+  display: inline-block;
+  height: 40rpx;
+  padding: 0 10rpx;
+  margin: 15rpx 20rpx 15rpx 0;
+}
+
+.home_menu_tags_item_on {
+  color: #232323;
+  font-weight: bolder;
+}
