@@ -69,8 +69,8 @@
   <template is="loading" data="{{ isLoading, loadingText: '撈緊喇大佬🤦🏻‍♂️', isNoShowImage: true }}" />
 </view>
 
-<view class="page_comment_post" bind:tap="onTapPost">
-  <text class="page_comment_post_txt">{{placeHolder}}</text>
+<view class="page_comment_post">
+  <text class="page_comment_post_txt" bind:tap="onTapPost">{{placeHolder}}</text>
 </view>
 
 <template is="comment-empty" data="{{ isEmpty }}" />

@@ -30,6 +30,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .back_icon, .home_icon {
