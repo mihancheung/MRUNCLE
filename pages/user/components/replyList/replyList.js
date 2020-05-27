@@ -105,167 +105,38 @@ Component({
     },
 
     onTouchMoveBox (e) {
-      const { index = [] } = e.currentTarget.dataset
-      const { type, detail, changedTouches = [] } = e
-      const thisItem = `list[${index[0]}][${index[1]}]`;
-      let pixelRatio = 1;
+      const { detail, currentTarget } = e;
+      const { index } = currentTarget.dataset
 
-      try {
-        const res = wx.getSystemInfoSync()
-        pixelRatio = res.screenWidth / 750;
-      } catch (e) {
-        pixelRatio = 1;
-      }
-      // this.endX = changedTouches[0] && changedTouches[0].pageX;
-      const distX = this.endX - this.startX
-      const btnWidth = 150 * pixelRatio;
-      const btnShowWidth = btnWidth / 2;
-
-      if (detail.source === 'friction') {
-
-        if (this.endX - this.startX > 0) {
-          this.setData({
-            [`${thisItem}.x`]: 0
-          });
+      if (detail.source === 'touch') {
+        this.startX = !this.startX ? detail.x : this.startX;
+        this.endX = detail.x;
+        this.distX = detail.x;
+        this.source = 'touch';
+      } else if (detail.source === 'friction') {
+        if (this.endX >= this.startX) {
+          this._hideDelete(index);
         } else {
-          this.setData({
-            [`${thisItem}.x`]: btnWidth * -1
-          })
+          this._showDelete(index, );
         }
-
-        // if (detail.x >= -20) {
-        //   this.setData({
-        //     [`${thisItem}.x`]: 0
-        //   })
-        // } else {
-        //   this.setData({
-        //     [`${thisItem}.x`]: btnWidth * -1
-        //   })
-        // }
-
       } 
-      // else if (detail.x === 0 && detail.source === 'out-of-bounds') {
-      //   this.setData({
-      //     [`${thisItem}.x`]: 0
-      //   })
-      // }
-
     },
 
     onTouchEnd (e) {
       const { index } = e.currentTarget.dataset
-      this.endX = e.changedTouches[0].pageX;
-      this.endY = e.changedTouches[0].pageY;
-      this.endTimeStamp = e.timeStamp;
-      const thisItem = `list[${index[0]}][${index[1]}]`;
       this.index = index;
 
-      let pixelRatio = 1;
+      const btnShowWidth = this.btnWidth / 2;
 
-      try {
-        const res = wx.getSystemInfoSync()
-        pixelRatio = res.screenWidth / 750;
-      } catch (e) {
-        pixelRatio = 1;
+      if (Math.abs(this.distX) >= btnShowWidth) {
+        this._showDelete(index);
+      } else {
+        this._hideDelete(index);
       }
-
-      const stamp = this.endTimeStamp - this.startTimeStamp;
-      const distX = this.endX - this.startX
-      const btnWidth = 150 * pixelRatio;
-      const btnShowWidth = btnWidth / 2;
-      const distY = this.endY - this.startY;
-      const tan = Math.abs(distY / distX);
-
-      // if (distX > btnShowWidth) {
-      //   this.setData({
-      //     [`${thisItem}.x`]: 0
-      //   });
-      // } else {
-      //   this.setData({
-      //     [`${thisItem}.x`]: btnWidth * -1
-      //   })
-      // }
-
-      // if (stamp < 200 && tan > 0.364 && distX < 0) {
-      //   return;
-      // }
-
-
-      // if (stamp < 700) {
-      //   if (distX < 0) {
-      //     this.setData({
-      //       [`${thisItem}.x`]: btnWidth * -1
-      //     });
-      //   } else {
-      //     this.setData({
-      //       [`${thisItem}.x`]: 0
-      //     });
-      //   }
-      // }
-
-      if (stamp >= 500) {
-
-        if (distX > 0) {
-          if (distX > btnShowWidth) {
-            this.setData({
-              [`${thisItem}.x`]: 0
-            });
-          } else {
-            this.setData({
-              [`${thisItem}.x`]: btnWidth * -1
-            });
-          }
-        }
-
-        if (distX < 0) {
-          if (Math.abs(distX) > btnShowWidth) {
-            this.setData({
-              [`${thisItem}.x`]: btnWidth * -1
-            });
-          } else {
-            this.setData({
-              [`${thisItem}.x`]: 0
-            });
-          }
-        } else {
-          if ( distX < 0) {
-            this.setData({
-              [`${thisItem}.x`]: btnWidth * -1
-            });
-          } else {
-            this.setData({
-              [`${thisItem}.x`]: 0
-            });
-          }
-        }
-
-        // if (Math.abs(distX) > btnShowWidth) {
-        //   this.setData({
-        //     [`${thisItem}.x`]: btnWidth * -1
-        //   });
-        // } else {
-        //   this.setData({
-        //     [`${thisItem}.x`]: 0
-        //   });
-        // }
-      }
-
-      // if (Math.abs(distX) > btnShowWidth) {
-      //   this.setData({
-      //     [`${thisItem}.x`]: btnWidth * -1
-      //   });
-      // } else {
-      //   this.setData({
-      //     [`${thisItem}.x`]: 0
-      //   });
-      // }
     },
 
     onTouchStart (e) {
       const { index } = e.currentTarget.dataset;
-      this.startX = e.changedTouches[0].pageX;
-      this.startY = e.changedTouches[0].pageY;
-      this.startTimeStamp = e.timeStamp;
       const preItem = this.index && this.data.list[this.index[0]][this.index[1]];
 
       if (preItem && JSON.stringify(this.index) !== JSON.stringify(index)) {
@@ -280,8 +151,44 @@ Component({
       this._getData();
     },
 
+    _setDeleteBtnWidth () {
+      let pixelRatio = 1;
+
+      try {
+        const res = wx.getSystemInfoSync()
+        pixelRatio = res.screenWidth / 750;
+      } catch (e) {
+        pixelRatio = 1;
+      }
+
+      this.btnWidth = 150 * pixelRatio;
+    },
+
+    _showDelete (index) {
+      const thisItem = `list[${index[0]}][${index[1]}]`;
+      this.setData({
+        [`${thisItem}.x`]: this.btnWidth * -1
+      }, () => {
+        this.distX = 0;
+        this.startX = 0;
+        this.endX = 0;
+      });
+    },
+
+    _hideDelete (index) {
+      const thisItem = `list[${index[0]}][${index[1]}]`;
+      this.setData({
+        [`${thisItem}.x`]: 0
+      }, () => {
+        this.distX = 0;
+        this.startX = 0;
+        this.endX = 0;
+      });
+    },
+
     _init () {
       this.dynamicCommentTotal = 0;
+      this._setDeleteBtnWidth();
       this._getData();
     },
 
