@@ -10,10 +10,10 @@
   }
 </wxs>
 
-<view class="replies">
+<view class="replies" capture-bind:touchmove="onTouchMoveBox">
   <block wx:for="{{list}}" wx:for-item="listItem" wx:for-index="listIndex" wx:key="listIndex">
     <movable-area wx:if="{{item}}" class="replies_item_movable_area" wx:for="{{listItem}}" wx:key="_id">
-      <movable-view direction="horizontal" x="{{item.x}}" damping="{{50}}" inertia class="replies_item_movable_view">
+      <movable-view bindchange="onTouchMoveBox" direction="horizontal" x="{{item.x}}" damping="{{50}}" inertia class="replies_item_movable_view" data-index="{{[listIndex, index]}}">
         <view class="replies_item" bind:tap="onTapReply" bind:touchstart="onTouchStart" bind:touchend="onTouchEnd" data-index="{{[listIndex, index]}}" data-comment-id="{{item.commentId}}">
           <image class="replies_item_avata" src="{{item.replier.avatarUrl}}" />
           <text class="replies_item_comment">{{item.cnt}}</text>

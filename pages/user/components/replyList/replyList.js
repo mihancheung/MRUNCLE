@@ -104,6 +104,54 @@ Component({
       });
     },
 
+    onTouchMoveBox (e) {
+      const { index = [] } = e.currentTarget.dataset
+      const { type, detail, changedTouches = [] } = e
+      const thisItem = `list[${index[0]}][${index[1]}]`;
+      let pixelRatio = 1;
+
+      try {
+        const res = wx.getSystemInfoSync()
+        pixelRatio = res.screenWidth / 750;
+      } catch (e) {
+        pixelRatio = 1;
+      }
+      // this.endX = changedTouches[0] && changedTouches[0].pageX;
+      const distX = this.endX - this.startX
+      const btnWidth = 150 * pixelRatio;
+      const btnShowWidth = btnWidth / 2;
+
+      if (detail.source === 'friction') {
+
+        if (this.endX - this.startX > 0) {
+          this.setData({
+            [`${thisItem}.x`]: 0
+          });
+        } else {
+          this.setData({
+            [`${thisItem}.x`]: btnWidth * -1
+          })
+        }
+
+        // if (detail.x >= -20) {
+        //   this.setData({
+        //     [`${thisItem}.x`]: 0
+        //   })
+        // } else {
+        //   this.setData({
+        //     [`${thisItem}.x`]: btnWidth * -1
+        //   })
+        // }
+
+      } 
+      // else if (detail.x === 0 && detail.source === 'out-of-bounds') {
+      //   this.setData({
+      //     [`${thisItem}.x`]: 0
+      //   })
+      // }
+
+    },
+
     onTouchEnd (e) {
       const { index } = e.currentTarget.dataset
       this.endX = e.changedTouches[0].pageX;
@@ -128,34 +176,89 @@ Component({
       const distY = this.endY - this.startY;
       const tan = Math.abs(distY / distX);
 
-      if (stamp < 200 && tan > 0.364 && distX < 0) {
-        return;
-      }
+      // if (distX > btnShowWidth) {
+      //   this.setData({
+      //     [`${thisItem}.x`]: 0
+      //   });
+      // } else {
+      //   this.setData({
+      //     [`${thisItem}.x`]: btnWidth * -1
+      //   })
+      // }
+
+      // if (stamp < 200 && tan > 0.364 && distX < 0) {
+      //   return;
+      // }
 
 
-      if (stamp < 700) {
+      // if (stamp < 700) {
+      //   if (distX < 0) {
+      //     this.setData({
+      //       [`${thisItem}.x`]: btnWidth * -1
+      //     });
+      //   } else {
+      //     this.setData({
+      //       [`${thisItem}.x`]: 0
+      //     });
+      //   }
+      // }
+
+      if (stamp >= 500) {
+
+        if (distX > 0) {
+          if (distX > btnShowWidth) {
+            this.setData({
+              [`${thisItem}.x`]: 0
+            });
+          } else {
+            this.setData({
+              [`${thisItem}.x`]: btnWidth * -1
+            });
+          }
+        }
+
         if (distX < 0) {
-          this.setData({
-            [`${thisItem}.x`]: btnWidth * -1
-          });
+          if (Math.abs(distX) > btnShowWidth) {
+            this.setData({
+              [`${thisItem}.x`]: btnWidth * -1
+            });
+          } else {
+            this.setData({
+              [`${thisItem}.x`]: 0
+            });
+          }
         } else {
-          this.setData({
-            [`${thisItem}.x`]: 0
-          });
+          if ( distX < 0) {
+            this.setData({
+              [`${thisItem}.x`]: btnWidth * -1
+            });
+          } else {
+            this.setData({
+              [`${thisItem}.x`]: 0
+            });
+          }
         }
+
+        // if (Math.abs(distX) > btnShowWidth) {
+        //   this.setData({
+        //     [`${thisItem}.x`]: btnWidth * -1
+        //   });
+        // } else {
+        //   this.setData({
+        //     [`${thisItem}.x`]: 0
+        //   });
+        // }
       }
 
-      if (stamp >= 700) {
-        if (Math.abs(distX) > btnShowWidth) {
-          this.setData({
-            [`${thisItem}.x`]: btnWidth * -1
-          });
-        } else {
-          this.setData({
-            [`${thisItem}.x`]: 0
-          });
-        }
-      }
+      // if (Math.abs(distX) > btnShowWidth) {
+      //   this.setData({
+      //     [`${thisItem}.x`]: btnWidth * -1
+      //   });
+      // } else {
+      //   this.setData({
+      //     [`${thisItem}.x`]: 0
+      //   });
+      // }
     },
 
     onTouchStart (e) {
