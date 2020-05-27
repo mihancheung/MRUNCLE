@@ -106,7 +106,7 @@ Component({
 
     onTouchMoveBox (e) {
       const { detail, currentTarget } = e;
-      const { index } = currentTarget.dataset
+      const { index } = currentTarget.dataset;
 
       if (detail.source === 'touch') {
         this.startX = !this.startX ? detail.x : this.startX;
@@ -114,21 +114,23 @@ Component({
         this.distX = detail.x;
         this.source = 'touch';
       } else if (detail.source === 'friction') {
-        if (this.endX >= this.startX) {
+        if (this.endX > this.startX) {
           this._hideDelete(index);
         } else {
-          this._showDelete(index, );
+          this._showDelete(index);
         }
-      } 
+      }
     },
 
     onTouchEnd (e) {
-      const { index } = e.currentTarget.dataset
+      const { index } = e.currentTarget.dataset;
       this.index = index;
+
+      if (typeof this.distX !== 'number') return;
 
       const btnShowWidth = this.btnWidth / 2;
 
-      if (Math.abs(this.distX) >= btnShowWidth) {
+      if (Math.abs(this.distX) > btnShowWidth) {
         this._showDelete(index);
       } else {
         this._hideDelete(index);
@@ -139,6 +141,7 @@ Component({
       const { index } = e.currentTarget.dataset;
       const preItem = this.index && this.data.list[this.index[0]][this.index[1]];
 
+      this.distX = null;
       if (preItem && JSON.stringify(this.index) !== JSON.stringify(index)) {
         this.setData({
           [`list[${this.index[0]}][${this.index[1]}].x`]: 0,
