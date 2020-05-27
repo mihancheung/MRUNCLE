@@ -61,7 +61,10 @@ Component({
         title: '删除后将不能恢复，是否继续？'
       });
 
-      if (isDelete.cancel) return;
+      if (isDelete.cancel) {
+        this._hideDelete(index);
+        return;
+      };
 
       wx.showLoading({
         title: '正在删除'
