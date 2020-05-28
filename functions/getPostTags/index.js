@@ -5,12 +5,16 @@ cloud.init({
 });
 
 const db = cloud.database();
+const _ = db.command;
 const $ = db.command.aggregate;
 const post = db.collection('post');
 
 exports.main = async (event, context) => {
 
   const res = await post.aggregate()
+    .match({
+      isHide: _.or(_.exists(false), _.eq(false))
+    })
     .unwind('$tags')
     .group({
       _id: null,

@@ -267,7 +267,8 @@ Page({
 
     const res = await post
       .where({
-        tags: matchTag ? _.in([matchTag, '$tags']) : _.exists(true)
+        tags: matchTag ? _.in([matchTag, '$tags']) : _.exists(true),
+        isHide: _.or(_.exists(false), _.eq(false))
       })
       .orderBy('date', 'desc')
       .skip(postList.length * MAX_POST)
