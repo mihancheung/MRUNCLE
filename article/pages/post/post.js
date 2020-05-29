@@ -272,12 +272,14 @@ Page({
     this._getPageMdFile(mdFileId);
   },
 
-  _handleError () {
+  _handleError (errorDesc, isShowErrorReloadBtn = true) {
     this.isPostTowxml = false
     this.setData({
       isError: true,
       isLoading: false,
       isPostRendering: false,
+      errorDesc,
+      isShowErrorReloadBtn
     });
   },
 
@@ -298,6 +300,21 @@ Page({
     if (!res || !res.data) {
       this._handleError();
       return;
+    }
+
+    // 需要身份的文章
+    if (res.data.role) {
+      const roleRes = await wx.cloud.callFunction({
+        name: 'getUserRole'
+      }).catch(() => null);
+
+      const { result } = roleRes || {};
+      const { role } = result || {};
+
+      if (role !== 'admin' && !res.data.role.includes(role)) {
+        this._handleError('似乎係私人文章，可揾你老友开通', false);
+        return;
+      };
     }
 
     this._handleNextData(res.data);

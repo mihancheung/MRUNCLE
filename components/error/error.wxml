@@ -6,7 +6,7 @@
   />
   <text class="gb_error_title">{{title}}</text>
   <text class="gb_error_desc">{{networkErrorText || desc}}</text>
-  <view class="gb_error_btn" hover-class="gb_error_btn_hover" bindtap="onErrorReload">
+  <view class="gb_error_btn" wx:if="{{isShowErrorReloadBtn}}" hover-class="gb_error_btn_hover" bindtap="onErrorReload">
     <image
       class="gb_error_btn_icon"
       src="./images/reload.png"

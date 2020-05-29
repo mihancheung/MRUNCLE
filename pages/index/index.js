@@ -122,7 +122,10 @@ Page({
   async _getFilterTags () {
     this.initFilterTags = true;
     const res = await wx.cloud.callFunction({
-      name: 'getPostTags'
+      name: 'getPostTags',
+      data: {
+        role: this.role
+      }
     }).catch(() => null);
 
     const { result } = res || {};
@@ -137,8 +140,8 @@ Page({
 
   init () {
     this.postTotal = 0;
+    this.role = null;
     this.isGettingData = false
-    this.getPostLength();
     this.getPostList();
   },
 
@@ -247,15 +250,6 @@ Page({
     });
   },
 
-  async getPostLength () {
-    const { matchTag } = this.data
-    const res = await post.where({
-      tags: matchTag ? _.in([matchTag, '$tags']) : _.exists(true)
-    }).count();
-    if (!res || typeof res.total !== 'number') return;
-    this.postTotal = res.total
-  },
-
   async getPostList () {
     const { postList, matchTag } = this.data
     this.isGettingData = true;
@@ -265,26 +259,29 @@ Page({
       return;
     }
 
-    const res = await post
-      .where({
-        tags: matchTag ? _.in([matchTag, '$tags']) : _.exists(true),
-        isHide: _.or(_.exists(false), _.eq(false))
-      })
-      .orderBy('date', 'desc')
-      .skip(postList.length * MAX_POST)
-      .limit(MAX_POST)
-      .field({
-        date: false,
-        mdFileId: false,
-      })
-      .get().catch(() => null);
+    const res = await wx.cloud.callFunction({
+      name: 'getPostList',
+      data: {
+        matchTag,
+        skip: postList.length * MAX_POST,
+        limit: MAX_POST,
+        total: this.postTotal,
+        role: this.role,
+      }
+    }).catch(() => null);
 
-    if (!res || !res.data) {
+    const { result } = res || {};
+    const { code, data, total, role } = result || {}
+
+    if (code !== 0 || !data) {
       this.setError();
       return;
     }
 
-    this.getPostListDone(res.data);
+    this.postTotal = this.postTotal || total || 0;
+    this.role = this.role || role
+
+    this.getPostListDone(data);
   }
 
 })

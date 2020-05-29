@@ -1,6 +1,7 @@
 const { miniProgram } = wx.getAccountInfoSync() || {};
-const { envVersion } = miniProgram || {};
-const isDev = envVersion === 'develop';
+const { envVersion: miniProgramEnvVersion } = miniProgram || {};
+const envVersion = (__wxConfig && __wxConfig.envVersion) || miniProgramEnvVersion
+const isDev = envVersion === 'develop' || envVersion === 'trial';
 
 export const config = {
   isDev,

@@ -14,6 +14,11 @@ Component({
       type: String,
       value: '數據已著草，可使用按鈕嘗試重新獲取',
     },
+
+    isShowErrorReloadBtn:  {
+      type: Boolean,
+      value: true,
+    },
   },
 
   options: {

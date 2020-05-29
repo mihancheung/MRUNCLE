@@ -46,6 +46,8 @@
   <error
     wx:if="{{isError}}"
     bindtapReload="errorReload"
+    desc="{{errorDesc}}"
+    isShowErrorReloadBtn="{{isShowErrorReloadBtn}}"
   />
 
   <to-post
